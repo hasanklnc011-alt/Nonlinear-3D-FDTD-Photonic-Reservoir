@@ -51,3 +51,8 @@ Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tut
 ## Proje sabitleri
 
 Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
+## Başlangıç ajanı ve Fleet skill'leri
+
+- Başlangıç ajanı Astra ise göreve başlamadan önce hem Astra Fleet hem Claude Fleet skill'lerini okumalı ve kurallarını uygulamalıdır.
+- Başlangıç ajanı Claude ise Claude, kendi harness'ındaki varsayılan araçlarını kullanabilir; Claude Fleet skill'ini kullanması zorunlu değildir.
+- Skill dosyaları mevcut değilse eksiklik `BACKLOG.md` içine yazılır; adları veya içerikleri uydurulmaz.
