@@ -51,8 +51,10 @@ Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tut
 ## Proje sabitleri
 
 Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
-## Başlangıç ajanı ve Fleet skill'leri
+## Astra → Claude görev dağılımı
 
-- Başlangıç ajanı Astra ise göreve başlamadan önce hem Astra Fleet hem Claude Fleet skill'lerini okumalı ve kurallarını uygulamalıdır.
-- Başlangıç ajanı Claude ise Claude, kendi harness'ındaki varsayılan araçlarını kullanabilir; Claude Fleet skill'ini kullanması zorunlu değildir.
-- Skill dosyaları mevcut değilse eksiklik `BACKLOG.md` içine yazılır; adları veya içerikleri uydurulmaz.
+- Astra, `gpt-6-astra` ve `low` çabasıyla orkestra şefidir: amaç, mimari, kabul ölçütleri, görev sırası ve nihai kararları belirler.
+- Claude, `claude-sonnet-5` ve `high` çabasıyla uygulayıcıdır: Astra'nın onayladığı görevleri kodlar, testleri çalıştırır ve sonuçları raporlar.
+- Claude mimariyi veya benchmark protokolünü tek başına değiştirmez; önerilerini `BACKLOG.md` veya `docs/coordination/` içine yazar.
+- Astra, Claude'un diff'ini, test kanıtını, fiziksel varsayımlarını ve maliyetini incelemeden işi kabul etmez.
+- Fleet skill'leri bu projede gerekli değildir. Ajanlar kendi mevcut harness ve varsayılan araçlarını kullanır.
