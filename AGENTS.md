@@ -58,3 +58,4 @@ Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur
 - Claude mimariyi veya benchmark protokolünü tek başına değiştirmez; önerilerini `BACKLOG.md` veya `docs/coordination/` içine yazar.
 - Astra, Claude'un diff'ini, test kanıtını, fiziksel varsayımlarını ve maliyetini incelemeden işi kabul etmez.
 - Fleet skill'leri bu projede gerekli değildir. Ajanlar kendi mevcut harness ve varsayılan araçlarını kullanır.
+- Tidy3D cloud submission, task başlatma ve sonuç indirme yalnız Codex/Astra sorumluluğundadır; Claude yalnız kod ve yerel doğrulama yapar.

@@ -4,7 +4,14 @@ Bu dosya, tamamlanmadan yarıda kalan işleri görünür tutar. Hiçbir iş sess
 
 ## Açık işler
 
-Şu anda açık backlog maddesi yok.
+### [BOOT-001] Claude Code oturum açma ve ilk benchmark iskeleti
+- Sahip: Hasan / Claude
+- Açılış tarihi: 2026-09-10
+- Durum: BLOCKED
+- Bağlam: İlk NARMA-10 yerel benchmark görevi Claude Sonnet 5 high ile başlatılmak istendi.
+- Değişen dosyalar: Yok; Claude oturumu başlamadı.
+- Engel veya risk: Claude Code `Not logged in · Please run /login` döndürdü.
+- Sıradaki tek adım: Claude Code’da `/login` tamamlandıktan sonra aynı görev promptunu yeniden çalıştır.
 
 ## Madde şablonu
 

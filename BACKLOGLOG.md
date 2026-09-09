@@ -15,6 +15,13 @@ Bu dosya backlog maddelerinin kapanış ve devir günlüğüdür. Kayıtlar sili
 
 ## Kayıtlar
 
+### 2026-09-10 — [BOOT-001] Claude Code ilk görev denemesi
+- Ajan: Astra/Codex
+- İşlem: devredildi
+- Değişen dosyalar: `AGENTS.md`, `CLAUDE.md`, `BACKLOG.md`
+- Doğrulama kanıtı: Claude Code 2.1.226 çalıştı ancak `/login` gerektiğini bildirdi.
+- Sonuç / sonraki adım: Kimlik doğrulaması sonrası NARMA-10 benchmark iskeleti başlatılacak.
+
 ### 2026-09-10 — Yapısal backlog sistemi
 - Ajan: ChatGPT
 - İşlem: tamamlandı

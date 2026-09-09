@@ -23,3 +23,4 @@ Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur
 - Claude mimariyi veya benchmark protokolünü tek başına değiştirmez; önerilerini `BACKLOG.md` veya `docs/coordination/` içine yazar.
 - Claude, kendi harness'ındaki varsayılan araçlarını kullanabilir; Claude Fleet skill'i gerekli değildir.
 - Astra'nın onayı olmadan aday kilidi, ücretli solve veya GitHub'a nihai sonuç gönderimi yapılmaz.
+- Claude Tidy3D cloud task başlatmaz veya sonuç indirmez; yalnız kodu ve yerel doğrulama çıktısını teslim eder.
