@@ -38,3 +38,6 @@ Bu depo, Tidy3D ile gerçek malzeme modelleri ve nonlinear elektromanyetik çöz
 ## Değişiklik protokolü
 
 Dosyayı değiştirmeden önce oku. Her anlamlı oturum sonunda `docs/decisions/`, `CHANGELOG.md` ve gerekirse `STATUS.md` güncellenir. Kod başlamadan önce `docs/PROJECT-CHARTER.md` tamamlanır.
+## Raporlar
+
+Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tutulur.
