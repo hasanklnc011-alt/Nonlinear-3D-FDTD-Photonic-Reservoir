@@ -140,3 +140,30 @@ Hasan **90 ps** seçeneğini onayladı ve başlatılmasını istedi. Plan
 Not: 60 ps ve 75 ps için oluşturulan tahmin-amaçlı task'lar (`fdve-9123f8f0...`,
 `fdve-43d3c750...`) başlatılmadı; bunlar yalnız maliyet karşılaştırması için
 upload edildi.
+
+## Zaman-rung-2 (90 ps) sonucu: hâlâ eşik üstü, ama marjinal
+
+Task `fdve-cc220e40-5154-42b4-9bb9-1ac7bad84846` `status=success`; gerçek
+kullanım `realFlexUnit=5.177004813944414` (tahminle birebir aynı).
+
+- Final field decay: `1.53e-05` — hedef `1e-5`'in yalnızca `~1.53×` üzerinde
+  (rung-0c'nin `0.00355`'inden ve time-rung-1'in `0.000801`'inden büyük
+  iyileşme). Tidy3D uyarısı: "Simulation final field decay value of 1.53e-05
+  is greater than the simulation shutoff threshold of 1e-05."
+- Through flux aralığı `0.2774–0.8984`; drop flux aralığı `-5.40e-05–0.2194`.
+
+**Karar**: sözleşmedeki sert eşik (`< 1e-5`) hâlâ sağlanmadı; zaman
+yakınsaması kapısı resmen kapalı kalır. Ancak açık, önceki rung'lara göre çok
+küçüktür (80× → 1.53×). Hasan'a maliyet farkı sunuldu: 90 ps `5.177 FC` vs
+105 ps tahmini `5.987 FC` (fark `~0.81 FC`, `%16`). Decay eğrisinin son iki
+noktasından extrapolasyon 105 ps'de `~5.7e-6` bekliyor (hedefin altında).
+Hasan 105 ps'yi onayladı.
+
+## Zaman-rung-3 (105 ps) başlatıldı
+
+Plan `manifests/fdtd/mrr-linear-001/time-rung-3.plan.json`
+(`run_time_s = 1.05e-10`, diğer girdiler time-rung-2 ile aynı). Tahmin-amaçlı
+upload + `estimate_cost`: task `fdve-5f199de8-272c-47e1-b6ce-2cf8822ff4e8`,
+tahmini `5.986517149965992 FlexCredit`. Hasan onayı sonrası `web.start`
+çağrıldı; `2026-09-11` itibarıyla durum `queued`. Tamamlanma ve gerçek
+sonuç ayrı bir kayıtla eklenecek.
