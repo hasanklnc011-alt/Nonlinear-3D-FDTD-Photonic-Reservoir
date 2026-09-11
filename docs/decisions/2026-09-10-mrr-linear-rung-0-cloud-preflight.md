@@ -201,3 +201,20 @@ refinman adımıyla karşılaştırılmadı. Sıradaki adım en az bir daha ince
 (through/drop flux, rezonans merkezi) üzerinde tutarlılık karşılaştırılmadan
 lineer kapı tam kapanmaz, Kerr+TPA aşaması açılmaz. Bu yeni bir ücretli
 solve'dur; Hasan'ın açık onayı gerekir.
+
+## PML-rung-1 (16 katman) maliyet tahmini ve başlatma
+
+Mesh (`10→14` step/λ: tahmini `17.375 FC`; `10→16`: tahmini `24.774 FC`) ve
+PML (`12→16` katman: tahmini `6.634 FC`) refinman seçenekleri için yalnız
+`web.upload` + `web.estimate_cost` çağrıldı (ücretsiz, hiçbiri başlatılmadı).
+Mesh refinman'ı çok daha pahalı çıktı (time-step sayısı ~1.3M'den ~1.8-2.1M'e
+çıkıyor); PML refinman'ı görece ucuz. Hasan önce ucuz PML refinman'ını
+başlatmayı onayladı.
+
+Plan `manifests/fdtd/mrr-linear-001/pml-rung-1.plan.json`
+(time-rung-3 girdileri + `boundary_spec.{x,y,z}.num_layers = 16`, diğer her
+şey aynı). Task `fdve-384c5349-405a-4d47-bcac-9abbe459ef42`, tahmini
+`6.633881588485531 FlexCredit`. `2026-09-11`'de `web.start` çağrıldı;
+durum `queued`. Sonuç ayrı bir kayıtla eklenecek; through/drop flux ve
+rezonans özelliklerinin `time-rung-3` (12 katman PML) ile tutarlı çıkıp
+çıkmadığı kontrol edilecek.
