@@ -1,0 +1,65 @@
+{
+  "schema": "fdtd-mrr-linear-input/1",
+  "identity": {
+    "study_id": "mrr-linear-001-time-rung-1",
+    "created_utc": "2026-09-10T11:51:56Z",
+    "notes": "Astra-selected lowest-cost linear convergence rung; no cloud task has been created."
+  },
+  "geometry": {
+    "ring_outer_radius_um": 5.0,
+    "waveguide_width_um": 0.45,
+    "waveguide_thickness_um": 0.22,
+    "bus_waveguide_width_um": 0.45,
+    "coupling_gap_um": 0.2,
+    "bus_length_um": 16.0,
+    "cladding_thickness_um": 1.5,
+    "box_thickness_um": 1.0,
+    "substrate_thickness_um": 1.5,
+    "domain_padding_um": 1.0,
+    "add_drop": true,
+    "core_medium": "Si",
+    "cladding_medium": "SiO2",
+    "box_medium": "SiO2",
+    "substrate_medium": "Si"
+  },
+  "config": {
+    "wavelength_range_um": [1.5, 1.6],
+    "boundary_types": {"x": "pml", "y": "pml", "z": "pml"},
+    "symmetry": [0, 0, 0],
+    "sources": ["mode:bus_through:in"],
+    "monitors": ["flux:bus_through:out", "flux:bus_drop:out"]
+  },
+  "materials": [
+    {
+      "medium_label": "Si",
+      "model": "non_dispersive",
+      "relative_permittivity": 12.075663669334666,
+      "conductivity": 0.0,
+      "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+      "evidence_reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+      "wavelength_range_um": [1.5, 1.6]
+    },
+    {
+      "medium_label": "SiO2",
+      "model": "non_dispersive",
+      "relative_permittivity": 2.0867588783784097,
+      "conductivity": 0.0,
+      "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+      "evidence_reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+      "wavelength_range_um": [1.5, 1.6]
+    }
+  ],
+  "background_medium_label": "SiO2",
+  "excitation": {
+    "center_wavelength_um": 1.55,
+    "bandwidth_wavelength_um": 0.1,
+    "num_freqs": 201
+  },
+  "discretization": {
+    "grid_min_steps_per_wavelength": 10.0,
+    "grid_wavelength_um": 1.55,
+    "run_time_seconds": 3e-11,
+    "field_decay_shutoff": 1e-5,
+    "boundary_num_layers": 12
+  }
+}

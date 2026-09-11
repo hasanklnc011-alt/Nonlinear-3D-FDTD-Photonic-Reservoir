@@ -1,0 +1,33 @@
+{
+  "schema": "fdtd-linear-material-snapshot/1",
+  "retrieved_utc": "2026-09-10T11:51:56Z",
+  "library": {
+    "name": "Tidy3D material_library",
+    "tidy3d_version": "2.12.0",
+    "evaluation_wavelength_um": 1.55,
+    "conversion": "relative_permittivity_proxy = n^2; conductivity_proxy = 0.0"
+  },
+  "mediums": [
+    {
+      "label": "Si",
+      "library_key": "cSi/Li1993_293K",
+      "model_in_library": "PoleResidue",
+      "n_at_1p55_um": 3.4750055639285913,
+      "k_at_1p55_um": 0.0,
+      "relative_permittivity_proxy": 12.075663669334666,
+      "conductivity_proxy_S_per_m": 0.0,
+      "declared_proxy_validity_um": [1.5, 1.6]
+    },
+    {
+      "label": "SiO2",
+      "library_key": "SiO2/Palik_LowLoss",
+      "model_in_library": "PoleResidue",
+      "n_at_1p55_um": 1.4445618291988784,
+      "k_at_1p55_um": 2.7255074285041468e-11,
+      "relative_permittivity_proxy": 2.0867588783784097,
+      "conductivity_proxy_S_per_m": 0.0,
+      "declared_proxy_validity_um": [1.5, 1.6]
+    }
+  ],
+  "scope_limit": "This is a narrow-band, lossless, non-dispersive linear proxy for the first mesh/time/PML convergence solve. It is not the final material model; the library PoleResidue models and nonlinear carrier physics remain required for later acceptance."
+}
