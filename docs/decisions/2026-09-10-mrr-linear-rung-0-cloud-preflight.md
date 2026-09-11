@@ -218,3 +218,23 @@ Plan `manifests/fdtd/mrr-linear-001/pml-rung-1.plan.json`
 durum `queued`. Sonuç ayrı bir kayıtla eklenecek; through/drop flux ve
 rezonans özelliklerinin `time-rung-3` (12 katman PML) ile tutarlı çıkıp
 çıkmadığı kontrol edilecek.
+
+## PML-rung-1 sonucu: PML yakınsaması GEÇTİ
+
+Task `fdve-384c5349-405a-4d47-bcac-9abbe459ef42` `status=success`; gerçek
+kullanım `realFlexUnit=5.977665166935861` (tahmin `6.634`'ten düşük, early
+shutoff).
+
+| | time-rung-3 (12 katman) | pml-rung-1 (16 katman) |
+| --- | --- | --- |
+| through flux | `0.2789–0.8995` | `0.2789–0.8995` |
+| drop flux | `-5.12e-05 – 0.2196` | `-5.12e-05 – 0.2196` |
+| final decay | `7.05e-06` | `6.93e-06` |
+| durma zamanı | `~94.6 ps` | `~94.6 ps` |
+
+PML katman sayısı `%33` artırıldığında (`12→16`) through/drop flux değerleri
+6 hanede değişmedi; final decay pratikte aynı. Bu, mevcut `12` katmanlık
+PML'nin sonuca yapay sınır-yansıması katmadığının doğrudan kanıtıdır.
+
+**Karar: PML yakınsaması geçti.** Başarı kapısı 3'ün kalan tek parçası mesh
+yakınsamasıdır (mevcut `AutoGrid 10 step/λ`).
