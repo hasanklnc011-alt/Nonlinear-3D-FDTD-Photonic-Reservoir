@@ -119,3 +119,24 @@ aşamasına geçilmez.
 Sıradaki tek adım: run_time'ı daha da artırıp (örn. 60–90 ps) yeni bir
 zaman-rung'u tasarlamak. Bu yeni bir ücretli solve'dur; Hasan'ın açık onayı
 olmadan başlatılmayacak.
+
+## Zaman-rung-2 maliyet tahmini ve başlatma (Hasan onayı, 2026-09-11)
+
+Decay eğrisi (rung-0c 10 ps → `0.00355`; time-rung-1 30 ps → `0.000801`) üstel
+extrapole edildi: `1e-5` hedefine ulaşmak için tahmini toplam run_time
+`~85–90 ps`. Üç seçenek için sadece `web.upload` + `web.estimate_cost`
+çağrıldı (ücretsiz, solve başlatılmadı):
+
+- 60 ps → tahmini `3.5131 FlexCredit` (task `fdve-9123f8f0-156a-4e2a-b004-0ec47638e672`, başlatılmadı)
+- 75 ps → tahmini `4.3526 FlexCredit` (task `fdve-43d3c750-48ce-4165-91e9-793b663453c9`, başlatılmadı)
+- 90 ps → tahmini `5.1770 FlexCredit` (task `fdve-cc220e40-5154-42b4-9bb9-1ac7bad84846`)
+
+Hasan **90 ps** seçeneğini onayladı ve başlatılmasını istedi. Plan
+`manifests/fdtd/mrr-linear-001/time-rung-2.plan.json` olarak kaydedildi
+(`run_time_s = 9e-11`, diğer tüm girdiler time-rung-1 ile aynı). `web.start`
+çağrıldı; `2026-09-11` itibarıyla task durumu `queued`, `estFlexUnit =
+5.177004813944414`. Tamamlanma ve gerçek maliyet ayrı bir kayıtla eklenecek.
+
+Not: 60 ps ve 75 ps için oluşturulan tahmin-amaçlı task'lar (`fdve-9123f8f0...`,
+`fdve-43d3c750...`) başlatılmadı; bunlar yalnız maliyet karşılaştırması için
+upload edildi.

@@ -11,7 +11,7 @@ Bu dosya, tamamlanmadan yarıda kalan işleri görünür tutar. Hiçbir iş sess
 - Bağlam: Ratifiye benchmark sonrası üç aday ailesi (MRR, PhC/nanobeam, çok-portlu rezonant saçıcı) için kaynaklı fizik, yerel yakınsama planı ve Tidy3D FlexCredit maliyet kapısı hazırlanacak.
 - Değişen dosyalar: `fdtd/provenance/`, `fdtd/mrr/` (parametrik study builder ve lineer plan), `fdtd/tidy3d_build/` (yerel somut Simulation kurucu), `tests/fdtd/`, ilgili karar ve coordination notları.
 - Engel veya risk: Gerçek malzeme/nonlinear parametreleri, sınır/mesh/zaman yakınsaması ve maliyet tahmini kaynak/yerel kanıtla doğrulanmadan ücretli cloud solve başlatılamaz. Yerel kurucu yalnız non-dispersive dar-bant proxy kabul eder; gerçek malzeme kanıtı olmadan kullanılmayacak. Ücretli solve hâlâ yalnız Hasan'ın açık onayıyla başlatılır. `time-rung-1` (30 ps, gerçek kullanım `1.7888 FC`) final field decay `0.000801` verdi — shutoff eşiği `1e-5`'in hâlâ ~80× üzerinde; zaman yakınsaması kapısı kapalı kaldı (bkz. `docs/decisions/2026-09-10-mrr-linear-rung-0-cloud-preflight.md`).
-- Sıradaki tek adım: run_time'ı daha da artırıp (örn. 60–90 ps) yeni bir zaman-rung'u tasarla; Hasan'ın açık onayı olmadan yeni ücretli solve başlatma.
+- Sıradaki tek adım: Hasan 90 ps'yi onayladı; `time-rung-2` (task `fdve-cc220e40-5154-42b4-9bb9-1ac7bad84846`, tahmini `5.177 FC`) `2026-09-11`'de başlatıldı ve şu an `queued`. Tamamlanınca sonucu indir, field decay'i `1e-5` eşiğine karşı kontrol et, sonucu `docs/decisions/2026-09-10-mrr-linear-rung-0-cloud-preflight.md`'e kaydet.
 
 ## Madde şablonu
 
