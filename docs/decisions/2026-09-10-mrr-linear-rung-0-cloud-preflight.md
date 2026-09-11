@@ -96,3 +96,26 @@ Run-time 10 ps'den 30 ps'ye çıkarıldı; diğer rung-0c girdileri sabit. Plan 
 `55697392e50e681094b360afb0dab317009109f172600748e43737eda84eb6cf`.
 Upload task `fdve-3d860c65-eda0-4664-936c-0b6efe00ce9d`; Tidy3D tahmini
 **1.7888406191711748 FlexCredit**. Amaç yalnız field-decay zaman yakınsamasıdır.
+
+## Zaman-rung-1 sonucu: tamamlandı, zaman yakınsaması hâlâ geçmedi
+
+Task `fdve-3d860c65-eda0-4664-936c-0b6efe00ce9d` `status=success`; gerçek kullanım
+`realFlexUnit=1.7888406191711748` (tahminle birebir aynı). Claude Sonnet 5,
+2026-09-11 oturumunda (Astra geçici devre dışıyken) sonucu indirip inceledi.
+
+- Final field decay: `0.000801` (rung-0c'deki `0.00355`'ten ~4.4× iyileşme),
+  hâlâ shutoff eşiği `1e-5`'in ~80× üzerinde. Tidy3D'nin kendi uyarısı:
+  "Simulation final field decay value of 0.000801 is greater than the
+  simulation shutoff threshold of 1e-05. Consider running the simulation
+  again with a larger 'run_time' duration."
+- Through flux aralığı `0.2610–0.9034`; drop flux aralığı `-6.75e-05–0.1928`.
+  Through/drop ayrımı fiziksel olarak makul görünür, ama field-decay
+  yakınsamadan bu sayılara güvenilmez.
+
+**Karar: zaman yakınsaması kapısı hâlâ kapalı.** `const.md` / `docs/PROJECT-CHARTER.md`
+başarı kapısı 3 (mesh/zaman/PML yakınsaması) sağlanmadı; Kerr+TPA nonlinear
+aşamasına geçilmez.
+
+Sıradaki tek adım: run_time'ı daha da artırıp (örn. 60–90 ps) yeni bir
+zaman-rung'u tasarlamak. Bu yeni bir ücretli solve'dur; Hasan'ın açık onayı
+olmadan başlatılmayacak.
