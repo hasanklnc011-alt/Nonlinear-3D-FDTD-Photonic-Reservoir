@@ -12,3 +12,4 @@ results/
 artifacts/
 outputs/
 *.log
+.claude/

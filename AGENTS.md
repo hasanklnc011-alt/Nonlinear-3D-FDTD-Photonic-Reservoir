@@ -59,3 +59,20 @@ Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur
 - Astra, Claude'un diff'ini, test kanıtını, fiziksel varsayımlarını ve maliyetini incelemeden işi kabul etmez.
 - Fleet skill'leri bu projede gerekli değildir. Ajanlar kendi mevcut harness ve varsayılan araçlarını kullanır.
 - Tidy3D cloud submission, task başlatma ve sonuç indirme yalnız Codex/Astra sorumluluğundadır; Claude yalnız kod ve yerel doğrulama yapar.
+
+## Geçici mod: Astra devre dışı (2026-09-11'den itibaren)
+
+- Hasan'ın ChatGPT/Astra kredisi bitti; Astra bu depoda **geçici olarak devre
+  dışı**. Yukarıdaki "Astra → Claude görev dağılımı" bölümü hâlâ kanonik
+  sözleşmedir ve Astra geri döndüğünde otomatik olarak yeniden yürürlüğe girer
+  — silinmedi, yalnız askıya alındı.
+- Bu süre boyunca Claude Sonnet 5 **hem karar/mimari hem de kod/test/yerel
+  doğrulama** rolünü tek başına üstlenir. Kararlar Astra onayı olmadan
+  `docs/decisions/` içine kaydedilir; ne karar verildiği ve neden açıkça
+  yazılır ki Astra geri döndüğünde denetleyebilsin.
+- Değişmeyen sınır: Tidy3D cloud submission / ücretli solve başlatma yalnız
+  Hasan'ın açık onayıyla yapılır (bkz. sistem talimatındaki explicit-permission
+  kuralı). Astra'nın yokluğu bu onay gereğini kaldırmaz.
+- Bu geçici moddan çıkış: Hasan Astra'yı yeniden aktif ettiğini bildirdiğinde,
+  bu bölüm `BACKLOGLOG.md`'ye kapanış kaydıyla taşınır ve orkestra şefliği
+  Astra'ya döner.

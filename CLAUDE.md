@@ -24,3 +24,16 @@ Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur
 - Claude, kendi harness'ındaki varsayılan araçlarını kullanabilir; Claude Fleet skill'i gerekli değildir.
 - Astra'nın onayı olmadan aday kilidi, ücretli solve veya GitHub'a nihai sonuç gönderimi yapılmaz.
 - Claude Tidy3D cloud task başlatmaz veya sonuç indirmez; yalnız kodu ve yerel doğrulama çıktısını teslim eder.
+
+## Geçici mod: Astra devre dışı (2026-09-11'den itibaren)
+
+- Hasan'ın ChatGPT/Astra kredisi bitti; Astra bu depoda **geçici olarak devre
+  dışı**. Yukarıdaki dağılım hâlâ kanonik sözleşmedir ve Astra geri döndüğünde
+  otomatik yürürlüğe girer — silinmedi, askıya alındı.
+- Bu süre boyunca Claude Sonnet 5 hem karar/mimari hem kod/test/yerel
+  doğrulama rolünü tek başına üstlenir. Kararlar `docs/decisions/` içine
+  gerekçeli kaydedilir ki Astra geri döndüğünde denetleyebilsin.
+- Değişmeyen sınır: ücretli Tidy3D solve yalnız Hasan'ın açık onayıyla
+  başlatılır; Astra'nın yokluğu bu onay gereğini kaldırmaz.
+- Çıkış: Hasan Astra'yı yeniden aktif ettiğini bildirdiğinde bu bölüm
+  `BACKLOGLOG.md`'ye kapanış kaydıyla taşınır.
