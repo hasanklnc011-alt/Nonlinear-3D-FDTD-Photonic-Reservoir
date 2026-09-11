@@ -252,3 +252,48 @@ girdileri + `grid_spec.min_steps_per_wavelength = 12.0`, diğer her şey aynı,
 mesh ve PML refinman'ları ayrı eksenlerde test ediliyor, birleştirilmiyor).
 `2026-09-11`'de `web.start` çağrıldı; durum `queued`, `estFlexUnit =
 10.71645727981614`. Sonuç ayrı bir kayıtla eklenecek.
+
+## Mesh-rung-1 sonucu: mesh yakınsaması BAŞARISIZ, zaman/mesh eksenleri bağımlı
+
+Task `fdve-3c712882-71d2-42b0-bf94-c09daf525f2c` `status=success`; gerçek
+kullanım `realFlexUnit=10.71645727981614` (tahminle birebir aynı — bu
+run 105 ps'nin tamamını kullandı, early shutoff olmadı).
+
+| | time-rung-3 (10 step/λ, 105 ps hedef) | mesh-rung-1 (12 step/λ, 105 ps) |
+| --- | --- | --- |
+| through flux | `0.2789–0.8995` | `0.1092–0.8987` |
+| drop flux | `-5.12e-05–0.2196` | `-5.69e-05–0.1265` |
+| final decay | `7.05e-06` (`~94.6 ps`'de erken durdu) | `3.62e-05` (105 ps'nin tamamı, hedefin üstü) |
+
+Through flux alt sınırı `~%61`, drop flux üst sınırı `~%43` değişti — bu
+"yakınsadı" değil, **mesh'e hassas** bir sonuçtur. PML testinin aksine
+(12→16 katman: değişim yok), burada gerçek bir mesh bağımlılığı var.
+
+**Kök neden (yorum, sonraki rung'la doğrulanacak)**: 10 step/λ'daki kaba
+mesh halkanın eğri kenarını basamaklı yaklaşıklıyor; bu yapay saçılma/kayıp
+alanın gerçekte olduğundan daha hızlı sönmesine yol açıyor gibi görünüyor.
+Mesh inceldikçe bu yapay kayıp azalıyor, gerçek foton yaşam süresi (Q) daha
+uzun çıkıyor, aynı run_time (105 ps) decay hedefine yetmiyor. Yani **zaman
+ve mesh yakınsaması bağımsız eksenler değil**; önceki "zaman yakınsadı"
+sonucu yalnız o kaba mesh için geçerliydi.
+
+**Karar**: mesh yakınsaması kapısı açık kalır; mesh-rung-1 sonucu (105 ps'de
+yetersiz zaman yakınsamasıyla) doğrudan time-rung-3 ile adil kıyaslanamaz.
+Aynı mesh'te (12 step/λ) run_time'ı uzatıp önce zaman yakınsamasını
+sağlamak, sonra o yakınsamış flux değerlerini time-rung-3 ile kıyaslamak
+gerekir.
+
+## Mesh-rung-2 (12 step/λ, 150 ps) maliyet tahmini ve başlatma
+
+Mesh-rung-1'in log'undaki son decay eğiliminden (`96%→100%`:
+`4.24e-05→3.62e-05`) extrapolasyon: `1e-5` hedefine ulaşmak için tahmini
+toplam run_time `~135–140 ps`. 150 ps (`14.5508 FC`, task
+`fdve-b2b294bc-e886-4f84-adcc-4430d5a24a0e`) ve 180 ps (`16.8847 FC`, task
+`fdve-e6584722-f472-4fbf-a4cd-b27752576854`) için yalnız upload +
+`estimate_cost` (ücretsiz) çağrıldı. Hasan 150 ps'yi onayladı.
+
+Plan `manifests/fdtd/mrr-linear-001/mesh-rung-2.plan.json` (mesh-rung-1
+girdileri + `run_time_s = 1.5e-10`). `2026-09-11`'de `web.start` çağrıldı;
+durum `queued`, `estFlexUnit = 14.550799839495676`. Sonuç ayrı bir kayıtla
+eklenecek; bu run'daki final decay `1e-5`'in altına inerse elde edilen
+flux değerleri time-rung-3 (10 step/λ) ile adil biçimde kıyaslanacak.
