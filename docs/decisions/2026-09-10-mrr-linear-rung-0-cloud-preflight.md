@@ -167,3 +167,37 @@ upload + `estimate_cost`: task `fdve-5f199de8-272c-47e1-b6ce-2cf8822ff4e8`,
 tahmini `5.986517149965992 FlexCredit`. Hasan onayı sonrası `web.start`
 çağrıldı; `2026-09-11` itibarıyla durum `queued`. Tamamlanma ve gerçek
 sonuç ayrı bir kayıtla eklenecek.
+
+## Zaman-rung-3 (105 ps) sonucu: zaman yakınsaması GEÇTİ
+
+Task `fdve-5f199de8-272c-47e1-b6ce-2cf8822ff4e8` `status=success`; gerçek
+kullanım `realFlexUnit=5.394372833943262` (tahmin `5.987`'den düşük — solver
+early-shutoff'a girdi).
+
+- Çözücü log'u: field decay `%90` adımda (`9.46e-11 s ≈ 94.6 ps`)
+  `7.05e-06`'ya indi; "Field decay smaller than shutoff factor, exiting
+  solver." mesajıyla planlanan `105 ps`'den önce kendiliğinden durdu.
+- **Final field decay: `7.05e-06 < 1e-5`** — hedef sağlandı.
+- Through flux aralığı `0.2789–0.8995`; drop flux aralığı
+  `-5.12e-05–0.2196` (rung-0c/time-rung-1/time-rung-2 ile tutarlı).
+
+**Karar**: bu mesh/PML çözünürlüğünde **zaman yakınsaması kapısı geçti**.
+Yakınsama merdiveni:
+
+| Rung | run_time (hedef) | gerçek durma | final decay |
+| --- | --- | --- | --- |
+| rung-0c | 10 ps | 10 ps | `0.00355` |
+| time-rung-1 | 30 ps | 30 ps | `0.000801` |
+| time-rung-2 | 90 ps | 90 ps | `1.53e-05` |
+| time-rung-3 | 105 ps | `~94.6 ps` (early shutoff) | `7.05e-06` ✅ |
+
+## Açık kalan kapı: mesh/PML yakınsaması
+
+`docs/PROJECT-CHARTER.md` başarı kapısı 3 "mesh, zaman **ve** PML
+yakınsaması" der. Yalnız zaman ekseni kanıtlandı; mevcut mesh
+(`AutoGrid 10 step/λ @ 1.55 µm`) ve PML (`12 katman`, tüm eksenlerde) hiçbir
+refinman adımıyla karşılaştırılmadı. Sıradaki adım en az bir daha ince mesh
+(örn. `14–16 step/λ`) ve/veya daha kalın PML rung'u; aynı gözlenebilir
+(through/drop flux, rezonans merkezi) üzerinde tutarlılık karşılaştırılmadan
+lineer kapı tam kapanmaz, Kerr+TPA aşaması açılmaz. Bu yeni bir ücretli
+solve'dur; Hasan'ın açık onayı gerekir.
