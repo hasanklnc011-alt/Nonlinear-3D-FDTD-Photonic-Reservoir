@@ -238,3 +238,17 @@ PML'nin sonuca yapay sınır-yansıması katmadığının doğrudan kanıtıdır
 
 **Karar: PML yakınsaması geçti.** Başarı kapısı 3'ün kalan tek parçası mesh
 yakınsamasıdır (mevcut `AutoGrid 10 step/λ`).
+
+## Mesh-rung-1 (12 step/λ) maliyet tahmini ve başlatma
+
+Ucuz bir ilk mesh adımı için `10.7165 FlexCredit` tahmini çıkarıldı (yalnız
+upload + `estimate_cost`, ücretsiz; task `fdve-3c712882-71d2-42b0-bf94-c09daf525f2c`).
+14/16 step/λ seçenekleri (`17.375` / `24.774 FC`) ile karşılaştırıldı; Hasan
+önce en ucuz adımı (`10→12`) denemeyi onayladı.
+
+Plan `manifests/fdtd/mrr-linear-001/mesh-rung-1.plan.json` (time-rung-3
+girdileri + `grid_spec.min_steps_per_wavelength = 12.0`, diğer her şey aynı,
+`16` katmanlı PML'ye değil `12` katmanlı zaman-rung-3 tabanına göre —
+mesh ve PML refinman'ları ayrı eksenlerde test ediliyor, birleştirilmiyor).
+`2026-09-11`'de `web.start` çağrıldı; durum `queued`, `estFlexUnit =
+10.71645727981614`. Sonuç ayrı bir kayıtla eklenecek.
