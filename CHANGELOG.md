@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-13
+
+- Geometriyle sınırlandırılmış, belirsizliklere dayanıklı MRR reservoir için
+  TCMT/FDTD araştırma planı Claude incelemesine açık taslak olarak eklendi.
+- Taslak mevcut `const.md`, çalışma sözleşmesi ve kilitli NARMA-10 benchmarkını
+  değiştirmiyor; olası sözleşme değişikliği ayrı karar kaydına bırakıldı.
+
 ## 2026-09-10
 
 - Claude Sonnet 5 high yerel NARMA-10 benchmark iskeletini üretti.
