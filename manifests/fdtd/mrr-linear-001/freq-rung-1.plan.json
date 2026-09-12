@@ -261,14 +261,16 @@
   "provenance": {
     "cloud": {
       "approved_by": "Hasan (acik onay, 2026-09-13)",
-      "downloaded": false,
+      "completed_utc": "2026-09-12T23:29:27Z",
+      "downloaded": true,
       "estimated": true,
       "flex_credit": {
-        "actual": null,
+        "actual": 11.5346206824224,
         "ceiling": 15.0,
         "estimate": 14.680287105504295
       },
-      "monitored": false,
+      "monitored": true,
+      "result": "Cizgi cozuldu: Q_loaded ~9650 (iki port %2 icinde uyusuyor), FWHM ~0.159 nm, extinction 13.56 dB. Q_i/Q_e ayrimi GECERSIZ: enerji dengesi kapanmiyor (rezonans disi %12-23, rezonansta %69 olculmeyen). Bkz. docs/decisions/2026-09-13-freq-rung-1-evaluation.md",
       "simulation_digest": "e9ec23b50579f965748bc3bf2b81e8e2fbede282b90fe0536750eeb1391ca75c",
       "started": true,
       "started_utc": "2026-09-12T22:42:17Z",

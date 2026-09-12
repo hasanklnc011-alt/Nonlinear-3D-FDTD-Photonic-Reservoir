@@ -11,6 +11,17 @@
   `shutoff` tanımı (E-field intensity oranı) doğrulanarak 2x belirsizlik kapandı.
 - `linear_build._monitors` artık monitör başına `sampling` bloğunu kullanıyor;
   monitör frekans tarağı kaynak darbesinden ayrıştırıldı (8 yeni test, 187/187 OK).
+- `freq-rung-1` tamamlandı, gerçek `11.5346 FC` (tahmin 14.6803, tavan 15).
+  Monitör düzeltmesi çalıştı: FWHM başına `79.8` nokta. Çizgi çözüldü —
+  `Q_loaded ~ 9 650` (drop 9 736 / through 9 557, %2 içinde uyuşuyor),
+  FWHM `~0.159 nm`, through extinction `13.56 dB`. Ring-down'dan çıkarılan
+  `~27 500` tahmini çürütüldü (`2.8x` yüksekti).
+  **`Q_i`/`Q_e` ayrımı GEÇERSİZ**: enerji dengesi kapanmıyor (rezonans dışı
+  `%12-23`, rezonansta `%69` ölçülmeyen). Nedenler: drop monitörü ADD portunda
+  (gerçek drop portu `x=-8`), geri-yansıma portu izlenmiyor, ve `1.0 um` buried
+  oxide altındaki Si substrate'e sızıntı şüphesi. Sıradaki adım ücretsiz:
+  mode solver ile BOX kalınlığı taraması + dört-port monitör.
+  (`docs/decisions/2026-09-13-freq-rung-1-evaluation.md`)
 - `freq-rung-1` Hasan'ın açık onayıyla BAŞLATILDI: task
   `fdve-719dd4d0-fed8-4d10-9be8-6c0aab8b047a`, tahmin `14.6803 FC`, yazılı tavan
   `15 FC`, submit öncesi tahmin yeniden doğrulandı. `1501` nokta / `2 pm` adım
