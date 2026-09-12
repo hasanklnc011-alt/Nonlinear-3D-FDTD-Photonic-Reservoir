@@ -260,13 +260,24 @@
   ],
   "provenance": {
     "cloud": {
+      "approved_by": "Hasan (acik onay, 2026-09-13)",
       "downloaded": false,
-      "estimated": false,
-      "flex_credit": null,
+      "estimated": true,
+      "flex_credit": {
+        "actual": null,
+        "ceiling": 15.0,
+        "estimate": 14.680287105504295
+      },
       "monitored": false,
-      "started": false,
-      "task_ids": [],
-      "uploaded": false
+      "simulation_digest": "e9ec23b50579f965748bc3bf2b81e8e2fbede282b90fe0536750eeb1391ca75c",
+      "started": true,
+      "started_utc": "2026-09-12T22:42:17Z",
+      "task_ids": [
+        "fdve-719dd4d0-fed8-4d10-9be8-6c0aab8b047a"
+      ],
+      "task_name": "mrr-linear-001-freq-rung-1-estimate-only",
+      "tidy3d_version": "2.12.0",
+      "uploaded": true
     },
     "config_hash": "b9b83892796763feb67930277afad9a67a486d3201e7a8e3f2955a0b8b184035",
     "created_utc": "2026-09-10T11:51:56Z",
