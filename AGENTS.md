@@ -11,12 +11,14 @@ Bu depo, Tidy3D ile gerçek malzeme modelleri ve nonlinear elektromanyetik çöz
 - Yapısal, deneysel ve dokümantasyon değişiklikleri küçük, anlamlı commit'lerle uzak depoya gönderilir.
 - API anahtarları, HDF5 sonuçları, büyük önbellekler ve kişisel veriler Git'e eklenmez.
 
-## ChatGPT + Claude işbirliği
+## Ajan işbirliği
 
-- Her iki ajan aynı sözleşmeye uyar; `CLAUDE.md` bu dosyayla eşdeğer içerikte tutulur.
-- Bir görev başlamadan önce ilgili issue/plan ve sahiplik yazılır.
-- Ajanlar aynı dosyada eşzamanlı yazmaz; üretici değişikliği sonrası doğrulayıcı diff, test ve provenance kontrolü yapar.
-- Nihai karar ve birleştirme tek merkezî akışta yapılır; kör test sonucu aday seçimine geri beslenmez.
+- `CLAUDE.md` bu dosyayla eşdeğer içerikte tutulur.
+- Bir görev başlamadan önce ilgili plan ve sahiplik yazılır.
+- Üretici değişikliğinden sonra diff, test ve provenance kontrolü yapılır; bu
+  doğrulama ayrı bir ajana devredilemez, aynı oturumda kanıtıyla yazılır.
+- Nihai karar ve birleştirme tek merkezî akışta yapılır; kör test sonucu aday
+  seçimine geri beslenmez.
 
 ## Aşamalar
 
@@ -51,28 +53,25 @@ Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tut
 ## Proje sabitleri
 
 Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
-## Astra → Claude görev dağılımı
+## Rol dağılımı — tek operatör (2026-09-13'ten itibaren kalıcı)
 
-- Astra, `gpt-6-astra` ve `low` çabasıyla orkestra şefidir: amaç, mimari, kabul ölçütleri, görev sırası ve nihai kararları belirler.
-- Claude, `claude-sonnet-5` ve `high` çabasıyla uygulayıcıdır: Astra'nın onayladığı görevleri kodlar, testleri çalıştırır ve sonuçları raporlar.
-- Claude mimariyi veya benchmark protokolünü tek başına değiştirmez; önerilerini `BACKLOG.md` veya `docs/coordination/` içine yazar.
-- Astra, Claude'un diff'ini, test kanıtını, fiziksel varsayımlarını ve maliyetini incelemeden işi kabul etmez.
-- Fleet skill'leri bu projede gerekli değildir. Ajanlar kendi mevcut harness ve varsayılan araçlarını kullanır.
-- Tidy3D cloud submission, task başlatma ve sonuç indirme yalnız Codex/Astra sorumluluğundadır; Claude yalnız kod ve yerel doğrulama yapar.
+- Bu depoda tek ajan çalışır: Claude. Hem karar/mimari hem kod/test/yerel
+  doğrulama rolünü üstlenir. ChatGPT/Astra orkestra şefliği **kalıcı olarak
+  kaldırılmıştır** — askıya alma değil, sözleşmeden çıkarma.
+- Her karar `docs/decisions/` içine gerekçesiyle yazılır. Tek operatör olmak
+  kanıt yükünü azaltmaz; aksine denetleyecek ikinci ajan olmadığı için karar
+  kaydı ve test kanıtı tek denetim mekanizmasıdır.
+- Claude, mimariyi ve benchmark protokolünü değiştirebilir; ancak `const.md`
+  sabitlerini veya kilitli NARMA-10 kör-değerlendirme protokolünü değiştiren
+  her adım önce `docs/decisions/` içinde karar kaydı açar ve Hasan'ın açık
+  onayını bekler.
+- Claude, Tidy3D cloud'dan **tamamlanmış task sonuçlarını indirebilir ve
+  değerlendirebilir** (indirme ek ücret doğurmaz).
+- Fleet skill'leri bu projede gerekli değildir; ajan kendi harness'ını kullanır.
 
-## Geçici mod: Astra devre dışı (2026-09-11'den itibaren)
+### Değişmeyen sınır
 
-- Hasan'ın ChatGPT/Astra kredisi bitti; Astra bu depoda **geçici olarak devre
-  dışı**. Yukarıdaki "Astra → Claude görev dağılımı" bölümü hâlâ kanonik
-  sözleşmedir ve Astra geri döndüğünde otomatik olarak yeniden yürürlüğe girer
-  — silinmedi, yalnız askıya alındı.
-- Bu süre boyunca Claude Sonnet 5 **hem karar/mimari hem de kod/test/yerel
-  doğrulama** rolünü tek başına üstlenir. Kararlar Astra onayı olmadan
-  `docs/decisions/` içine kaydedilir; ne karar verildiği ve neden açıkça
-  yazılır ki Astra geri döndüğünde denetleyebilsin.
-- Değişmeyen sınır: Tidy3D cloud submission / ücretli solve başlatma yalnız
-  Hasan'ın açık onayıyla yapılır (bkz. sistem talimatındaki explicit-permission
-  kuralı). Astra'nın yokluğu bu onay gereğini kaldırmaz.
-- Bu geçici moddan çıkış: Hasan Astra'yı yeniden aktif ettiğini bildirdiğinde,
-  bu bölüm `BACKLOGLOG.md`'ye kapanış kaydıyla taşınır ve orkestra şefliği
-  Astra'ya döner.
+Ücretli Tidy3D solve başlatmak (yeni task submit, yeni FlexCredit harcaması)
+yalnız **Hasan'ın açık onayıyla** yapılır. Tek operatöre geçiş bu onay
+gereğini kaldırmaz. Her ücretli solve öncesi `estimate_cost` üst sınırı
+yazılı olarak raporlanır.

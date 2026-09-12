@@ -15,6 +15,15 @@ Bu dosya backlog maddelerinin kapanış ve devir günlüğüdür. Kayıtlar sili
 
 ## Kayıtlar
 
+### 2026-09-13 — [SÖZLEŞME] "Geçici mod: Astra devre dışı" kapatıldı
+
+- Kapanış biçimi: geçici mod kaldırıldı, yerine kalıcı tek-operatör rol
+  dağılımı kondu. Astra geri dönüşü beklenmiyor (ChatGPT kredisi bitti).
+- Karar kaydı: `docs/decisions/2026-09-13-single-operator-contract.md`
+- Değişen dosyalar: `AGENTS.md`, `CLAUDE.md`, `const.md`, `BACKLOG.md`,
+  `CHANGELOG.md`
+- Korunan sınır: ücretli Tidy3D solve hâlâ yalnız Hasan'ın açık onayıyla.
+
 ### 2026-09-10 — [FDTD-001] Yerel lineer Tidy3D Simulation kurucusu
 - Ajan: Claude Sonnet 5 high + Astra/Codex
 - İşlem: tamamlandı

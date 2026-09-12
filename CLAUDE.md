@@ -1,6 +1,6 @@
 # Claude çalışma talimatları
 
-Bu dosya, ChatGPT ajanıyla eşzamanlı çalışmayı sağlamak için `AGENTS.md` ile aynı çalışma sözleşmesini taşır. Kanonik talimatların tamamı için [`AGENTS.md`](AGENTS.md) dosyasını oku ve her değişiklikte iki dosyayı birlikte güncel tut.
+Bu dosya `AGENTS.md` ile aynı çalışma sözleşmesini taşır. Kanonik talimatların tamamı için [`AGENTS.md`](AGENTS.md) dosyasını oku ve her değişiklikte iki dosyayı birlikte güncel tut.
 
 Claude; görev sahipliğini, değişiklik özetini, doğrulama çıktısını ve açık riskleri `docs/coordination/` altında kaydeder. Aynı dosyada eşzamanlı düzenleme yapmaz; mevcut değişiklikleri ezmez.
 ## Raporlar
@@ -16,24 +16,23 @@ Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tut
 ## Proje sabitleri
 
 Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
-## Astra → Claude görev dağılımı
+## Rol dağılımı — tek operatör (2026-09-13'ten itibaren kalıcı)
 
-- Astra, `gpt-6-astra` ve `low` çabasıyla orkestra şefidir; mimari ve nihai teknik kararları verir.
-- Claude, `claude-sonnet-5` ve `high` çabasıyla uygulayıcıdır; onaylanan görevin kodunu ve testlerini yazar, kanıtları raporlar.
-- Claude mimariyi veya benchmark protokolünü tek başına değiştirmez; önerilerini `BACKLOG.md` veya `docs/coordination/` içine yazar.
-- Claude, kendi harness'ındaki varsayılan araçlarını kullanabilir; Claude Fleet skill'i gerekli değildir.
-- Astra'nın onayı olmadan aday kilidi, ücretli solve veya GitHub'a nihai sonuç gönderimi yapılmaz.
-- Claude Tidy3D cloud task başlatmaz veya sonuç indirmez; yalnız kodu ve yerel doğrulama çıktısını teslim eder.
+- Bu depoda tek ajan çalışır: Claude. Hem karar/mimari hem kod/test/yerel
+  doğrulama rolünü üstlenir. ChatGPT/Astra orkestra şefliği **kalıcı olarak
+  kaldırılmıştır** — askıya alma değil, sözleşmeden çıkarma.
+- Her karar `docs/decisions/` içine gerekçesiyle yazılır; ikinci bir denetleyen
+  ajan olmadığı için karar kaydı ve test kanıtı tek denetim mekanizmasıdır.
+- Mimari ve benchmark protokolü değiştirilebilir; ancak `const.md` sabitlerini
+  veya kilitli NARMA-10 kör-değerlendirme protokolünü etkileyen her adım önce
+  karar kaydı açar ve Hasan'ın açık onayını bekler.
+- Claude, Tidy3D cloud'dan tamamlanmış task sonuçlarını indirebilir ve
+  değerlendirebilir (indirme ek ücret doğurmaz).
+- Claude kendi harness'ının varsayılan araçlarını kullanır; Fleet skill'i
+  gerekli değildir.
 
-## Geçici mod: Astra devre dışı (2026-09-11'den itibaren)
+### Değişmeyen sınır
 
-- Hasan'ın ChatGPT/Astra kredisi bitti; Astra bu depoda **geçici olarak devre
-  dışı**. Yukarıdaki dağılım hâlâ kanonik sözleşmedir ve Astra geri döndüğünde
-  otomatik yürürlüğe girer — silinmedi, askıya alındı.
-- Bu süre boyunca Claude Sonnet 5 hem karar/mimari hem kod/test/yerel
-  doğrulama rolünü tek başına üstlenir. Kararlar `docs/decisions/` içine
-  gerekçeli kaydedilir ki Astra geri döndüğünde denetleyebilsin.
-- Değişmeyen sınır: ücretli Tidy3D solve yalnız Hasan'ın açık onayıyla
-  başlatılır; Astra'nın yokluğu bu onay gereğini kaldırmaz.
-- Çıkış: Hasan Astra'yı yeniden aktif ettiğini bildirdiğinde bu bölüm
-  `BACKLOGLOG.md`'ye kapanış kaydıyla taşınır.
+Ücretli Tidy3D solve başlatmak (yeni task submit, yeni FlexCredit harcaması)
+yalnız Hasan'ın açık onayıyla yapılır. Her ücretli solve öncesi `estimate_cost`
+üst sınırı yazılı olarak raporlanır.

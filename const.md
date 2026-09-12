@@ -7,7 +7,7 @@ Bu dosya, proje boyunca değişmez kabul edilen gerçekleri ve sözleşmeleri i�
 - Proje adı: Nonlinear 3D FDTD Photonic Reservoir
 - Yerel kök: `C:\Users\hasan\OneDrive\Desktop\Nonlinear-3D-FDTD-Photonic-Reservoir`
 - Uzak depo: `https://github.com/hasanklnc011-alt/Nonlinear-3D-FDTD-Photonic-Reservoir.git`
-- Ajanlar: ChatGPT ve Claude
+- Ajan: Claude (tek operatör, bkz. `AGENTS.md` “Rol dağılımı”)
 
 ## Bilimsel sözleşme
 
