@@ -22,6 +22,14 @@ from dataclasses import dataclass, fields
 from fdtd.provenance.schema import canonical_geometry_digest
 
 GEOMETRY_SCHEMA_ID = "fdtd-mrr-geometry/1"
+# Schema /2 adds ``bus_overhang_um``: the bus waveguide is drawn longer than the
+# port-to-port span so its end faces sit *outside* the simulation domain, inside
+# the PML. A bus that terminates inside the domain forms a Fabry-Perot cavity
+# between its two facets; `docs/decisions/2026-09-13-facet-fabry-perot.md`
+# measures a 40% peak-to-peak baseline ripple from exactly that. Documents keep
+# declaring /1 (and hash identically) whenever the overhang is zero, so the
+# locked linear convergence ladder stays reproducible.
+GEOMETRY_SCHEMA_ID_V2 = "fdtd-mrr-geometry/2"
 
 
 class GeometryError(ValueError):
@@ -60,6 +68,10 @@ class RingResonatorGeometry:
     cladding_medium: str
     box_medium: str
     substrate_medium: str
+    # Extra bus length beyond each port plane, so the guide's end faces land in
+    # the PML instead of inside the domain. Zero reproduces schema /1 exactly,
+    # hence the default and the trailing position.
+    bus_overhang_um: float = 0.0
 
     # -- validation ------------------------------------------------------- #
     def validate(self) -> "RingResonatorGeometry":
@@ -88,6 +100,17 @@ class RingResonatorGeometry:
             p.append(f"coupling_gap_um must be a finite number >= 0, got {self.coupling_gap_um!r}")
         if not _finite_non_negative(self.domain_padding_um):
             p.append(f"domain_padding_um must be a finite number >= 0, got {self.domain_padding_um!r}")
+        if not _finite_non_negative(self.bus_overhang_um):
+            p.append(f"bus_overhang_um must be a finite number >= 0, got {self.bus_overhang_um!r}")
+        elif self.bus_overhang_um > 0.0 and _finite_non_negative(self.domain_padding_um):
+            # An overhang that does not clear the padding leaves the facet inside
+            # the domain, which is the defect this field exists to remove.
+            if self.bus_overhang_um <= self.domain_padding_um:
+                p.append(
+                    "bus_overhang_um must exceed domain_padding_um "
+                    f"({self.domain_padding_um}) so the bus end face leaves the domain, "
+                    f"got {self.bus_overhang_um!r}"
+                )
         if not isinstance(self.add_drop, bool):
             p.append(f"add_drop must be a bool, got {self.add_drop!r}")
 
@@ -113,8 +136,24 @@ class RingResonatorGeometry:
         """Distance from the ring centre to a bus waveguide centreline."""
         return self.ring_outer_radius_um + self.coupling_gap_um + self.bus_waveguide_width_um / 2.0
 
+    @property
+    def bus_structure_length_um(self) -> float:
+        """Drawn length of a bus waveguide.
+
+        The *port-to-port* span stays ``bus_length_um`` -- that is what sets the
+        domain extent and where the port planes sit. The drawn guide is longer by
+        one overhang at each end so its end faces leave the domain and terminate
+        inside the PML, removing the facet Fabry-Perot cavity.
+        """
+        return self.bus_length_um + 2.0 * self.bus_overhang_um
+
     def domain_size_um(self) -> list[float]:
-        """[x, y, z] full extent of the simulation domain (geometry + padding)."""
+        """[x, y, z] full extent of the simulation domain (geometry + padding).
+
+        Deliberately keyed to ``bus_length_um``, not to the drawn bus length: the
+        overhang exists to push the guide *through* the domain boundary, so it
+        must not enlarge the domain (which would raise the cell count and cost).
+        """
         x = self.bus_length_um + 2.0 * self.domain_padding_um
         y = 2.0 * self.bus_centre_offset_um + self.bus_waveguide_width_um + 2.0 * self.domain_padding_um
         z = (
@@ -127,9 +166,23 @@ class RingResonatorGeometry:
         return [x, y, z]
 
     # -- serialisation ------------------------------------------------- #
+    @property
+    def schema_id(self) -> str:
+        """``/1`` while the bus has no overhang, ``/2`` once it does."""
+        return GEOMETRY_SCHEMA_ID if self.bus_overhang_um == 0.0 else GEOMETRY_SCHEMA_ID_V2
+
     def to_canonical_dict(self) -> dict:
-        """Plain dict of the declared parameters, in declaration order."""
-        return {f.name: getattr(self, f.name) for f in fields(self)}
+        """Plain dict of the declared parameters, in declaration order.
+
+        ``bus_overhang_um`` is omitted while it is zero. That keeps a schema /1
+        document -- and therefore its SHA-256 -- byte-identical to what this
+        class produced before the field existed, so the hash-locked linear
+        convergence ladder in ``manifests/fdtd/mrr-linear-001/`` stays valid.
+        """
+        out = {f.name: getattr(self, f.name) for f in fields(self)}
+        if self.bus_overhang_um == 0.0:
+            out.pop("bus_overhang_um", None)
+        return out
 
     def to_structures(self) -> list[dict]:
         """Geometric primitives that make up the device.
@@ -155,7 +208,7 @@ class RingResonatorGeometry:
                 "axis": "x",
                 "center_um": [0.0, -self.bus_centre_offset_um, z_wg_centre],
                 "width_um": self.bus_waveguide_width_um,
-                "length_um": self.bus_length_um,
+                "length_um": self.bus_structure_length_um,
                 "thickness_um": self.waveguide_thickness_um,
             },
         ]
@@ -168,7 +221,7 @@ class RingResonatorGeometry:
                     "axis": "x",
                     "center_um": [0.0, self.bus_centre_offset_um, z_wg_centre],
                     "width_um": self.bus_waveguide_width_um,
-                    "length_um": self.bus_length_um,
+                    "length_um": self.bus_structure_length_um,
                     "thickness_um": self.waveguide_thickness_um,
                 }
             )
@@ -195,13 +248,18 @@ class RingResonatorGeometry:
     def to_document(self) -> dict:
         """Full canonical geometry document (the object that gets hashed)."""
         return {
-            "schema": GEOMETRY_SCHEMA_ID,
+            "schema": self.schema_id,
             "units": "um",
             "parameters": self.to_canonical_dict(),
             "derived": {
                 "ring_inner_radius_um": self.ring_inner_radius_um,
                 "bus_centre_offset_um": self.bus_centre_offset_um,
                 "domain_size_um": self.domain_size_um(),
+                **(
+                    {"bus_structure_length_um": self.bus_structure_length_um}
+                    if self.bus_overhang_um != 0.0
+                    else {}
+                ),
             },
             "structures": self.to_structures(),
         }

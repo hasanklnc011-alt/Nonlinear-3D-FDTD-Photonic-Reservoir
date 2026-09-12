@@ -11,6 +11,23 @@
   `shutoff` tanımı (E-field intensity oranı) doğrulanarak 2x belirsizlik kapandı.
 - `linear_build._monitors` artık monitör başına `sampling` bloğunu kullanıyor;
   monitör frekans tarağı kaynak darbesinden ayrıştırıldı (8 yeni test, 187/187 OK).
+- **Bulundu: bus facet'leri Fabry-Pérot kavitesi kuruyor** (`0 FC`, zaten ödenmiş
+  `mesh-rung-2` verisinden). Tam bantta baseline `0.51-0.90` arası salınıyor
+  (`%40` tepe-tepe), periyot `17.96 nm`; facet turu (`2L=32 um`, `n_g~4.2`)
+  `17.66 nm` öngörüyor, halka FSR'si `18.93 nm` — ve iki tarak bant boyunca
+  birbirinden yürüyor (`+3.74 -> -1.07 nm`). Bugüne kadarki tüm mutlak genlik
+  ölçümleri bu dalgalanmanın üstünde alınmış. Çizgi genişliği etkilenmiyor.
+  (`docs/decisions/2026-09-13-facet-fabry-perot.md`)
+- Düzeltme: geometri schema `/2` ve `bus_overhang_um`. Bus port düzlemlerinden
+  taşacak kadar uzun çiziliyor, uç yüzler PML içinde sonlanıyor. `domain_size_um`
+  kasten `bus_length_um`'e bağlı kaldı, yani domain ve maliyet büyümüyor; port
+  düzlemleri `±8`'de sabit. `bus_overhang_um = 0` iken alan serileştirmeden
+  çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
+  `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
+  kilitli hash literal pinlendi). Depo `286/286 OK`.
+- `freq-rung-2` planı hazır: facet'siz bus + dört port, `estimate_cost = 14.7500 FC`,
+  beklenen gerçek `~11.6`, tavan `15`. ONAY BEKLİYOR, submit edilmedi.
+  (`docs/decisions/2026-09-13-freq-rung-2-plan.md`)
 - Buried-oxide sızıntı hipotezi ÇÜRÜTÜLDÜ (yerel mode solver, `0 FC`):
   `1.0 um` BOX'ta sızıntı `0.02 dB/cm`, substrate gücü `%0.00`, `k_eff` gürültü
   tabanında. BOX `1.0 um` korunuyor. Kontrol grubu (substrate yok) `n_eff=2.40167`
