@@ -1,0 +1,481 @@
+{
+  "background_medium": {
+    "conductivity": 0.0,
+    "evidence": {
+      "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+      "reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+      "wavelength_range_um": [
+        1.5,
+        1.6
+      ]
+    },
+    "model": "non_dispersive",
+    "permittivity": 2.0867588783784097,
+    "type": "Medium"
+  },
+  "boundary_spec": {
+    "x": {
+      "config_type": "pml",
+      "kind": "PML",
+      "num_layers": 12
+    },
+    "y": {
+      "config_type": "pml",
+      "kind": "PML",
+      "num_layers": 12
+    },
+    "z": {
+      "config_type": "pml",
+      "kind": "PML",
+      "num_layers": 12
+    }
+  },
+  "domain": {
+    "center_um": [
+      0.0,
+      0.0,
+      2.1100000000000003
+    ],
+    "size_um": [
+      18.0,
+      13.299999999999999,
+      6.220000000000001
+    ]
+  },
+  "field_decay_shutoff": 1e-05,
+  "grid_spec": {
+    "min_steps_per_wavelength": 12.0,
+    "type": "AutoGrid",
+    "wavelength_um": 1.55
+  },
+  "inputs": {
+    "background_medium_label": "SiO2",
+    "config": {
+      "boundary_types": {
+        "x": "pml",
+        "y": "pml",
+        "z": "pml"
+      },
+      "monitors": [
+        "flux:bus_through:out",
+        "flux:bus_drop:out"
+      ],
+      "sources": [
+        "mode:bus_through:in"
+      ],
+      "symmetry": [
+        0,
+        0,
+        0
+      ],
+      "wavelength_range_um": [
+        1.5,
+        1.6
+      ]
+    },
+    "discretization": {
+      "boundary_num_layers": 12,
+      "field_decay_shutoff": 1e-05,
+      "grid_min_steps_per_wavelength": 10.0,
+      "grid_wavelength_um": 1.55,
+      "run_time_seconds": 3e-11
+    },
+    "excitation": {
+      "bandwidth_wavelength_um": 0.1,
+      "center_wavelength_um": 1.55,
+      "num_freqs": 201
+    },
+    "geometry_document": {
+      "derived": {
+        "bus_centre_offset_um": 5.425,
+        "domain_size_um": [
+          18.0,
+          13.299999999999999,
+          6.220000000000001
+        ],
+        "ring_inner_radius_um": 4.55
+      },
+      "parameters": {
+        "add_drop": true,
+        "box_medium": "SiO2",
+        "box_thickness_um": 1.0,
+        "bus_length_um": 16.0,
+        "bus_waveguide_width_um": 0.45,
+        "cladding_medium": "SiO2",
+        "cladding_thickness_um": 1.5,
+        "core_medium": "Si",
+        "coupling_gap_um": 0.2,
+        "domain_padding_um": 1.0,
+        "ring_outer_radius_um": 5.0,
+        "substrate_medium": "Si",
+        "substrate_thickness_um": 1.5,
+        "waveguide_thickness_um": 0.22,
+        "waveguide_width_um": 0.45
+      },
+      "schema": "fdtd-mrr-geometry/1",
+      "structures": [
+        {
+          "center_um": [
+            0.0,
+            0.0,
+            2.61
+          ],
+          "inner_radius_um": 4.55,
+          "kind": "ring",
+          "medium": "Si",
+          "name": "ring_core",
+          "outer_radius_um": 5.0,
+          "thickness_um": 0.22
+        },
+        {
+          "axis": "x",
+          "center_um": [
+            0.0,
+            -5.425,
+            2.61
+          ],
+          "kind": "waveguide",
+          "length_um": 16.0,
+          "medium": "Si",
+          "name": "bus_through",
+          "thickness_um": 0.22,
+          "width_um": 0.45
+        },
+        {
+          "axis": "x",
+          "center_um": [
+            0.0,
+            5.425,
+            2.61
+          ],
+          "kind": "waveguide",
+          "length_um": 16.0,
+          "medium": "Si",
+          "name": "bus_drop",
+          "thickness_um": 0.22,
+          "width_um": 0.45
+        },
+        {
+          "kind": "slab",
+          "medium": "Si",
+          "name": "substrate",
+          "z_max_um": 1.5,
+          "z_min_um": 0.0
+        },
+        {
+          "kind": "slab",
+          "medium": "SiO2",
+          "name": "buried_oxide",
+          "z_max_um": 2.5,
+          "z_min_um": 1.5
+        },
+        {
+          "kind": "slab",
+          "medium": "SiO2",
+          "name": "cladding",
+          "z_max_um": 4.22,
+          "z_min_um": 2.5
+        }
+      ],
+      "units": "um"
+    },
+    "identity": {
+      "created_utc": "2026-09-12T22:27:01Z",
+      "notes": "Dense narrow-band monitor comb around the 1.54093 um resonance. Geometry, mesh (12 steps/wavelength), boundaries and run_time are byte-identical to mesh-rung-2; only the monitor frequency comb changes. Source pulse is unchanged (0.1 um band), so the excitation and the measurement stay decoupled.",
+      "study_id": "mrr-linear-001-freq-rung-1"
+    },
+    "materials": [
+      {
+        "conductivity": 0.0,
+        "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+        "evidence_reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+        "medium_label": "Si",
+        "model": "non_dispersive",
+        "relative_permittivity": 12.075663669334666,
+        "wavelength_range_um": [
+          1.5,
+          1.6
+        ]
+      },
+      {
+        "conductivity": 0.0,
+        "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+        "evidence_reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+        "medium_label": "SiO2",
+        "model": "non_dispersive",
+        "relative_permittivity": 2.0867588783784097,
+        "wavelength_range_um": [
+          1.5,
+          1.6
+        ]
+      }
+    ]
+  },
+  "linearity": "linear",
+  "monitors": [
+    {
+      "injection_axis": "x",
+      "on_structure": "bus_through",
+      "plane_center_um": [
+        8.0,
+        -5.425,
+        2.61
+      ],
+      "plane_size_um": [
+        0.0,
+        2.45,
+        2.22
+      ],
+      "port": "out",
+      "sampling": {
+        "bandwidth_wavelength_um": 0.003,
+        "center_wavelength_um": 1.54093,
+        "num_freqs": 1501
+      },
+      "token": "flux:bus_through:out",
+      "type": "FluxMonitor"
+    },
+    {
+      "injection_axis": "x",
+      "on_structure": "bus_drop",
+      "plane_center_um": [
+        8.0,
+        5.425,
+        2.61
+      ],
+      "plane_size_um": [
+        0.0,
+        2.45,
+        2.22
+      ],
+      "port": "out",
+      "sampling": {
+        "bandwidth_wavelength_um": 0.003,
+        "center_wavelength_um": 1.54093,
+        "num_freqs": 1501
+      },
+      "token": "flux:bus_drop:out",
+      "type": "FluxMonitor"
+    }
+  ],
+  "provenance": {
+    "cloud": {
+      "downloaded": false,
+      "estimated": false,
+      "flex_credit": null,
+      "monitored": false,
+      "started": false,
+      "task_ids": [],
+      "uploaded": false
+    },
+    "config_hash": "b9b83892796763feb67930277afad9a67a486d3201e7a8e3f2955a0b8b184035",
+    "created_utc": "2026-09-10T11:51:56Z",
+    "geometry_hash": "6844d49cf1585fc4df1c23ad8e60c2a9771f4a13d1df97e6408099ca0187147e",
+    "linear_only": true,
+    "material_evidence": {
+      "Si": {
+        "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+        "reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+        "wavelength_range_um": [
+          1.5,
+          1.6
+        ]
+      },
+      "SiO2": {
+        "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+        "reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+        "wavelength_range_um": [
+          1.5,
+          1.6
+        ]
+      }
+    },
+    "nonlinear": null,
+    "study_id": "mrr-linear-001-freq-rung-1"
+  },
+  "run_time_s": 1.5e-10,
+  "schema": "fdtd-mrr-linear-simulation-plan/1",
+  "sources": [
+    {
+      "direction": "+",
+      "injection_axis": "x",
+      "on_structure": "bus_through",
+      "plane_center_um": [
+        -8.0,
+        -5.425,
+        2.61
+      ],
+      "plane_size_um": [
+        0.0,
+        2.45,
+        2.22
+      ],
+      "port": "in",
+      "pulse": {
+        "bandwidth_wavelength_um": 0.1,
+        "center_wavelength_um": 1.55,
+        "type": "GaussianPulse"
+      },
+      "token": "mode:bus_through:in",
+      "type": "ModeSource"
+    }
+  ],
+  "structures": [
+    {
+      "center_um": [
+        0.0,
+        0.0,
+        2.61
+      ],
+      "inner_radius_um": 4.55,
+      "kind": "ring",
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 12.075663669334666,
+        "type": "Medium"
+      },
+      "medium_label": "Si",
+      "name": "ring_core",
+      "outer_radius_um": 5.0,
+      "thickness_um": 0.22
+    },
+    {
+      "axis": "x",
+      "center_um": [
+        0.0,
+        -5.425,
+        2.61
+      ],
+      "kind": "waveguide",
+      "length_um": 16.0,
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 12.075663669334666,
+        "type": "Medium"
+      },
+      "medium_label": "Si",
+      "name": "bus_through",
+      "thickness_um": 0.22,
+      "width_um": 0.45
+    },
+    {
+      "axis": "x",
+      "center_um": [
+        0.0,
+        5.425,
+        2.61
+      ],
+      "kind": "waveguide",
+      "length_um": 16.0,
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 12.075663669334666,
+        "type": "Medium"
+      },
+      "medium_label": "Si",
+      "name": "bus_drop",
+      "thickness_um": 0.22,
+      "width_um": 0.45
+    },
+    {
+      "kind": "slab",
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 12.075663669334666,
+        "type": "Medium"
+      },
+      "medium_label": "Si",
+      "name": "substrate",
+      "z_max_um": 1.5,
+      "z_min_um": 0.0
+    },
+    {
+      "kind": "slab",
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 2.0867588783784097,
+        "type": "Medium"
+      },
+      "medium_label": "SiO2",
+      "name": "buried_oxide",
+      "z_max_um": 2.5,
+      "z_min_um": 1.5
+    },
+    {
+      "kind": "slab",
+      "medium": {
+        "conductivity": 0.0,
+        "evidence": {
+          "digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+          "reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+          "wavelength_range_um": [
+            1.5,
+            1.6
+          ]
+        },
+        "model": "non_dispersive",
+        "permittivity": 2.0867588783784097,
+        "type": "Medium"
+      },
+      "medium_label": "SiO2",
+      "name": "cladding",
+      "z_max_um": 4.22,
+      "z_min_um": 2.5
+    }
+  ],
+  "symmetry": [
+    0,
+    0,
+    0
+  ],
+  "tidy3d_target": "tidy3d.Simulation",
+  "units": {
+    "length": "um",
+    "time": "s"
+  }
+}

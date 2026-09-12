@@ -257,16 +257,54 @@ def _sources(td, doc: dict, pulse):
     return out
 
 
+def _sampling_frequencies(td, sampling: dict, where: str):
+    """Monitor-local frequency list from a ``sampling`` block.
+
+    A monitor's spectral sampling is a *measurement* choice and is independent of
+    the source pulse: resolving a high-Q line needs a fine frequency comb, while
+    narrowing the excitation itself would only lengthen the pulse in time. The
+    plan already carries a per-monitor ``sampling`` block; this reads it.
+    """
+    center = sampling.get("center_wavelength_um")
+    bandwidth = sampling.get("bandwidth_wavelength_um")
+    num_freqs = sampling.get("num_freqs")
+    for name, value in (("center_wavelength_um", center), ("bandwidth_wavelength_um", bandwidth)):
+        if not (_is_number(value) and value > 0):
+            raise LinearBuildError(f"{where}.sampling.{name} must be a number > 0, got {value!r}")
+    if not (isinstance(num_freqs, int) and not isinstance(num_freqs, bool) and num_freqs >= 1):
+        raise LinearBuildError(
+            f"{where}.sampling.num_freqs must be an integer >= 1, got {num_freqs!r}"
+        )
+    lo_wl = center - bandwidth / 2.0
+    hi_wl = center + bandwidth / 2.0
+    if lo_wl <= 0:
+        raise LinearBuildError(
+            f"{where}.sampling band [{lo_wl}, {hi_wl}] um reaches non-positive wavelength"
+        )
+    c0 = td.C_0
+    if num_freqs == 1:
+        return [c0 / center]
+    f_lo = c0 / hi_wl
+    f_hi = c0 / lo_wl
+    step = (f_hi - f_lo) / (num_freqs - 1)
+    return [f_lo + i * step for i in range(num_freqs)]
+
+
 def _monitors(td, doc: dict, freqs):
     out = []
     for mon in doc.get("monitors") or []:
         mtype = mon.get("type")
         center = tuple(float(v) for v in mon["plane_center_um"])
         size = tuple(float(v) for v in mon["plane_size_um"])
+        sampling = mon.get("sampling")
+        if isinstance(sampling, dict):
+            mon_freqs = _sampling_frequencies(td, sampling, f"monitor {mon.get('token')!r}")
+        else:
+            mon_freqs = list(freqs)
         if mtype == "FluxMonitor":
-            out.append(td.FluxMonitor(center=center, size=size, freqs=list(freqs), name=mon["token"]))
+            out.append(td.FluxMonitor(center=center, size=size, freqs=mon_freqs, name=mon["token"]))
         elif mtype == "FieldMonitor":
-            out.append(td.FieldMonitor(center=center, size=size, freqs=list(freqs), name=mon["token"]))
+            out.append(td.FieldMonitor(center=center, size=size, freqs=mon_freqs, name=mon["token"]))
         else:
             raise LinearBuildError(f"monitor {mon.get('token')!r}: unsupported type {mtype!r}")
     if not out:

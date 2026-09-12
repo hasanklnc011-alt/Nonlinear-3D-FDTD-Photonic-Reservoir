@@ -36,6 +36,8 @@ def main() -> int:
 
     import_pulled_tidy3d = (not module_had_tidy3d) and ("tidy3d" in sys.modules)
 
+    from tidy3d import C_0
+
     built = lb.build(doc, run_dry_run=not no_dry_run)
     built_again = lb.build(doc, run_dry_run=not no_dry_run)
     sim = built.simulation
@@ -74,7 +76,13 @@ def main() -> int:
         },
         "sources": [[type(s).__name__, s.direction, s.name] for s in sim.sources],
         "source_freq0": [s.source_time.freq0 for s in sim.sources],
+        "source_fwidth": [s.source_time.fwidth for s in sim.sources],
         "monitors": [[type(m).__name__, m.name, len(m.freqs)] for m in sim.monitors],
+        "monitor_lambda_bounds_um": [
+            [min(C_0 / f for f in m.freqs) if len(m.freqs) else None,
+             max(C_0 / f for f in m.freqs) if len(m.freqs) else None]
+            for m in sim.monitors
+        ],
         "grid_type": type(sim.grid_spec.grid_x).__name__,
     }
     json.dump(out, sys.stdout)

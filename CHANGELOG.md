@@ -7,6 +7,12 @@
   (bkz. `docs/decisions/2026-09-13-single-operator-contract.md`). Tamamlanmış
   Tidy3D task sonuçlarını indirme yasağı kalktı; ücretli solve için Hasan
   onayı şartı korundu.
+- `Q_loaded ~ 27.000` (FWHM `~0.056 nm`) ring-down fit'inden çıkarıldı; Tidy3D
+  `shutoff` tanımı (E-field intensity oranı) doğrulanarak 2x belirsizlik kapandı.
+- `linear_build._monitors` artık monitör başına `sampling` bloğunu kullanıyor;
+  monitör frekans tarağı kaynak darbesinden ayrıştırıldı (8 yeni test, 187/187 OK).
+- `freq-rung-1` planı hazırlandı: `1501` nokta / `2 pm` adım dar-bant tarak,
+  `estimate_cost = 14.6803 FC`. Hasan onayı bekliyor, submit edilmedi.
 - `mesh-rung-2` indirildi ve değerlendirildi (task `fdve-b2b294bc...`, gerçek
   `11.4329 FC`): zaman yakınsaması GEÇTİ (`9.99e-06 < 1e-5`), mesh yakınsaması
   GEÇMEDİ (10->12 step/λ rezonansları `+1.5..+1.9 nm` kaydırıyor, FSR'nin ~%8'i).
