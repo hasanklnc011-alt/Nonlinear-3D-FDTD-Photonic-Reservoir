@@ -25,8 +25,9 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
-- `freq-rung-2` planı hazır: facet'siz bus + dört port, `estimate_cost = 14.7500 FC`,
-  beklenen gerçek `~11.6`, tavan `15`. ONAY BEKLİYOR, submit edilmedi.
+- `freq-rung-2` Hasan'ın açık onayıyla BAŞLATILDI: facet'siz bus + dört port,
+  task `fdve-0ecc2c8f-e120-4b3c-8793-c9c0dcbda224`, tahmin `14.7500 FC`, tavan
+  `15`, submit öncesi tahmin yeniden doğrulandı. Beklenen gerçek `~11.6`.
   (`docs/decisions/2026-09-13-freq-rung-2-plan.md`)
 - Buried-oxide sızıntı hipotezi ÇÜRÜTÜLDÜ (yerel mode solver, `0 FC`):
   `1.0 um` BOX'ta sızıntı `0.02 dB/cm`, substrate gücü `%0.00`, `k_eff` gürültü

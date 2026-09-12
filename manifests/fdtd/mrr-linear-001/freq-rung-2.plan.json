@@ -308,7 +308,7 @@
   ],
   "provenance": {
     "cloud": {
-      "approved_by": null,
+      "approved_by": "Hasan (acik onay, 2026-09-13)",
       "downloaded": false,
       "estimated": true,
       "flex_credit": {
@@ -317,10 +317,11 @@
         "estimate": 14.750001070592187
       },
       "monitored": false,
-      "note": "ONAY BEKLIYOR. Bkz. docs/decisions/2026-09-13-freq-rung-2-plan.md",
+      "note": "CALISIYOR. Kabul olcutleri: (1) FP fringe azalmali, (2) rezonans disi dort-port toplami 1.0'a yaklasmali, (3) T_through=(1-sqrt(T_drop))^2 tutmali. Bkz. docs/decisions/2026-09-13-freq-rung-2-plan.md",
       "prepared_utc": "2026-09-12T23:52:45Z",
       "simulation_digest": "2032012f922f974f7acf3316fa9f06734f3ee5b37d754dfe7d9b65bbc78de981",
-      "started": false,
+      "started": true,
+      "started_utc": "2026-09-12T23:59:00Z",
       "task_ids": [
         "fdve-0ecc2c8f-e120-4b3c-8793-c9c0dcbda224"
       ],
