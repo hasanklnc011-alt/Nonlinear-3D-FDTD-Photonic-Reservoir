@@ -11,6 +11,15 @@
   `shutoff` tanımı (E-field intensity oranı) doğrulanarak 2x belirsizlik kapandı.
 - `linear_build._monitors` artık monitör başına `sampling` bloğunu kullanıyor;
   monitör frekans tarağı kaynak darbesinden ayrıştırıldı (8 yeni test, 187/187 OK).
+- Buried-oxide sızıntı hipotezi ÇÜRÜTÜLDÜ (yerel mode solver, `0 FC`):
+  `1.0 um` BOX'ta sızıntı `0.02 dB/cm`, substrate gücü `%0.00`, `k_eff` gürültü
+  tabanında. BOX `1.0 um` korunuyor. Kontrol grubu (substrate yok) `n_eff=2.40167`
+  ile geçerli. Yan bulgu: modun yalnız `%60-63`'ü çekirdekte — `Q_e` için girdi.
+  Rezonans dışı `%12-23` eksik güç açıklanmadı; kalan şüpheli kaynak/monitör
+  düzlemlerinin kesilmiş uç yüzlerde olması.
+  (`docs/decisions/2026-09-13-box-leakage-falsified.md`)
+- Dört-port monitör doğrulandı (`0 FC`, kod değişikliği yok): `flux:bus_drop:in`
+  token'ı gerçek drop portuna (`x=-8`) oturuyor; translate + build yerel geçti.
 - `freq-rung-1` tamamlandı, gerçek `11.5346 FC` (tahmin 14.6803, tavan 15).
   Monitör düzeltmesi çalıştı: FWHM başına `79.8` nokta. Çizgi çözüldü —
   `Q_loaded ~ 9 650` (drop 9 736 / through 9 557, %2 içinde uyuşuyor),
