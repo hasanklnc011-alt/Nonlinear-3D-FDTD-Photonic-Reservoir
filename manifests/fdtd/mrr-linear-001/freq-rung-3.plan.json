@@ -308,7 +308,7 @@
   ],
   "provenance": {
     "cloud": {
-      "approved_by": null,
+      "approved_by": "Hasan (acik onay, 2026-09-13; 15 FC -> 23 FC tavan artisi da onaylandi)",
       "downloaded": false,
       "estimated": true,
       "flex_credit": {
@@ -317,10 +317,11 @@
         "estimate": 22.84630626538256
       },
       "monitored": false,
-      "note": "ONAY BEKLIYOR. Tavan 23 FC -- onceki rung'larin 15 FC tavanindan YUKSEK, ayri karar gerektirir. Bkz. docs/decisions/2026-09-13-freq-rung-3-plan.md",
+      "note": "CALISIYOR. Kabul olcutleri (kosudan once yazildi, referans lambda_0=1.540945 um, Q_L=9797, Q_e=12260): (1) rezonans kaymasi <%1 FSR guclu kanit / >%5 yakinsamamis, (2) Q_L kaymasi <%5, (3) Q_e kaymasi <%5, (4) rezonans disi dort-port toplami 1.0'a 1e-3 icinde. Bkz. docs/decisions/2026-09-13-freq-rung-3-plan.md",
       "prepared_utc": "2026-09-13T11:32:07Z",
       "simulation_digest": "fd1cdd416344d12748d9c16957074a3b",
-      "started": false,
+      "started": true,
+      "started_utc": "2026-09-13T11:35:11Z",
       "task_ids": [
         "fdve-1f8f0d66-3509-4ce5-8239-359c5e6f6d08"
       ],
