@@ -25,6 +25,17 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- **`freq-rung-2` tamamlandı — üç kabul ölçütü de GEÇTİ**, gerçek `10.7316 FC`
+  (tahmin 14.7500). (1) FP fringe `%39 -> %0.1`, facet teşhisi doğrulandı.
+  (2) Rezonans dışı dört-port toplamı `1.0000` (önceki `0.77-0.88`).
+  (3) TCMT tutarlılık hatası `0.22563 -> 0.00511`, 44 kat.
+  `Q_loaded` `9 736 -> 9 797` (`%0.6`) — önceden yazılmış kontrol sinyali tuttu.
+  **İlk geçerli optik parametreler**: `Q_e(toplam) = 12 260`, `Q_c = 24 519`,
+  belirgin OVER-coupled (`x = 0.799`). `Q_i` aralık olarak: `4.9e4 - 7.1e4`,
+  çünkü girişin `%9.7`'si add portundan çıkıyor (halkada geri saçılma) ve
+  simetrik TCMT'de o kanal yok. Geri saçılma, freq-rung-1'deki `46 pm` mod
+  yarılmasını da açıklıyor.
+  (`docs/decisions/2026-09-13-freq-rung-2-evaluation.md`)
 - `freq-rung-2` Hasan'ın açık onayıyla BAŞLATILDI: facet'siz bus + dört port,
   task `fdve-0ecc2c8f-e120-4b3c-8793-c9c0dcbda224`, tahmin `14.7500 FC`, tavan
   `15`, submit öncesi tahmin yeniden doğrulandı. Beklenen gerçek `~11.6`.

@@ -309,16 +309,18 @@
   "provenance": {
     "cloud": {
       "approved_by": "Hasan (acik onay, 2026-09-13)",
-      "downloaded": false,
+      "completed_utc": "2026-09-13T11:05:47Z",
+      "downloaded": true,
       "estimated": true,
       "flex_credit": {
-        "actual": null,
+        "actual": 10.731586989588472,
         "ceiling": 15.0,
         "estimate": 14.750001070592187
       },
-      "monitored": false,
+      "monitored": true,
       "note": "CALISIYOR. Kabul olcutleri: (1) FP fringe azalmali, (2) rezonans disi dort-port toplami 1.0'a yaklasmali, (3) T_through=(1-sqrt(T_drop))^2 tutmali. Bkz. docs/decisions/2026-09-13-freq-rung-2-plan.md",
       "prepared_utc": "2026-09-12T23:52:45Z",
+      "result": "Uc kabul olcutu de GECTI. FP fringe %39 -> %0.1; rezonans disi dort-port toplami 1.0000 (onceki 0.77-0.88); TCMT tutarlilik hatasi 0.22563 -> 0.00511. Q_L=9797 (degismedi, %0.6). Q_e(toplam)=12260, Q_c=24519, Q_i=4.9e4-7.1e4 (add portundaki %9.7 geri sacilma nedeniyle model bagimli). OVER-coupled. Bkz. docs/decisions/2026-09-13-freq-rung-2-evaluation.md",
       "simulation_digest": "2032012f922f974f7acf3316fa9f06734f3ee5b37d754dfe7d9b65bbc78de981",
       "started": true,
       "started_utc": "2026-09-12T23:59:00Z",
