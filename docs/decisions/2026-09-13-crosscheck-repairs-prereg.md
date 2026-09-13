@@ -1,3 +1,6 @@
+> Güncel geçerlilik: [Kurtarma ADR](2026-09-13-optical-chain-recovery-plan.md).
+> Aşağıdaki tarihsel iddialar güncel parametre kabulü yerine kullanılamaz.
+
 # 2026-09-13 — Çapraz kontrol onarımları: ÖN KAYIT (sonuçlar görülmeden yazıldı)
 
 - Yapan: Claude Opus 5

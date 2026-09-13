@@ -1,3 +1,6 @@
+> Güncel geçerlilik: [Kurtarma ADR](2026-09-13-optical-chain-recovery-plan.md).
+> Aşağıdaki tarihsel iddialar güncel parametre kabulü yerine kullanılamaz.
+
 # 2026-09-13 — ADR: TCMT birincil çözücü, FDTD optik parametrelerin yetkili kaynağı
 
 - Karar sahibi: Hasan (açık onay)

@@ -1,38 +1,50 @@
-# Claude çalışma talimatları
+# Nonlinear MRR — çalışma sözleşmesi
 
-Bu dosya `AGENTS.md` ile aynı çalışma sözleşmesini taşır. Kanonik talimatların tamamı için [`AGENTS.md`](AGENTS.md) dosyasını oku ve her değişiklikte iki dosyayı birlikte güncel tut.
+Kanonik karar: [docs/decisions/2026-09-13-optical-chain-recovery-plan.md](docs/decisions/2026-09-13-optical-chain-recovery-plan.md). Önce const.md, bu ADR, BACKLOG.md ve parametre durumunu oku.
 
-Claude; görev sahipliğini, değişiklik özetini, doğrulama çıktısını ve açık riskleri `docs/coordination/` altında kaydeder. Aynı dosyada eşzamanlı düzenleme yapmaz; mevcut değişiklikleri ezmez.
-## Raporlar
+## Amaç
 
-Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tutulur.
+Geometriyle sınırlandırılmış, FDTD-kalibre TCMT reservoir. İlk aile 450×220 nm,
+R_center=4.775 µm, simetrik iki bus, gap 150–250 nm. Global surrogate ertelendi.
+Geometri → eigenmode → açık coupler S → round-trip → CW/CCW TCMT.
+NARMA-10: 5 development, 10 blind; medyan blind NMSE <0.05 ve >=8/10 başarı.
+200/3000/2000 split ve veri hash'leri değişmez; kör skor tuning'e dönmez.
 
-## Backlog ve yarım kalan işler
+## Kaynak ve kanıt
 
-- Bir iş herhangi bir nedenle yarıda kalırsa aynı oturumda `BACKLOG.md` içine yazılır.
-- Her backlog maddesi sahip, tarih, durum, bağlam, değişen dosyalar ve sıradaki tek adımı içerir.
-- İş tamamlandığında `BACKLOG.md` maddesi kapatılır; tamamlanma, karar ve geçiş izi `BACKLOGLOG.md` içine eklenir.
-- Backlog temizlenmeden oturum kapatılmaz; gerçek bir engel varsa madde açık ve engel ayrıntılı bırakılır.
-## Proje sabitleri
+- Geometriye bağlı optik parametreler EM ölçümünden; malzeme/carrier/termal girdiler kaynaklı veriden.
+- Kayıpsız geometri kontrol modelidir. kappa_i=rad+abs+scatter; ısı yalnız absorpsiyondan.
+- Her sonuç kaynak/config/geometri/malzeme/grid/solver ve artifact digest'i taşır.
+- Yerel mode solve için task_id yoksa local run ID, ortam ve veri hash'i gerekir; cloud task ID uydurulmaz.
+- V1: tüm ilgili portlar+radyasyon+absorpsiyon dengesi; rezonans dahil, artık <1e-3.
+- V2: analitik limit/kontrol; V3: bağımsız yöntem. Aynı koşunun iki portu yalnız iç tutarlılıktır.
+- FSR grup gecikmesine çapadır, doğrudan n_eff doğrulaması değildir.
+- V4: ADR'deki observable'a özgü mesh/domain/time ve uç-geometri testleri. İki mesh farkı güven aralığı değildir.
+- Belirsizlik istisnası yalnız gerekçeli hata zarfı ve görev duyarlılığı ile; eksik fizik/tanımlanamazlık kabul edilmez.
+- V5 dış çapa destekleyicidir, diğer kapıların yerine geçmez.
+- Exploratory/synthetic sonuçlar fiziksel kabul veya blind lock alamaz.
 
-Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
-## Rol dağılımı — tek operatör (2026-09-13'ten itibaren kalıcı)
+## Sahiplik ve çalışma
 
-- Bu depoda tek ajan çalışır: Claude. Hem karar/mimari hem kod/test/yerel
-  doğrulama rolünü üstlenir. ChatGPT/Astra orkestra şefliği **kalıcı olarak
-  kaldırılmıştır** — askıya alma değil, sözleşmeden çıkarma.
-- Her karar `docs/decisions/` içine gerekçesiyle yazılır; ikinci bir denetleyen
-  ajan olmadığı için karar kaydı ve test kanıtı tek denetim mekanizmasıdır.
-- Mimari ve benchmark protokolü değiştirilebilir; ancak `const.md` sabitlerini
-  veya kilitli NARMA-10 kör-değerlendirme protokolünü etkileyen her adım önce
-  karar kaydı açar ve Hasan'ın açık onayını bekler.
-- Claude, Tidy3D cloud'dan tamamlanmış task sonuçlarını indirebilir ve
-  değerlendirebilir (indirme ek ücret doğurmaz).
-- Claude kendi harness'ının varsayılan araçlarını kullanır; Fleet skill'i
-  gerekli değildir.
+- Tek yazıcı. Hasan'ın bu planı uygulama isteğiyle bu oturumun sahibi Codex; devam sahibi Claude.
+- İlgili işi BACKLOG'da sahiplen; aynı dosyada eşzamanlı yazma yapma. İnceleme salt okunur olabilir.
+- AGENTS.md ve CLAUDE.md byte-identical tutulur. Değiştirmeden önce dosyayı oku.
+- Her teslimatı aynı oturumda diff/test/provenance ile doğrula; küçük commit ve normal origin/main push yap.
+- Önce git fetch/status; başkasının değişikliğini ezme, force-push yok.
+- Kapanan iş BACKLOGLOG'a; açık/engelli iş BACKLOG'a, önemli değişiklik CHANGELOG'a kaydolur.
+- Eski kararlar tarihçedir; yeni ADR ile çelişen hükümler güncel talimat değildir.
+- Sırlar/HDF5/gptpro/ Git'e alınmaz. API anahtarları okunmaz veya yazdırılmaz.
 
-### Değişmeyen sınır
+## Bütçe
 
-Ücretli Tidy3D solve başlatmak (yeni task submit, yeni FlexCredit harcaması)
-yalnız Hasan'ın açık onayıyla yapılır. Her ücretli solve öncesi `estimate_cost`
-üst sınırı yazılı olarak raporlanır.
+Yerel 0, uzak mode 2, coupler 10, bridge 15, final rezerv 20 FC: toplam 47 FC.
+Canlı bakiye ve taahhütler her ücretli adımda kontrol edilir; kaynak FLEXCREDIT-LEDGER.
+Tek koşu <=25 FC, bakiye >=60 FC; final 20 FC rezerv başka işe aktarılmaz.
+Geçmiş doğrulama %25 eşiğini aşıyor olabilir; yeni ücretli adım öncesi ayrı karar gerekir.
+Tahsis solve onayı değildir: her ücretli solve yazılı estimate_cost ve Hasan'ın açık onayını ister.
+K0/K1/K2 teslimatları görülmeden ücretli coupler yok. Tamamlanmış cloud sonucu okunabilir.
+
+## Araştırma hattı bağlantıları
+
+- [[docs/PROJECT-CHARTER|Proje sözleşmesi]]
+- [[docs/decisions/2026-09-13-optical-chain-recovery-plan|Kurtarma hattı]]

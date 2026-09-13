@@ -1,124 +1,50 @@
-# Nonlinear 3D FDTD Photonic Reservoir — Çalışma Sözleşmesi
+# Nonlinear MRR — çalışma sözleşmesi
+
+Kanonik karar: [docs/decisions/2026-09-13-optical-chain-recovery-plan.md](docs/decisions/2026-09-13-optical-chain-recovery-plan.md). Önce const.md, bu ADR, BACKLOG.md ve parametre durumunu oku.
 
 ## Amaç
 
-Bu depo, geometriyle sınırlandırılmış bir silicon MRR photonic reservoir geliştirmek içindir. Optik parametreler (`Q_i`, `Q_e`, coupling, `n_eff`, mode overlap) Tidy3D ile 3B FDTD/eigenmode ölçülür ve kaynak-hash'lenir; zaman-serisi görevi bu ölçümlerle sınırlandırılmış TCMT/rate-equation modeliyle çözülür. Nihai benchmark NARMA-10'dur; kabul hedefi önceden kilitlenmiş 10 kör seed üzerinde medyan test NMSE < 0.05'tir. Rol dağılımının gerekçesi: `docs/decisions/2026-09-13-adr-tcmt-primary-fdtd-calibrator.md`.
+Geometriyle sınırlandırılmış, FDTD-kalibre TCMT reservoir. İlk aile 450×220 nm,
+R_center=4.775 µm, simetrik iki bus, gap 150–250 nm. Global surrogate ertelendi.
+Geometri → eigenmode → açık coupler S → round-trip → CW/CCW TCMT.
+NARMA-10: 5 development, 10 blind; medyan blind NMSE <0.05 ve >=8/10 başarı.
+200/3000/2000 split ve veri hash'leri değişmez; kör skor tuning'e dönmez.
 
-## Kanonik konum ve Git
+## Kaynak ve kanıt
 
-- Yerel kanonik çalışma alanı: `C:\Users\hasan\OneDrive\Desktop\Nonlinear-3D-FDTD-Photonic-Reservoir`
-- Uzak kanonik depo: `https://github.com/hasanklnc011-alt/Nonlinear-3D-FDTD-Photonic-Reservoir.git`
-- Yapısal, deneysel ve dokümantasyon değişiklikleri küçük, anlamlı commit'lerle uzak depoya gönderilir.
-- API anahtarları, HDF5 sonuçları, büyük önbellekler ve kişisel veriler Git'e eklenmez.
+- Geometriye bağlı optik parametreler EM ölçümünden; malzeme/carrier/termal girdiler kaynaklı veriden.
+- Kayıpsız geometri kontrol modelidir. kappa_i=rad+abs+scatter; ısı yalnız absorpsiyondan.
+- Her sonuç kaynak/config/geometri/malzeme/grid/solver ve artifact digest'i taşır.
+- Yerel mode solve için task_id yoksa local run ID, ortam ve veri hash'i gerekir; cloud task ID uydurulmaz.
+- V1: tüm ilgili portlar+radyasyon+absorpsiyon dengesi; rezonans dahil, artık <1e-3.
+- V2: analitik limit/kontrol; V3: bağımsız yöntem. Aynı koşunun iki portu yalnız iç tutarlılıktır.
+- FSR grup gecikmesine çapadır, doğrudan n_eff doğrulaması değildir.
+- V4: ADR'deki observable'a özgü mesh/domain/time ve uç-geometri testleri. İki mesh farkı güven aralığı değildir.
+- Belirsizlik istisnası yalnız gerekçeli hata zarfı ve görev duyarlılığı ile; eksik fizik/tanımlanamazlık kabul edilmez.
+- V5 dış çapa destekleyicidir, diğer kapıların yerine geçmez.
+- Exploratory/synthetic sonuçlar fiziksel kabul veya blind lock alamaz.
 
-## Ajan işbirliği
+## Sahiplik ve çalışma
 
-- `CLAUDE.md` bu dosyayla eşdeğer içerikte tutulur.
-- Bir görev başlamadan önce ilgili plan ve sahiplik yazılır.
-- Üretici değişikliğinden sonra diff, test ve provenance kontrolü yapılır; bu
-  doğrulama ayrı bir ajana devredilemez, aynı oturumda kanıtıyla yazılır.
-- Nihai karar ve birleştirme tek merkezî akışta yapılır; kör test sonucu aday
-  seçimine geri beslenmez.
+- Tek yazıcı. Hasan'ın bu planı uygulama isteğiyle bu oturumun sahibi Codex; devam sahibi Claude.
+- İlgili işi BACKLOG'da sahiplen; aynı dosyada eşzamanlı yazma yapma. İnceleme salt okunur olabilir.
+- AGENTS.md ve CLAUDE.md byte-identical tutulur. Değiştirmeden önce dosyayı oku.
+- Her teslimatı aynı oturumda diff/test/provenance ile doğrula; küçük commit ve normal origin/main push yap.
+- Önce git fetch/status; başkasının değişikliğini ezme, force-push yok.
+- Kapanan iş BACKLOGLOG'a; açık/engelli iş BACKLOG'a, önemli değişiklik CHANGELOG'a kaydolur.
+- Eski kararlar tarihçedir; yeni ADR ile çelişen hükümler güncel talimat değildir.
+- Sırlar/HDF5/gptpro/ Git'e alınmaz. API anahtarları okunmaz veya yazdırılmaz.
 
-## Aşamalar
+## Bütçe
 
-1. Yapı ve proje sözleşmesi
-2. NARMA-10 veri/baseline kilidi
-3. FDTD fizibilite ve maliyet raporu
-4. Doğrusal rezonans, mesh ve zaman yakınsaması; optik parametre ölçümü
-   (`Q_i`, `Q_e`, coupling, `n_eff`)
-5. FDTD-kalibre TCMT/rate-equation modeli ve mekanizma ablation'ları
-6. Geliştirme seed'leriyle mimari arama; belirsizlik ve tolerans analizi
-7. Aday kilidi ve 10 seed kör değerlendirme
+Yerel 0, uzak mode 2, coupler 10, bridge 15, final rezerv 20 FC: toplam 47 FC.
+Canlı bakiye ve taahhütler her ücretli adımda kontrol edilir; kaynak FLEXCREDIT-LEDGER.
+Tek koşu <=25 FC, bakiye >=60 FC; final 20 FC rezerv başka işe aktarılmaz.
+Geçmiş doğrulama %25 eşiğini aşıyor olabilir; yeni ücretli adım öncesi ayrı karar gerekir.
+Tahsis solve onayı değildir: her ücretli solve yazılı estimate_cost ve Hasan'ın açık onayını ister.
+K0/K1/K2 teslimatları görülmeden ücretli coupler yok. Tamamlanmış cloud sonucu okunabilir.
 
-## Kanıt kuralları
+## Araştırma hattı bağlantıları
 
-- Tidy3D task kimliği, sürüm, geometri/malzeme hash'i, mesh, run time ve tahmini/gerçek FlexCredit maliyeti kaydedilir.
-- TCMT modelinin her optik parametresi, kendisini üreten FDTD/eigenmode koşusunun task id'si ve digest'i ile birlikte kaydedilir. Kaynağı gösterilemeyen optik parametre kabul edilmez.
-- Her FDTD rung'u, sonucu kabul edilmeden önce enerji dengesi kapısından geçer: rezonans dışında tüm portların toplamı `1.0`'a `1e-3` içinde olmalıdır.
-- Sonlu olmayan veri, yakınsamayan çözüm veya doğrulanmamış malzeme parametresi kabul edilmez.
-
-### Doğrulama merdiveni (V1–V5)
-
-Bir optik parametrenin "doğru" olduğu kanıtlanamaz — üretilmiş cihaz yok,
-dolayısıyla dış gerçeklik referansı yok. Kanıtlanabilecek tek şey **yanlış
-olduğudur**. Bu nedenle merdiven fail-closed'dır: bir değer, geçtiği basamaklar
-açıkça yazılmadan TCMT'ye girdi olamaz, ve hiçbir zaman "kesin" sayılmaz.
-
-| | basamak | zorunlu | maliyet |
-|---|---|---|---|
-| V1 | **Korunum.** Rezonans dışında tüm portların toplamı `1.0`'a `1e-3` içinde. Ayrıklaştırmadan bağımsızdır. | evet, her koşuda | 0 FC |
-| V2 | **Kontrol grubu / analitik limit.** Cevabı bilinen bir kurgu doğru çıkmalı (ör. substrate kaldırılınca sızıntı gürültü tabanında). | evet, gözlenebilir sınıfı başına bir kez | 0 FC |
-| V3 | **Çapraz yol.** Aynı büyüklük en az iki bağımsız yoldan ölçülmeli ve `%5` içinde uyuşmalı. Uyum kanıt değildir; **uyumsuzluk kesin alarmdır**. | evet | 0 FC |
-| V4 | **Yakınsama.** Son rafinman adımında değişim `%5`'ten küçük olmalı. | evet, aşağıdaki kapsamda | ücretli |
-| V5 | **Dış çapa.** Yakın geometrideki yayınlanmış ölçümle aynı mertebe. | hayır, raporlanır | 0 FC |
-
-**V4'ün kapsamı — çalışma düzeyinde, değer başına değil.** Yakınsama her veri
-noktasının değil, sayısal kurgunun özelliğidir. Geometri ailesi + gözlenebilir
-sınıfı başına **bir** yakınsama merdiveni kurulur; taramadaki tüm noktalar aynı
-ayrıklaştırmayı miras alır. Yalnız tarama aralığının **iki ucunda** nokta
-kontrolü yapılır. Naif uygulama (her nokta için ayrı merdiven) yasaktır.
-
-**V4 kaçış valfi.** Yakınsatılamayan bir büyüklük **reddedilmez**; belirtilmiş
-belirsizlikle raporlanır ve TCMT'ye o belirsizlikle girer. Belirsizliği ölçüp
-yazmak meşrudur, gizlemek değildir. Bu, merdivenin bütçe çıkmazına dönüşmesini
-yapısal olarak engeller.
-
-**V3'ün ikinci yolları yereldir ve bedavadır:** `Q_e` için iki kuplajlı
-waveguide'ın even/odd supermode yarılması; `Q_i` için `ModeSpec(bend_radius=...)`
-ile bend radyasyon kaybı; `n_eff` için `group_index_step` ile `n_g` ve ölçülen
-FSR çaprazlaması. Bunlar aynı zamanda WP4 surrogate'inin makinesidir.
-
-### Bütçe ve bakiye
-
-- **Her ücretli solve öncesi FlexCredit bakiyesi ve tahsis durumu kontrol
-  edilir ve rapora yazılır.** Bakiyeyi bilmeden tavan önerilmez.
-- Tek bir koşu **25 FC**'yi aşamaz; aşıyorsa ayrı karar kaydı gerekir.
-- **WP6 nihai kilit koşusu için 20 FC rezerve edilir ve ona dokunmak ayrı karar
-  gerektirir.**
-- Kalan bakiye **60 FC**'nin altına inerse, yeni ücretli koşu için ayrı karar
-  gerekir.
-- Doğrulama amaçlı FDTD harcaması proje toplamının `%25`'ini aşarsa devam için
-  ayrı karar gerekir.
-- Güncel bakiye, harcama ve tahsis: `reports/FLEXCREDIT-LEDGER.md` (tek doğru
-  kaynak; metin kayıtlarından toplanmaz, cloud'dan okunur).
-- Ücretli solve öncesi maliyet raporu ve açık görev kaydı gerekir.
-
-## Değişiklik protokolü
-
-Dosyayı değiştirmeden önce oku. Her anlamlı oturum sonunda `docs/decisions/`, `CHANGELOG.md` ve gerekirse `STATUS.md` güncellenir. Kod başlamadan önce `docs/PROJECT-CHARTER.md` tamamlanır.
-## Raporlar
-
-Teknik, maliyet, FDTD doğrulama ve benchmark raporları `reports/` altında tutulur.
-
-## Backlog ve yarım kalan işler
-
-- Bir iş herhangi bir nedenle yarıda kalırsa aynı oturumda `BACKLOG.md` içine yazılır.
-- Her backlog maddesi sahip, tarih, durum, bağlam, değişen dosyalar ve sıradaki tek adımı içerir.
-- İş tamamlandığında `BACKLOG.md` maddesi kapatılır; tamamlanma, karar ve geçiş izi `BACKLOGLOG.md` içine eklenir.
-- Backlog temizlenmeden oturum kapatılmaz; gerçek bir engel varsa madde açık ve engel ayrıntılı bırakılır.
-## Proje sabitleri
-
-Genel ve değişmez proje gerçekleri [`const.md`](const.md) dosyasında tutulur. Her görev başlangıcında okunur; değişiklik gerekiyorsa önce karar kaydı açılır.
-## Rol dağılımı — tek operatör (2026-09-13'ten itibaren kalıcı)
-
-- Bu depoda tek ajan çalışır: Claude. Hem karar/mimari hem kod/test/yerel
-  doğrulama rolünü üstlenir. ChatGPT/Astra orkestra şefliği **kalıcı olarak
-  kaldırılmıştır** — askıya alma değil, sözleşmeden çıkarma.
-- Her karar `docs/decisions/` içine gerekçesiyle yazılır. Tek operatör olmak
-  kanıt yükünü azaltmaz; aksine denetleyecek ikinci ajan olmadığı için karar
-  kaydı ve test kanıtı tek denetim mekanizmasıdır.
-- Claude, mimariyi ve benchmark protokolünü değiştirebilir; ancak `const.md`
-  sabitlerini veya kilitli NARMA-10 kör-değerlendirme protokolünü değiştiren
-  her adım önce `docs/decisions/` içinde karar kaydı açar ve Hasan'ın açık
-  onayını bekler.
-- Claude, Tidy3D cloud'dan **tamamlanmış task sonuçlarını indirebilir ve
-  değerlendirebilir** (indirme ek ücret doğurmaz).
-- Fleet skill'leri bu projede gerekli değildir; ajan kendi harness'ını kullanır.
-
-### Değişmeyen sınır
-
-Ücretli Tidy3D solve başlatmak (yeni task submit, yeni FlexCredit harcaması)
-yalnız **Hasan'ın açık onayıyla** yapılır. Tek operatöre geçiş bu onay
-gereğini kaldırmaz. Her ücretli solve öncesi `estimate_cost` üst sınırı
-yazılı olarak raporlanır.
+- [[docs/PROJECT-CHARTER|Proje sözleşmesi]]
+- [[docs/decisions/2026-09-13-optical-chain-recovery-plan|Kurtarma hattı]]

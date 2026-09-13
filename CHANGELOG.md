@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-13 — K0 kurtarma sözleşmesi
+
+- Kullanıcı onaylı K0–K5 sıra/bütçe/kapıları kaydedildi; AGENTS/CLAUDE eşitlendi.
+- Kaynaklı kayıp ayrımı ve exploratory/fiziksel kabul sınırı getirildi.
+- Eski iddialar tarihçe olarak korundu; güncel durum/backlog yenilendi.
+- Bu commit ölçüm/solver başarısı veya ücretli solve onayı değildir.
+
+
 ## 2026-09-13
 
 - Çalışma sözleşmesi tek operatöre geçirildi: ChatGPT/Astra orkestra şefliği

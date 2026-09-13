@@ -17,16 +17,22 @@ toplam harcanan                       79.0726
 Harcanan `79.0726` + bakiye `115.7358` → başlangıç bütçesi **`~195 FC`**;
 bugüne kadar **`%41`** kullanılmış.
 
-### Tahsis planı
+### Tahsis planı — K0 kurtarma ADR
 
-```
-  Q_i / Q_e / n_eff ikinci yollari    0   yerel mode solver (V3)
-  WP4 surrogate dogrulama            35   2-3 nokta 3B FDTD
-  WP6 nihai kilit                    20   REZERVE, dokunmak ayri karar
-  ---------------------------------------
-  planlanan                          55
-  pay                               ~62   belirsizlik icin
-```
+| İş | FC tavanı |
+|---|---:|
+| Yerel K0/K1/K2/K5 | 0 |
+| Uzak mode karşılaştırması | 2 |
+| K3 açık coupler | 10 |
+| K4 tam halka bridge | 15 |
+| Nihai rezerv | 20 |
+| Toplam | 47 |
+| Kayıtlı bakiyeden tahsis dışı | 68.7358 |
+
+Bakiye bu oturumda cloud'dan yenilenmedi; yukarıdaki 115.7358 tarihli kayıttır.
+Tahsisler solve onayı değildir. 79.0726 FC geçmiş harcama tümü doğrulama
+sayılırsa yaklaşık 194.8084 FC toplamın %40.6'sıdır: %25 eşiği aşılmıştır.
+Yeni ücretli adım öncesi eşik kararı ve estimate/solve onayı gerekir.
 
 ### Sözleşmeye bağlanan kurallar
 
@@ -59,8 +65,7 @@ bugüne kadar **`%41`** kullanılmış.
 
 ## Devam eden
 
-Yok. `freq-rung-3` yakınsama amaçlı **son** ücretli koşuydu; bundan sonraki FDTD
-harcaması yalnız WP4 surrogate doğrulaması ve WP6 nihai kilit içindir.
+Yok. Yeni koşular K0–K5 kurtarma ADR kapıları ve tahsislerine bağlıdır.
 
 ## Düzeltme — daha önce yanlış rapor edilmişti
 

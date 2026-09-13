@@ -1,3 +1,6 @@
+> Güncel geçerlilik: [Kurtarma ADR](2026-09-13-optical-chain-recovery-plan.md).
+> Aşağıdaki tarihsel iddialar güncel parametre kabulü yerine kullanılamaz.
+
 # 2026-09-13 — freq-rung-2 değerlendirmesi: üç kabul ölçütü de geçti, `Q_e` ilk kez ölçüldü
 
 - Task: `fdve-0ecc2c8f-e120-4b3c-8793-c9c0dcbda224`

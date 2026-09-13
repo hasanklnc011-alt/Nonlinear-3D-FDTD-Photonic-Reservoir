@@ -1,3 +1,6 @@
+> Güncel geçerlilik: [Kurtarma ADR](2026-09-13-optical-chain-recovery-plan.md).
+> Aşağıdaki tarihsel iddialar güncel parametre kabulü yerine kullanılamaz.
+
 # 2026-09-13 — freq-rung-3 değerlendirmesi: 4 ölçütten 3'ü geçti, `Q_L` geçmedi
 
 - Task: `fdve-1f8f0d66-3509-4ce5-8239-359c5e6f6d08`

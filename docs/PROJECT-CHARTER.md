@@ -1,27 +1,22 @@
-# Proje Sözleşmesi
+# Proje sözleşmesi
 
-## Amaç
 
-Gerçek malzeme ve nonlinear elektromanyetik model içeren, Tidy3D ile uçtan uca 3D FDTD çözülen photonic reservoir tasarlamak ve NARMA-10'da medyan test NMSE `< 0.05` hedefini sınamak.
 
-## Kapsam
+450×220 nm silicon kesit, merkez yarıçapı 4.775 µm, simetrik iki bus,
+150–250 nm gap. Global surrogate, kesit/yarıçap/topoloji optimizasyonu ertelendi.
+Zincir: kesit eigenmode → açık bus–ring kompleks S → round-trip → CW/CCW TCMT.
+Geometri parametreleri full-wave kanıtından; malzeme/carrier/termal girdileri
+kaynaklandırılmış veriden gelir. Bilinmeyenler NMSE'ye uydurulmaz.
+Kayıpsız model kontrol modelidir. Intrinsic kayıp = radyasyon + absorpsiyon +
+proses saçılması; ısı kaynağı yalnız absorbe edilen güçtür.
 
-Topoloji serbesttir. Mimari; fiziksel hafıza, gözlenebilir port özellikleri, nonlinear tepki, güç/hız fizibilitesi ve FDTD maliyeti birlikte değerlendirilerek seçilir.
 
-## Kapsam dışı
+Başarı: kilitli 10 kör seed medyan NMSE <0.05 ve >=8/10 başarı.
+Geliştirme: 5 seed; hash ve 200/3000/2000 split korunur.
 
-İlk yapısal aşamada kod, ücretli cloud solve, üretim PDK'sı ve deneysel çip doğrulaması yoktur.
-
-## Başarı kapıları
-
-1. Benchmark ve kör seed hash'leri kilitli.
-2. Maliyet ve kaynak fizibilitesi raporlu.
-3. Mesh, zaman, PML ve nonlinear yakınsaması kanıtlı.
-4. Aday kilidinden sonra 10 kör seed: medyan test NMSE `< 0.05`, en az 8/10 seed `< 0.05`.
-
-## Durma koşulları
-
-Sonlu olmayan veri, doğrulanmamış fizik, yakınsamayan FDTD veya bütçe dışı tahmin halinde ilgili aşama durur ve gerekçe kaydedilir.
+Yürütme: [K0–K5 kurtarma ADR](decisions/2026-09-13-optical-chain-recovery-plan.md).
+Kapsam dışı: global surrogate, yeni topoloji, fabricated-device kanıtı.
+Durma: geçmeyen fizik/provenance kapısı, kaynaksız arama sınırı, bütçe veya solve onayı eksikliği.
 
 ## Araştırma hattı bağlantıları
 

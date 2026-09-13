@@ -1,3 +1,28 @@
+# Optik parametre durumu — K0 kurtarma denetimi
+
+Kanonik karar: [Kurtarma ADR](../docs/decisions/2026-09-13-optical-chain-recovery-plan.md).
+Güncel hiçbir parametre henüz K1–K4 zincirinin tamamını geçmiş değildir.
+
+| Büyüklük | Mevcut gözlem | Güncel kabul |
+|---|---|---|
+| lambda_0 | 12/14 mesh: 1.540945 / 1.540865 µm | Konum gözlemi; 80 pm mesh farkı güven aralığı değildir. K4 linewidth kapısı açık. |
+| Q_loaded | yaklaşık 9797 / 9154 | Modele bağlı spektral gözlem; K4 kutup/ringdown çaprazlaması açık. |
+| Q_e | eski tek-modlu çıkarım yaklaşık 12180 | Kabul edilmedi; K3 S-matris ve K4 bekleniyor. |
+| Q_i | tek-modlu artık | Ayrıştırılamadı; kesin sayısal kayıp denemez. |
+| Q_bend | eski yerel k_eff ~1e-8 | Alt sınır kabul edilmedi; duyarlılık/domain/mesh kontrolü yok. |
+| n_eff | 26 spw 2.298684; sabit-grid ötelemede 2.364882 | TANISAL; üretim girdisi değil. K1 açık. |
+| n_g | eski 20 spw 4.145 | Koşullu gözlem; K1 yakınsama açık. FSR n_eff doğrulamaz. |
+| add/reflection | 201 frekans; input kaynakla çakışıyor | Rezonans tepe/enerji ve fiziksel backscatter iddiası kabul edilmedi. |
+
+Rung-2/3 HDF5 yalnız FluxData: through/drop 2001, add/input 201 örnek.
+Kaynak ve input monitor aynı düzlemde. Rezonans dışı üç çıkış toplamı,
+rezonans içi dört-port+radyasyon bilançosu değildir. Kompleks S yoktur.
+Malzemeler nondispersive ve kayıpsız proxy; gerçek dispersiyon/kayıp ölçülmüş sayılmaz.
+
+## Tarihsel rapor (güncel talimat/kabul değildir)
+
+<details><summary>Önceki parametre raporu, olduğu gibi korundu</summary>
+
 # Optik parametre durumu — V1–V5 doğrulama merdiveni
 
 Merdivenin tanımı: `AGENTS.md` §Kanıt kuralları → Doğrulama merdiveni.
@@ -162,3 +187,5 @@ Tabloda görünmeyen ama sonucu belirleyen iki varsayım:
 4. Mode solver ızgara yakınsaması → `n_eff` V4
 
 Dördü de `0 FC` ve dördü de WP4 surrogate'ine doğrudan girdi.
+
+</details>

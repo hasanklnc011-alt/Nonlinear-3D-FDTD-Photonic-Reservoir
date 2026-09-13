@@ -1,3 +1,6 @@
+> Güncel geçerlilik: [Kurtarma ADR](2026-09-13-optical-chain-recovery-plan.md).
+> Aşağıdaki tarihsel iddialar güncel parametre kabulü yerine kullanılamaz.
+
 # 2026-09-13 — V3/V4 yerel çapraz kontroller: 1 geçti, 3 sorun açtı
 
 - Yapan: Claude Opus 5
