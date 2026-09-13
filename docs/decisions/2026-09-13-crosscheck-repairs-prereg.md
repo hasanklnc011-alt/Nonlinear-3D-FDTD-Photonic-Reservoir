@@ -90,4 +90,92 @@ yerindedir.
 
 ## Sonuçlar
 
-*(hesaplar çalıştırıldıktan sonra doldurulacak)*
+**Dört tahminin üçü çürüdü, biri tuttu.**
+
+### Tahmin 1 (mod seçici) — ÇÜRÜDÜ
+
+```
+16 step/lam -> mode#7 n_eff=2.370158 TE=98% cekirdek=60%
+20 step/lam -> mode#7 n_eff=2.366977 TE=98% cekirdek=61%   -0.1342%
+26 step/lam -> mode#7 n_eff=2.298684 TE=97% cekirdek=58%   -2.8853%
+32 step/lam -> mode#7 n_eff=2.363790 TE=98% cekirdek=62%   +2.8323%
+yayilim %3.0416   tek duze: False
+```
+
+Düzeltilmiş seçici her çözünürlükte **aynı** modu buluyor (`mode#7`, TE baskın,
+çekirdekte yoğun) — yani seçim tutarlı. Buna rağmen `n_eff` sıçraması aynen
+duruyor. Kusur seçicide değil.
+
+### Tahmin 4 (substrate hibritleşmesi) — ÇÜRÜDÜ
+
+```
+SUBSTRATE YOK:
+16 step/lam  2.303831            26 step/lam  2.392483  (+1.0482%)
+20 step/lam  2.367666 (+2.7708%) 32 step/lam  2.389093  (-0.1417%)
+yayilim %3.7512   tek duze: False
+```
+
+Substrate tamamen kaldırıldı; salınım sürüyor, hatta yayılım biraz arttı.
+Substrate de kusurun kaynağı değil.
+
+### Tahmin 2 (faz uyumsuzluğu ihmal edilebilir) — TUTTU
+
+```
+n_ring=2.368634  n_bus=2.366977  dn=1.656e-03  dbeta=0.00675 1/um
+faz uyumsuzlugu carpani = exp(-dbeta^2*R/(2*gamma)) = 0.99998576
+```
+
+Çarpan `1`'e `1.4e-05` yakınlıkta; `Q_e`'yi ölçülebilir biçimde değiştirmedi ve
+uyuşmazlığı kapatmadı — tam öngörüldüğü gibi.
+
+### Tahmin 3 (`kappa` gap'e üstel bağlı) — ÇÜRÜDÜ, ve en ağırı bu
+
+```
+gap=0.15 um  n_even=2.61291 n_odd=2.58138  kappa=0.06429 1/um
+gap=0.20 um  n_even=2.61281 n_odd=2.58128  kappa=0.06429 1/um
+gap=0.25 um  n_even=2.61269 n_odd=2.58115  kappa=0.06429 1/um
+gap=0.30 um  n_even=2.61257 n_odd=2.58104  kappa=0.06430 1/um
+
+ln(kappa) vs gap egim = +0.0006 1/um   beklenen -15.29   fark %100
+```
+
+Gap iki katına çıkarken `kappa` altı hanede sabit. Fiziksel olarak imkânsız.
+
+Ayrıca `n_even = 2.613` ve `n_odd = 2.581`, tek waveguide'ın `2.367`'sinin
+**ikisi de çok üstünde**. İki özdeş kılavuzun even/odd supermodları `2.367`'nin
+hemen altında ve üstünde olmalıydı. Yani seçilen modlar even/odd supermodları
+**değil**.
+
+## GERİ ÇEKME — `Q_e` "çapraz yol uyuşmazlığı" iddiası geçersiz
+
+`docs/decisions/2026-09-13-v3v4-local-crosschecks.md` §3'te "iki yol `3.7x`
+ayrı" denmişti; ardından `L_eff` ve `gamma` düzeltmeleriyle `1.61x`'e indirildi.
+
+**Bunların hepsi geçersizdir.** İki geçerli yöntem uyuşmuyor değildi; ikinci
+yöntem hiç çalışmıyordu. `kappa` doğru mod çiftinden alınmadığı için ortada bir
+çapraz yol yoktu. `L_eff` düzeltmeleri (A, B) aritmetik olarak doğruydu ama
+yanlış bir `kappa` üzerine uygulandı; bu koşudaki `Q_e = 15 718` sayısı da
+dayanaksızdır.
+
+Kontrol testi (V2) bunu yakaladı — ama **bu kontrol ilk `Q_e` hesabı
+raporlanmadan önce yapılmalıydı.** Yapılmadığı için iki tur boyunca dayanaksız
+bir sayı ve ondan türetilmiş bir uyuşmazlık analizi sunuldu.
+
+## Durum
+
+Üç hipotez arka arkaya çürüdü (seçici, substrate, ve supermode yolunun kendisi).
+Bu, kusurun tek bir bileşende değil **yerel mode solver kurgusunun genelinde**
+olduğunu gösteriyor.
+
+Kalan en somut şüpheli: `num_pml` **hücre** cinsinden veriliyor, dolayısıyla
+çözünürlük arttıkça PML'in **fiziksel kalınlığı küçülüyor** (`16 sl`'de
+`~0.8 µm`, `32 sl`'de `~0.4 µm`). İnce PML daha kötü soğurur ve modu bozar;
+bu, "mesh inceldikçe düzelmiyor, salınıyor" davranışını doğrudan açıklar.
+
+**Sınama ön kaydı:** `num_pml` çözünürlükle orantılı ölçeklenip PML fiziksel
+kalınlığı sabit tutulacak. Tahmin: yakınsama tek düze ve yayılım `%0.5` altı.
+
+**Durma kuralı:** bu da tutmazsa daha fazla hipotez denenmeyecek; yerel mode
+solver yolu güvenilmez ilan edilip V3, `n_eff`/`n_g` dışında **kapanmamış**
+bırakılacaktır. FSR çaprazlaması geçerliliğini korur, çünkü tek çözünürlükteki
+`n_g`'yi FDTD'nin bağımsız ölçümüyle karşılaştırır ve `%0.85` tutmuştur.

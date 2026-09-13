@@ -13,9 +13,9 @@ geometry `68867f8d...`, schema `/2`.
 | parametre | değer | V1 | V2 | V3 çapraz yol | V4 yakınsama | V5 |
 |---|---|---|---|---|---|---|
 | `lambda_0` | `1.54090 ± 0.00008` µm | ✅ | — | ✅ iki port + FSR | ✅ `%0.42` FSR | — |
-| `n_g` | `4.145` | — | ✅ | ✅ **FSR `%0.85`** | ⚠️ seçici kararsız | — |
+| `n_g` | `4.145` | — | ✅ | ✅ **FSR `%0.85`** | ❌ solver kararsız | — |
 | `n_eff` | `2.3670` | — | ✅ kontrol grubu | ✅ **FSR `%0.85`** | ❌ salınıyor | ✅ |
-| `Q_e` (toplam) | **geniş belirsizlik** | ✅ | — | ❌ **iki yol `3.7x` ayrı** | ✅ mesh `%1.28` | — |
+| `Q_e` (toplam) | **geniş belirsizlik** | ✅ | ❌ | ❌ **geçerli 2. yol YOK** | ✅ mesh `%1.28` | — |
 | `Q_loaded` | `9 500 ± %7` | ✅ | — | ✅ iki port `%0.6` | ⚠️ `%6.56` | 〰️ |
 | `Q_i` | **ölçülemez** | ✅ | ⚠️ gürültü tabanı | ❌ `~1000x` uyumsuz | ❌ `%23` | — |
 | `T_add` | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%54` | — |
@@ -39,11 +39,17 @@ Yakınsamış **ve** çapraz doğrulanmış tek büyüklükler: **`lambda_0`, `n
   ile arada `~1000x` fark var; o sayı **sayısal kaybın ölçüsüydü**, fiziğin
   değil. Fiziksel `Q_i`, kayıp mekanizmaları modele konulursa anlam kazanır —
   yani kaynaklı girdi kategorisindedir, FDTD çıktısı değil.
-- **`Q_e`'nin iki yolu `3.7x` ayrı** (supermode `44 774` vs FDTD `12 180`).
-  Önceki `± %1.3` yalnız mesh yakınsamasıydı; yöntem belirsizliği çok daha
-  büyük.
-- `n_eff` için V4 salınıyor çünkü **mod seçici kararsız** (araç kusuru,
-  ücretsiz düzeltilebilir).
+- **`Q_e` için geçerli bir ikinci yol YOK.** Daha önce "supermode `44 774` vs
+  FDTD `12 180`, `3.7x` ayrı" denmişti; **bu geri çekildi**. `kappa`'nın gap
+  kontrolü (V2) düştü — gap `2x` değişirken `kappa` altı hanede sabit kaldı,
+  yani supermode hesabı doğru mod çiftini hiç seçmemişti. Ortada iki yöntemin
+  uyuşmazlığı değil, çalışmayan bir yöntem vardı.
+  Bkz. `docs/decisions/2026-09-13-crosscheck-repairs-prereg.md` §Geri Çekme.
+- `n_eff`/`n_g` için V4 salınıyor ve nedeni **bulunamadı**: mod seçici
+  düzeltildi (değişmedi), substrate kaldırıldı (değişmedi). Kusur yerel mode
+  solver kurgusunun genelinde. Sıradaki ve son sınanacak şüpheli: `num_pml`
+  hücre cinsinden verildiği için PML fiziksel kalınlığının çözünürlükle
+  küçülmesi.
 
 ## Basamak basamak gerekçe
 
