@@ -32,6 +32,19 @@ def _params() -> dict:
     return json.loads(INPUT.read_text(encoding="utf-8"))["geometry"]
 
 
+def _plans():
+    """(path, document) for every plan manifest in the linear study."""
+    out = []
+    for path in sorted((REPO_ROOT / "manifests" / "fdtd" / "mrr-linear-001").glob("*.plan.json")):
+        out.append((path, json.loads(path.read_text(encoding="utf-8"))))
+    return out
+
+
+def _plan_schema(entry) -> str:
+    _, doc = entry
+    return doc["inputs"]["geometry_document"]["schema"]
+
+
 def _geom(**over):
     from fdtd.mrr.geometry import RingResonatorGeometry
 
@@ -53,11 +66,17 @@ class SchemaV1IsUnchangedTest(unittest.TestCase):
     def test_zero_overhang_reproduces_the_locked_ladder_digest(self):
         self.assertEqual(_geom().digest(), LADDER_GEOMETRY_DIGEST)
 
-    def test_every_locked_plan_still_records_that_digest(self):
-        plans = sorted((REPO_ROOT / "manifests" / "fdtd" / "mrr-linear-001").glob("*.plan.json"))
-        self.assertGreaterEqual(len(plans), 8)
-        for plan in plans:
-            doc = json.loads(plan.read_text(encoding="utf-8"))
+    def test_every_schema_v1_plan_still_records_that_digest(self):
+        """Plans drawn without an overhang must all carry the locked digest.
+
+        Scoped by the schema the plan itself declares, not by "every plan on
+        disk": schema /2 plans (freq-rung-2 onwards) deliberately carry a
+        different geometry, and asserting otherwise would be asserting something
+        false. Their own invariant is checked in `SchemaV2PlansTest`.
+        """
+        v1 = [p for p in _plans() if _plan_schema(p) == "fdtd-mrr-geometry/1"]
+        self.assertGreaterEqual(len(v1), 8)
+        for plan, doc in v1:
             with self.subTest(plan=plan.name):
                 self.assertEqual(doc["provenance"]["geometry_hash"], LADDER_GEOMETRY_DIGEST)
 
@@ -104,6 +123,34 @@ class SchemaV2Test(unittest.TestCase):
         self.assertEqual(
             g.to_document()["derived"]["bus_structure_length_um"], g.bus_structure_length_um
         )
+
+
+class SchemaV2PlansTest(unittest.TestCase):
+    """Plans that declare schema /2 must agree on a single, different geometry."""
+
+    def test_v2_plans_exist_and_share_one_digest_that_is_not_the_locked_one(self):
+        v2 = [p for p in _plans() if _plan_schema(p) == "fdtd-mrr-geometry/2"]
+        self.assertGreaterEqual(len(v2), 1)
+        digests = {doc["provenance"]["geometry_hash"] for _, doc in v2}
+        self.assertEqual(len(digests), 1, f"schema /2 plans disagree on geometry: {digests}")
+        self.assertNotIn(LADDER_GEOMETRY_DIGEST, digests)
+
+    def test_v2_plan_digest_matches_this_class(self):
+        v2 = [p for p in _plans() if _plan_schema(p) == "fdtd-mrr-geometry/2"]
+        if not v2:
+            self.skipTest("no schema /2 plan on disk")
+        overhang = v2[0][1]["inputs"]["geometry_document"]["parameters"]["bus_overhang_um"]
+        self.assertEqual(
+            _geom(bus_overhang_um=overhang).digest(),
+            v2[0][1]["provenance"]["geometry_hash"],
+        )
+
+    def test_every_plan_declares_a_known_schema(self):
+        for entry in _plans():
+            with self.subTest(plan=entry[0].name):
+                self.assertIn(
+                    _plan_schema(entry), {"fdtd-mrr-geometry/1", "fdtd-mrr-geometry/2"}
+                )
 
 
 class ValidationTest(unittest.TestCase):

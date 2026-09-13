@@ -128,9 +128,19 @@ kurgusu ve BOX kalınlığı kapatılmadan WP4'e girdi olamaz. Bu, planın öng�
 
 | rung | gerçek FC |
 |---|---|
-| time-rung 1/2/3 + PML + mesh-rung-1 | ~18.6 (önceki kayıtlar) |
+| time-rung 1/2/3 + PML + mesh-rung-1 | ~~18.6~~ → **27.3** (bkz. düzeltme) |
 | mesh-rung-2 | 11.4329 |
 | freq-rung-1 | 11.5346 |
 
 `freq-rung-1` tahminin altında kapandı (11.53 < 14.68) çünkü aynı erken
 shutoff devreye girdi — tahmin tam `run_time` üzerinden hesaplanıyor.
+
+## DÜZELTME (2026-09-13, denetim sonrası)
+
+Yukarıdaki §7 harcama tablosundaki `~18.6 FC` satırı **yanlıştı**; cloud'dan
+doğrulanan gerçek değer `27.3 FC`. Rakam `realFlexUnit`'ten okunmak yerine
+önceki metin kayıtlarından tahmin edilmişti. Bu hata
+`docs/decisions/2026-09-13-freq-rung-3-plan.md`'ye de taşındı ve orada proje
+toplamının `~61 FC` sanılmasına yol açtı; gerçek `~78 FC`.
+
+Doğrulanmış defter: `reports/FLEXCREDIT-LEDGER.md`.

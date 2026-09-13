@@ -52,7 +52,12 @@ Beklenti gerekçesi: `freq-rung-2`'de tahmin `14.7500` → gerçek `10.7316`
 gerektirir.** Maliyet artışı fizikten geliyor: 3B'de hücre sayısı
 `(14/12)^3 = 1.59`, zaman adımı CFL nedeniyle `14/12 = 1.17`; çarpım `~1.85`.
 
-Proje toplamı bu koşuyla `~61 FC` olur (önceki rung'lar `~44.4`).
+**DÜZELTME (2026-09-13, denetim sonrası):** bu satırda başta "proje toplamı bu
+koşuyla `~61 FC` olur (önceki rung'lar `~44.4`)" yazıyordu. Yanlıştı. Cloud'dan
+doğrulanan gerçek harcama, bu koşu başlamadan önce zaten **`60.9646 FC`** idi;
+`freq-rung-3` ile toplam **`~78 FC`** olacak. Hata, harcamanın cloud yerine
+önceki metin kayıtlarından toplanmasından kaynaklandı. Tek doğru kaynak artık
+`reports/FLEXCREDIT-LEDGER.md`.
 
 ## Kabul ölçütleri — koşudan önce yazıldı
 

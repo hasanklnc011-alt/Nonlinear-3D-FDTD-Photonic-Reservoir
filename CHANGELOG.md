@@ -25,6 +25,17 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- DENETİM DÜZELTMELERİ: (a) FlexCredit rakamı yanlış raporlanmıştı — gerçek
+  harcama cloud'dan doğrulandı, `60.9646 FC` (iddia edilen `~44.4` değil) ve
+  `freq-rung-3` ile toplam `~78 FC` olacak (`~61` değil). Tek doğru kaynak artık
+  `reports/FLEXCREDIT-LEDGER.md`; iki karar kaydına düzeltme notu eklendi.
+  (b) `test_every_locked_plan_still_records_that_digest` aşırı genişti: diskteki
+  TÜM planların `/1` hash'ini taşımasını iddia ediyordu, oysa `freq-rung-2/3`
+  kasten schema `/2`. Test planın kendi beyan ettiği şemaya göre kapsamlandırıldı
+  ve `/2` planları için ayrı değişmezler eklendi. Depo `207/207` + `82/82` OK.
+- Astra'nın TCMT/FDTD araştırma planı incelendi (`0 FC`): **REVİZYONLA KABUL**,
+  altı revizyon (biri bloke edici: `const.md` çelişkisi Hasan'ın kararını
+  bekliyor). (`docs/coordination/2026-09-13-claude-review-of-tcmt-fdtd-plan.md`)
 - `freq-rung-3` planı hazır (14 step/λ mesh yakınsaması): `freq-rung-2` ile tek
   farkı grid; geometri, dört port, tarak ve `run_time` aynı, böylece `lambda_0`,
   `Q_L`, `Q_e` doğrudan karşılaştırılabiliyor. Hücre `1.51x`, zaman adımı `1.17x`.
