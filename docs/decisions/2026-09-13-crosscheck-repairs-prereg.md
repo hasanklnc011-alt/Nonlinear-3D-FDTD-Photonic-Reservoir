@@ -179,3 +179,84 @@ kalınlığı sabit tutulacak. Tahmin: yakınsama tek düze ve yayılım `%0.5` 
 solver yolu güvenilmez ilan edilip V3, `n_eff`/`n_g` dışında **kapanmamış**
 bırakılacaktır. FSR çaprazlaması geçerliliğini korur, çünkü tek çözünürlükteki
 `n_g`'yi FDTD'nin bağımsız ölçümüyle karşılaştırır ve `%0.85` tutmuştur.
+
+
+---
+
+## SON SINAMA — PML kalınlığı hipotezi de ÇÜRÜDÜ, durma kuralı devrede
+
+```
+A) num_pml=12 sabit (PML fiziksel kalinligi kuculuyor)
+  16 sl  npml=12  dy=27.3 nm  PML=0.328 um  ->  n_eff=2.370158
+  20 sl  npml=12  dy=21.9 nm  PML=0.263 um  ->  n_eff=2.366977
+  26 sl  npml=12  dy=16.9 nm  PML=0.203 um  ->  n_eff=2.298684
+  32 sl  npml=12  dy=13.8 nm  PML=0.165 um  ->  n_eff=2.363790
+  yayilim %3.0416  tek duze: False
+
+B) num_pml=12*spw/16 (PML fiziksel kalinligi SABIT ~0.33 um)
+  16 sl  npml=12  PML=0.328 um  ->  n_eff=2.370158
+  20 sl  npml=15  PML=0.329 um  ->  n_eff=2.366977
+  26 sl  npml=20  PML=0.338 um  ->  n_eff=2.298684
+  32 sl  npml=24  PML=0.330 um  ->  n_eff=2.363790
+  yayilim %3.0416  tek duze: False
+
+TAHMIN: B'de yayilim <%0.5 ve tek duze  ->  TUTMADI
+```
+
+İki kol **altı hanede birebir aynı**. `num_pml` `12 → 24`'e çıkarıldığında
+sonuç kılpayı bile değişmedi. Bu yalnız hipotezi çürütmekle kalmıyor, ayrıca
+`ModeSpec.num_pml`'in bu kurguda **etkisiz** olduğunu düşündürüyor.
+
+**Durma kuralı uygulandı.** Beşinci hipotez denenmeyecek.
+
+## Hüküm: yerel mode solver yolu güvenilmez
+
+Dört hipotez arka arkaya çürüdü — mod seçici, substrate hibritleşmesi,
+supermode kuplaj hesabı, PML kalınlığı. Ortak sonuç: bu kurgudaki yerel mode
+solver, yakınsama çalışması için **kullanılamaz**. `n_eff` çözünürlükle `%3`
+salınıyor ve nedeni bulunamadı.
+
+### Bu, FSR çaprazlamasını da zayıflatıyor
+
+`n_eff`/`n_g` için V3'ün geçtiğini (`%0.85`) raporlamıştım. O `n_g`, **tek bir
+çözünürlükte** (`20 step/λ`) hesaplanmıştı. `n_eff` çözünürlükle `%3`
+salındığına göre `n_g` de benzer biçimde salınır; `26 step/λ`'nın değeri
+kullanılsaydı öngörülen FSR `%3` kayardı ve `%0.85` uyum bozulurdu.
+
+Yani **tek V3 geçişimiz de koşulludur**: `20 step/λ` seçimine bağlı, ve o
+seçimin gerekçesi yok. Uyumun bir kısmı şans olabilir.
+
+## Geriye ne kaldı
+
+Yerel mode solver'dan bağımsız olarak ayakta duran tek büyüklük:
+
+- **`lambda_0 = 1.54090 ± 0.00008 µm`** — iki FDTD portundan, mode solver'a
+  hiç dokunmadan; ayrıca `12 → 14 step/λ` mesh yakınsamasını `%0.42` FSR ile
+  geçti.
+
+`Q_L` mesh belirsizliğiyle (`%7`) duruyor ama çapraz yolu yok.
+`Q_e`, `Q_i`, `n_eff`, `n_g` için güvenilir bir ikinci yol **yok**.
+
+## Sonuç — WP4 ve bütçeye etkisi
+
+Plan, geometri → `Q_e` eşlemesinin **ücretsiz yerel mode solver ile**
+kurulacağını varsayıyordu (`reports/FLEXCREDIT-LEDGER.md` tahsis planı:
+"`Q_i/Q_e/n_eff` ikinci yolları — `0 FC`"). **Bu varsayım artık geçersizdir.**
+
+Üç seçenek kalıyor:
+
+1. **Ücretli FDTD ile surrogate**: geometri taramasının her noktası 3B FDTD
+   ister. Kalan `115.7 FC` ile ancak birkaç nokta alınır; tarama kurulamaz.
+2. **Başka bir araç**: MEEP veya bağımsız bir mode solver (örn. `femwell`,
+   `EMpy`). Kurulum ve doğrulama maliyeti var ama FlexCredit harcamaz.
+   Ayrıca bağımsız bir araç, V3 için gerçek bir ikinci yol sağlar.
+3. **Tidy3D'nin uzak mode solver'ı**: yerel çözücünün uyardığı
+   "subpixel averaging ile daha iyi doğruluk" seçeneği. Ücretlidir ama 3B
+   FDTD'den çok ucuzdur; yerel çözücüdeki kusurun subpixel eksikliğinden
+   gelip gelmediğini de doğrudan test eder.
+
+**Önerim 3 → 2 sırası:** önce uzak mode solver'ı tek bir noktada dene
+(ucuz, ve yerel/uzak farkı kusurun kaynağını söyler); kusur orada yoksa
+tarama uzak solver ile yapılabilir. Çıkmazsa bağımsız açık kaynak araca geç.
+
+Bu, Hasan'ın kararını gerektirir çünkü tahsis planını değiştirir.

@@ -13,8 +13,8 @@ geometry `68867f8d...`, schema `/2`.
 | parametre | değer | V1 | V2 | V3 çapraz yol | V4 yakınsama | V5 |
 |---|---|---|---|---|---|---|
 | `lambda_0` | `1.54090 ± 0.00008` µm | ✅ | — | ✅ iki port + FSR | ✅ `%0.42` FSR | — |
-| `n_g` | `4.145` | — | ✅ | ✅ **FSR `%0.85`** | ❌ solver kararsız | — |
-| `n_eff` | `2.3670` | — | ✅ kontrol grubu | ✅ **FSR `%0.85`** | ❌ salınıyor | ✅ |
+| `n_g` | `4.145` (koşullu) | — | ❌ | ⚠️ FSR `%0.85` ama tek çözünürlüğe bağlı | ❌ `%3` salınım | — |
+| `n_eff` | `2.3670` (koşullu) | — | ✅ kontrol grubu | ⚠️ FSR `%0.85` ama tek çözünürlüğe bağlı | ❌ `%3` salınım | ✅ |
 | `Q_e` (toplam) | **geniş belirsizlik** | ✅ | ❌ | ❌ **geçerli 2. yol YOK** | ✅ mesh `%1.28` | — |
 | `Q_loaded` | `9 500 ± %7` | ✅ | — | ✅ iki port `%0.6` | ⚠️ `%6.56` | 〰️ |
 | `Q_i` | **ölçülemez** | ✅ | ⚠️ gürültü tabanı | ❌ `~1000x` uyumsuz | ❌ `%23` | — |
@@ -45,11 +45,19 @@ Yakınsamış **ve** çapraz doğrulanmış tek büyüklükler: **`lambda_0`, `n
   yani supermode hesabı doğru mod çiftini hiç seçmemişti. Ortada iki yöntemin
   uyuşmazlığı değil, çalışmayan bir yöntem vardı.
   Bkz. `docs/decisions/2026-09-13-crosscheck-repairs-prereg.md` §Geri Çekme.
-- `n_eff`/`n_g` için V4 salınıyor ve nedeni **bulunamadı**: mod seçici
-  düzeltildi (değişmedi), substrate kaldırıldı (değişmedi). Kusur yerel mode
-  solver kurgusunun genelinde. Sıradaki ve son sınanacak şüpheli: `num_pml`
-  hücre cinsinden verildiği için PML fiziksel kalınlığının çözünürlükle
-  küçülmesi.
+- `n_eff`/`n_g` için V4 salınıyor (`%3`) ve nedeni **bulunamadı**. Dört hipotez
+  çürüdü: mod seçici, substrate hibritleşmesi, supermode kuplaj hesabı, PML
+  fiziksel kalınlığı. Sonuncusunda A/B kolları altı hanede birebir aynı çıktı,
+  yani `num_pml` bu kurguda etkisiz görünüyor. **Durma kuralı uygulandı;
+  yerel mode solver yolu yakınsama çalışması için güvenilmez ilan edildi.**
+- **Bu, FSR çaprazlamasını da koşullu hâle getirir**: geçen `%0.85`, `n_g`'nin
+  `20 step/λ`'da hesaplanmasına bağlıdır. `n_eff` `%3` salındığına göre başka
+  bir çözünürlük seçilseydi uyum bozulurdu. Tek V3 geçişimizin bir kısmı şans
+  olabilir.
+- **Yerel mode solver'dan bağımsız ayakta duran tek büyüklük `lambda_0`'dır**
+  (iki FDTD portu + mesh yakınsaması `%0.42` FSR).
+- WP4'ün "ücretsiz surrogate" varsayımı geçersizleşti; seçenekler ve öneri
+  `docs/decisions/2026-09-13-crosscheck-repairs-prereg.md` sonunda.
 
 ## Basamak basamak gerekçe
 
