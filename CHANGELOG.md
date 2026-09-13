@@ -25,6 +25,22 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- **V3/V4 yerel çapraz kontroller (`0 FC`): 1 geçti, 3 sorun açtı.**
+  GEÇTİ — FSR çaprazlaması: mode solver `n_g = 4.145` ile öngörülen FSR
+  `19.091 nm`, ölçülen `18.93` → `%0.85`. `n_eff`/`n_g` için V3 kapandı.
+  SORUN — bend `Q_i`: `k_eff ~ 6e-08` ve yarıçap `1.7x` büyürken yalnız `%29`
+  değişiyor; üstel değil, yani **gürültü tabanı**. `Q_bend > 3e7` alt sınır.
+  Bunun sonucu ciddi: malzemeler kayıpsız + bend radyasyonu ihmal edilebilir
+  olduğuna göre bu modelde fiziksel intrinsic kayıp yok denecek kadar az, oysa
+  FDTD transmisyonundan `Q_i = 3.8e4-7.1e4` çıkarmıştık — `~1000x` fark.
+  **O sayı sayısal kaybın ölçüsüydü.** `freq-rung-3`'te kayıp kanallarının
+  yakınsamaması da bununla açıklanıyor. ADR'de `Q_i` "FDTD yetkili" listesinden
+  "kaynaklı girdi" listesine taşınmalı (Hasan onayı gerekir).
+  SORUN — `Q_e` çapraz yolu düştü: supermode `44 774` vs FDTD `12 180`, `3.7x`.
+  Önceki `± %1.3` yalnız mesh belirsizliğiydi.
+  SORUN — `n_eff` V4 salınıyor (`2.3702 / 2.3670 / 2.2987 / 2.3638`); fizik
+  değil, mod seçicinin kararsızlığı.
+  (`docs/decisions/2026-09-13-v3v4-local-crosschecks.md`)
 - **`freq-rung-3` tamamlandı — 4 ölçütten 3'ü geçti**, gerçek `18.1080 FC`
   (tahmin 22.8463; beklentim `~16.6` idi, `%9` yanıldım). Bakiye `115.7358`.
   GEÇTİ: rezonans kayması `-0.08 nm` = FSR'nin `%0.42`'si; `Q_e` `-1.28%`;

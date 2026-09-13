@@ -10,25 +10,40 @@ geometry `68867f8d...`, schema `/2`.
 
 ## Durum tablosu
 
-| parametre | değer | V1 korunum | V2 kontrol | V3 çapraz yol | V4 yakınsama | V5 dış çapa |
+| parametre | değer | V1 | V2 | V3 çapraz yol | V4 yakınsama | V5 |
 |---|---|---|---|---|---|---|
-| `lambda_0` | `1.54090 ± 0.00008` µm | ✅ | — | ✅ iki port, 46 pm | ✅ `%0.42` FSR | — |
-| `Q_e` (toplam) | `12 180 ± %1.3` | ✅ | — | ❌ **tek yol** | ✅ `%1.28` | — |
-| `Q_loaded` | `9 500 ± %7` | ✅ | — | ✅ iki port, `%0.6` | ⚠️ `%6.56` — **belirsizlikle kabul** | 〰️ |
-| `Q_i` | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%23` | ✅ |
-| `T_add` (geri saçılma) | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%54` | — |
-| `n_eff` | 2.4017 | — | ✅ kontrol grubu | ❌ | ❌ **yapılmadı** | ✅ |
+| `lambda_0` | `1.54090 ± 0.00008` µm | ✅ | — | ✅ iki port + FSR | ✅ `%0.42` FSR | — |
+| `n_g` | `4.145` | — | ✅ | ✅ **FSR `%0.85`** | ⚠️ seçici kararsız | — |
+| `n_eff` | `2.3670` | — | ✅ kontrol grubu | ✅ **FSR `%0.85`** | ❌ salınıyor | ✅ |
+| `Q_e` (toplam) | **geniş belirsizlik** | ✅ | — | ❌ **iki yol `3.7x` ayrı** | ✅ mesh `%1.28` | — |
+| `Q_loaded` | `9 500 ± %7` | ✅ | — | ✅ iki port `%0.6` | ⚠️ `%6.56` | 〰️ |
+| `Q_i` | **ölçülemez** | ✅ | ⚠️ gürültü tabanı | ❌ `~1000x` uyumsuz | ❌ `%23` | — |
+| `T_add` | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%54` | — |
 
-V4 kaynağı: `freq-rung-2` (12 step/λ) vs `freq-rung-3` (14 step/λ), tek değişken
-grid. Bkz. `docs/decisions/2026-09-13-freq-rung-3-evaluation.md`.
+V4 kaynağı: `freq-rung-2` (12 sl) vs `freq-rung-3` (14 sl), tek değişken grid.
+V3 kaynağı: yerel mode solver çapraz kontrolleri, `0 FC`.
+Bkz. `docs/decisions/2026-09-13-freq-rung-3-evaluation.md` ve
+`docs/decisions/2026-09-13-v3v4-local-crosschecks.md`.
 
 Gösterim: ✅ geçti · ❌ geçmedi/yapılmadı · ⏳ koşu devam ediyor · 〰️ kısmi · — uygulanmaz
 
-**Dürüst özet:** `lambda_0` ve `Q_e` yakınsadı ve kullanılabilir durumda —
-ikisinin de V3 durumu hâlâ eksik (`Q_e` tek yoldan geliyor). `Q_L` belirtilmiş
-belirsizlikle kabul edildi. `Q_i` ve `T_add` FDTD transmisyonundan **rapor
-edilmiyor**: yakınsamadılar ve `T_add`'de fiziksel/sayısal ayrımı yapılamadı.
-`Q_i` için ücretsiz bend mode solver yolu planlandı.
+**Dürüst özet (2026-09-13 çapraz kontrollerinden sonra):**
+
+Yakınsamış **ve** çapraz doğrulanmış tek büyüklükler: **`lambda_0`, `n_eff`,
+`n_g`**. Mode solver `n_g`'si ile FDTD'nin FSR'si `%0.85` içinde uyuşuyor.
+
+`Q` ailesi sanıldığından zayıf:
+
+- **`Q_i` bu modelde ölçülemez.** Malzemeler kayıpsız, bend radyasyonu gürültü
+  tabanının altında (`Q_bend > 3e7`). Transmisyondan çıkardığımız `3.8e4-7.1e4`
+  ile arada `~1000x` fark var; o sayı **sayısal kaybın ölçüsüydü**, fiziğin
+  değil. Fiziksel `Q_i`, kayıp mekanizmaları modele konulursa anlam kazanır —
+  yani kaynaklı girdi kategorisindedir, FDTD çıktısı değil.
+- **`Q_e`'nin iki yolu `3.7x` ayrı** (supermode `44 774` vs FDTD `12 180`).
+  Önceki `± %1.3` yalnız mesh yakınsamasıydı; yöntem belirsizliği çok daha
+  büyük.
+- `n_eff` için V4 salınıyor çünkü **mod seçici kararsız** (araç kusuru,
+  ücretsiz düzeltilebilir).
 
 ## Basamak basamak gerekçe
 
