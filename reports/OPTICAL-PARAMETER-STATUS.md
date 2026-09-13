@@ -4,24 +4,31 @@ Merdivenin tanımı: `AGENTS.md` §Kanıt kuralları → Doğrulama merdiveni.
 Bu dosya, her ölçülmüş optik parametrenin hangi basamakları geçtiğini tutar.
 **Hiçbir değer, bu tablodaki durumu yazılmadan TCMT'ye girdi olamaz.**
 
-Son güncelleme: 2026-09-13. Kaynak koşu: `freq-rung-2`
-(`fdve-0ecc2c8f-e120-4b3c-8793-c9c0dcbda224`, digest `2032012f...`,
-geometry `68867f8d...`, schema `/2`).
+Son güncelleme: 2026-09-13. Kaynak koşular: `freq-rung-2` (12 step/λ,
+`fdve-0ecc2c8f...`) ve `freq-rung-3` (14 step/λ, `fdve-1f8f0d66...`);
+geometry `68867f8d...`, schema `/2`.
 
 ## Durum tablosu
 
 | parametre | değer | V1 korunum | V2 kontrol | V3 çapraz yol | V4 yakınsama | V5 dış çapa |
 |---|---|---|---|---|---|---|
-| `lambda_0` | 1.540945 µm | ✅ | — | ✅ iki port, 46 pm | ⏳ `freq-rung-3` | — |
-| `Q_loaded` | 9 797 | ✅ | — | ✅ iki port, `%0.6` | ⏳ `freq-rung-3` | 〰️ |
-| `Q_e` (toplam) | 12 260 | ✅ | — | ❌ **tek yol** | ⏳ `freq-rung-3` | — |
-| `Q_i` | `4.9e4 – 7.1e4` | ✅ | — | ❌ **tek yol, model bağımlı** | ⏳ | ✅ |
+| `lambda_0` | `1.54090 ± 0.00008` µm | ✅ | — | ✅ iki port, 46 pm | ✅ `%0.42` FSR | — |
+| `Q_e` (toplam) | `12 180 ± %1.3` | ✅ | — | ❌ **tek yol** | ✅ `%1.28` | — |
+| `Q_loaded` | `9 500 ± %7` | ✅ | — | ✅ iki port, `%0.6` | ⚠️ `%6.56` — **belirsizlikle kabul** | 〰️ |
+| `Q_i` | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%23` | ✅ |
+| `T_add` (geri saçılma) | **rapor edilmiyor** | ✅ | — | ❌ | ❌ `%54` | — |
 | `n_eff` | 2.4017 | — | ✅ kontrol grubu | ❌ | ❌ **yapılmadı** | ✅ |
+
+V4 kaynağı: `freq-rung-2` (12 step/λ) vs `freq-rung-3` (14 step/λ), tek değişken
+grid. Bkz. `docs/decisions/2026-09-13-freq-rung-3-evaluation.md`.
 
 Gösterim: ✅ geçti · ❌ geçmedi/yapılmadı · ⏳ koşu devam ediyor · 〰️ kısmi · — uygulanmaz
 
-**Dürüst özet: şu anda hiçbir parametre merdivenin tamamını geçmiş değildir.**
-Hiçbiri TCMT'ye nihai girdi olarak kabul edilemez.
+**Dürüst özet:** `lambda_0` ve `Q_e` yakınsadı ve kullanılabilir durumda —
+ikisinin de V3 durumu hâlâ eksik (`Q_e` tek yoldan geliyor). `Q_L` belirtilmiş
+belirsizlikle kabul edildi. `Q_i` ve `T_add` FDTD transmisyonundan **rapor
+edilmiyor**: yakınsamadılar ve `T_add`'de fiziksel/sayısal ayrımı yapılamadı.
+`Q_i` için ücretsiz bend mode solver yolu planlandı.
 
 ## Basamak basamak gerekçe
 
@@ -48,8 +55,10 @@ Aynı koşu `n_eff = 2.40167` verdi — 450 x 220 nm SOI strip için beklenen de
 
 - `Q_loaded`: drop portu `9 736`, through portu `9 557` → `%2` içinde.
   Bunlar aynı koşunun iki farklı monitörü, yani bağımsız ölçüm yolları.
-- `lambda_0`: iki port `46 pm` içinde (bu fark backscattering mod
-  yarılmasıyla açıklanıyor, artefakt değil).
+- `lambda_0`: iki port `46 pm` içinde. Bu farkı önce "backscattering mod
+  yarılması, artefakt değil" diye yorumlamıştım; `freq-rung-3`'te `T_add`'in
+  `%54` değiştiği görülünce bu yorum **geri çekildi** — fark fiziksel
+  yarılma ve/veya eğri sınır ayrıklaştırması kaynaklı olabilir, ayırt edilmedi.
 
 **Geçmeyenler ve ikinci yolları (hepsi `0 FC`, yerel):**
 
@@ -63,11 +72,24 @@ Aynı koşu `n_eff = 2.40167` verdi — 450 x 220 nm SOI strip için beklenen de
 zamanda WP4 surrogate'inin makinesidir, yani doğrulama için yazılan kod zaten
 gerekiyordu.
 
-### V4 — yakınsama: `freq-rung-3` test ediyor
+### V4 — yakınsama: yapıldı, kısmi geçti
 
-`14 step/λ` koşusu şu an çalışıyor. `freq-rung-2` ile tek farkı grid olduğu için
-`lambda_0`, `Q_L`, `Q_e` doğrudan karşılaştırılabiliyor. Eşik: değişim `%5`'ten
-küçük.
+`freq-rung-2` (12 step/λ) vs `freq-rung-3` (14 step/λ), tek değişken grid:
+
+| | değişim | eşik `%5` |
+|---|---|---|
+| `lambda_0` | `-0.01%` (FSR'nin `%0.42`'si) | geçti |
+| `Q_e` | `-1.28%` | geçti |
+| `Q_L` | `-6.56%` | **geçmedi** |
+| `T_add` | `+53.79%` | **geçmedi** |
+| `Q_i` (model A) | `-22.95%` | **geçmedi** |
+
+Rezonans **konumu** yakınsadı; yakınsamayan şey **kayıp kanalları**.
+`subpixel` averaging açık olduğuna göre kalan açıklama eğri halka sınırının
+Yee ızgarasına oturtulmasıdır — geri saçılma buna çok duyarlıdır.
+
+`16 step/λ` (`~42 FC`) **önerilmedi**; V4 kaçış valfi uygulandı ve değerler
+belirsizlikle kabul edildi.
 
 `n_eff` için ızgara yakınsaması **hiç yapılmadı** — mode solver `20 step/λ` ile
 tek seviyede çözüldü. Bu ücretsiz olarak kapatılabilir.
@@ -79,8 +101,10 @@ sayılmalıdır**: o veri üç observability kusurunun üçünü de içeriyordu.
 
 Silicon MRR reservoir computing literatüründe karşılaştırılabilir SOI
 mikrohalkalar için `Q ≈ 6.5e4` raporlanıyor (Lugnan/Bazzanella hattı; bkz.
-`reports/FDTD-001-mrr-feasibility.md` kaynakları). Bizim `Q_i` aralığımız
-`4.9e4 – 7.1e4` bu değeri **içeriyor**.
+`reports/FDTD-001-mrr-feasibility.md` kaynakları). `freq-rung-2`'nin `Q_i`
+aralığı (`4.9e4 – 7.1e4`) bu değeri içeriyordu; ancak `freq-rung-3`'te `Q_i`
+`%23` değiştiği için o aralık artık **rapor edilmiyor**. V5 sağlaması, bend
+mode solver yolundan gelecek `Q_i` için tekrar uygulanacaktır.
 
 `n_eff = 2.4017`, 450 x 220 nm SOI strip için bilinen tipik değerle uyumlu.
 
@@ -94,10 +118,12 @@ Tabloda görünmeyen ama sonucu belirleyen iki varsayım:
 1. **Simetrik kuplaj** (`tau_1 = tau_2`). `Q_e = Q_L / sqrt(T_drop)` bunu
    varsayar. Geometri simetrik olduğu için (iki gap da `0.2 µm`) gerekçelidir,
    ama sınanmamıştır.
-2. **Tek modlu TCMT**. Girişin `%9.7`'si add portundan çıkıyor
-   (`T_add = 0.09691`) — bu, CW/CCW geri saçılmasıdır ve tek modlu modelde
-   kanal yoktur. `Q_i`'nin aralık olmasının tek sebebi budur. Plan
-   incelemesindeki R1 bu varsayımı kaldırmayı öneriyor.
+2. **Tek modlu TCMT**. Add portunda ölçülebilir güç var (`12 sl`'de `0.097`,
+   `14 sl`'de `0.149`) ve tek modlu modelde bu kanal yoktur. `Q_i`'nin
+   belirsiz kalmasının sebebi budur. Kanalın **fiziksel büyüklüğü bilinmiyor**:
+   iki mesh arasında `%54` değiştiği için sayısal katkı ayrıştırılamadı. Plan
+   incelemesindeki R1 (iki modlu CW/CCW port sözleşmesi) hâlâ gerekli, ama
+   gerekçesi "ölçülmüş geri saçılma" değil "modelde eksik kanal".
 
 ## Sıradaki ücretsiz adımlar
 

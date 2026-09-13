@@ -25,6 +25,21 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- **`freq-rung-3` tamamlandı — 4 ölçütten 3'ü geçti**, gerçek `18.1080 FC`
+  (tahmin 22.8463; beklentim `~16.6` idi, `%9` yanıldım). Bakiye `115.7358`.
+  GEÇTİ: rezonans kayması `-0.08 nm` = FSR'nin `%0.42`'si; `Q_e` `-1.28%`;
+  enerji dengesi `2.4e-04`. GEÇMEDİ: `Q_L` `-6.56%` (eşik `%5`).
+  Teşhis: rezonans **konumu** yakınsadı, yakınsamayan şey **kayıp kanalları** —
+  `T_add` `+53.8%`, `T_through` `+43.4%`. `subpixel` averaging zaten açık;
+  kalan açıklama eğri halka sınırının ayrıklaştırılması.
+  **DÜZELTME:** `freq-rung-2` değerlendirmesinde `T_add = 0.097`'yi "geri
+  saçılmanın doğrudan ölçümü, gerçek cihaz özelliği" diye sunmuştum — fazla
+  iddiaydı; yakınsamamış, fiziksel/sayısal ayrımı yapılmamış.
+  **`16 step/λ` ÖNERİLMİYOR** (`~42 FC` = kalanın `%36`'sı): V4 kaçış valfi
+  uygulandı. Kabul: `lambda_0 = 1.54090 ± 0.00008 um`, `Q_e = 12 180 ± %1.3`,
+  `Q_L = 9 500 ± %7` (belirsizlikle), `Q_i` ve `T_add` **rapor edilmiyor** —
+  `Q_i` ücretsiz bend mode solver yoluna bırakıldı. Lineer kapı koşullu kapandı;
+  `12 step/λ` üretim mesh'i. (`docs/decisions/2026-09-13-freq-rung-3-evaluation.md`)
 - **V1–V5 doğrulama merdiveni sözleşmeye yazıldı** (`AGENTS.md` §Kanıt kuralları,
   `const.md` §Süreç sözleşmesi). ADR FDTD'yi yetkili ilan etmişti ama "bir FDTD
   değeri ne zaman kabul edilmiş sayılır" tanımlı değildi — o boşluk kapandı.

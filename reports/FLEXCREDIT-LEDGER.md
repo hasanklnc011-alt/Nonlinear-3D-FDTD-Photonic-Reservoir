@@ -8,15 +8,14 @@ Tidy3D cloud'dan `realFlexUnit` ile doğrudan okundu (`web.get_tasks` +
 Cloud'dan `Account.get()` ile okundu.
 
 ```
-bakiye                      133.8438 FC   son kullanma 2027-04-29
-aylik ek hak                  0.00        (cycle sonu 2026-09-30)
-gunluk ucretsiz simulasyon    0
-- freq-rung-3 (calisiyor)   ~16.6  beklenen
-= kalan (beklenen)          ~117
+bakiye (2026-09-13, rung-3 sonrasi)  115.7358 FC   son kullanma 2027-04-29
+aylik ek hak                           0.00        (cycle sonu 2026-09-30)
+gunluk ucretsiz simulasyon             0
+toplam harcanan                       79.0726
 ```
 
-Harcanan `60.9646` + bakiye `133.8438` → başlangıç bütçesi **`~195 FC`**;
-bugüne kadar **`%31`** kullanılmış.
+Harcanan `79.0726` + bakiye `115.7358` → başlangıç bütçesi **`~195 FC`**;
+bugüne kadar **`%41`** kullanılmış.
 
 ### Tahsis planı
 
@@ -55,14 +54,13 @@ bugüne kadar **`%31`** kullanılmış.
 | `mrr-linear-001-mesh12-time-est-150ps` | 11.4329 | mesh-rung-2, zaman kapısı geçti |
 | `mrr-linear-001-freq-rung-1-estimate-only` | 11.5346 | yoğun frekans tarağı, `Q_L` çözüldü |
 | `mrr-linear-001-freq-rung-2-estimate-only` | 10.7316 | facet'siz + dört port, `Q_e` ölçüldü |
-| **TOPLAM** | **60.9646** | |
+| `mrr-linear-001-freq-rung-3-estimate-only` | 18.1080 | 14 step/λ mesh yakınsaması (3/4 ölçüt geçti) |
+| **TOPLAM** | **79.0726** | |
 
 ## Devam eden
 
-| `mrr-linear-001-freq-rung-3-estimate-only` | tahmin 22.8463, tavan 23, beklenen gerçek `~16.6` |
-|---|---|
-
-Tamamlanınca beklenen proje toplamı: **`~78 FC`**.
+Yok. `freq-rung-3` yakınsama amaçlı **son** ücretli koşuydu; bundan sonraki FDTD
+harcaması yalnız WP4 surrogate doğrulaması ve WP6 nihai kilit içindir.
 
 ## Düzeltme — daha önce yanlış rapor edilmişti
 
