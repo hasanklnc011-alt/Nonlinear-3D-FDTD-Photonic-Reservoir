@@ -3,6 +3,47 @@
 Tidy3D cloud'dan `realFlexUnit` ile doğrudan okundu (`web.get_tasks` +
 `web.get_info`), kayıtlardan toplanmadı. Son güncelleme: 2026-09-13.
 
+## Bakiye ve tahsis (2026-09-13)
+
+Cloud'dan `Account.get()` ile okundu.
+
+```
+bakiye                      133.8438 FC   son kullanma 2027-04-29
+aylik ek hak                  0.00        (cycle sonu 2026-09-30)
+gunluk ucretsiz simulasyon    0
+- freq-rung-3 (calisiyor)   ~16.6  beklenen
+= kalan (beklenen)          ~117
+```
+
+Harcanan `60.9646` + bakiye `133.8438` → başlangıç bütçesi **`~195 FC`**;
+bugüne kadar **`%31`** kullanılmış.
+
+### Tahsis planı
+
+```
+  Q_i / Q_e / n_eff ikinci yollari    0   yerel mode solver (V3)
+  WP4 surrogate dogrulama            35   2-3 nokta 3B FDTD
+  WP6 nihai kilit                    20   REZERVE, dokunmak ayri karar
+  ---------------------------------------
+  planlanan                          55
+  pay                               ~62   belirsizlik icin
+```
+
+### Sözleşmeye bağlanan kurallar
+
+`AGENTS.md` §Bütçe ve bakiye:
+
+- Her ücretli solve öncesi bakiye ve tahsis **kontrol edilip rapora yazılır**.
+  Bakiyeyi bilmeden tavan önerilmez.
+- Tek koşu `25 FC`'yi aşamaz.
+- WP6 rezervi `20 FC`, dokunmak ayrı karar gerektirir.
+- Kalan bakiye `60 FC` altına inerse yeni koşu için ayrı karar gerekir.
+- Doğrulama amaçlı harcama proje toplamının `%25`'ini aşarsa ayrı karar.
+
+**Bu kural neden var:** 2026-09-13'te `freq-rung-3` için `23 FC` tavanı
+önerilirken bakiye hiç kontrol edilmemişti. Tavan, bilinmeyen bir bakiyenin
+üstüne önerildi. Kural bu hatayı tekrarlanamaz kılmak için yazıldı.
+
 ## Tamamlanmış koşular
 
 | task adı | gerçek FC | ne için |

@@ -34,7 +34,11 @@ Bu dosya, proje boyunca değişmez kabul edilen gerçekleri ve sözleşmeleri i�
 
 ## Süreç sözleşmesi
 
-- Ücretli solve öncesi maliyet ve fizibilite raporu zorunludur.
+- Ücretli solve öncesi maliyet ve fizibilite raporu zorunludur; FlexCredit
+  bakiyesi ve tahsis durumu da aynı raporda kontrol edilir.
+- Optik parametreler `AGENTS.md`'deki V1–V5 doğrulama merdiveninden geçmeden
+  TCMT'ye girdi olamaz. Yakınsatılamayan büyüklük reddedilmez, belirtilmiş
+  belirsizlikle raporlanır.
 - API anahtarları, ham HDF5 ve büyük artifact'ler Git'e eklenmez.
 - Yarıda kalan işler `BACKLOG.md` içine, kapanış izleri `BACKLOGLOG.md` içine yazılır.
 - `AGENTS.md` ve `CLAUDE.md` her değişiklikte birlikte güncellenir.

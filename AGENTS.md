@@ -37,6 +37,51 @@ Bu depo, geometriyle sınırlandırılmış bir silicon MRR photonic reservoir g
 - TCMT modelinin her optik parametresi, kendisini üreten FDTD/eigenmode koşusunun task id'si ve digest'i ile birlikte kaydedilir. Kaynağı gösterilemeyen optik parametre kabul edilmez.
 - Her FDTD rung'u, sonucu kabul edilmeden önce enerji dengesi kapısından geçer: rezonans dışında tüm portların toplamı `1.0`'a `1e-3` içinde olmalıdır.
 - Sonlu olmayan veri, yakınsamayan çözüm veya doğrulanmamış malzeme parametresi kabul edilmez.
+
+### Doğrulama merdiveni (V1–V5)
+
+Bir optik parametrenin "doğru" olduğu kanıtlanamaz — üretilmiş cihaz yok,
+dolayısıyla dış gerçeklik referansı yok. Kanıtlanabilecek tek şey **yanlış
+olduğudur**. Bu nedenle merdiven fail-closed'dır: bir değer, geçtiği basamaklar
+açıkça yazılmadan TCMT'ye girdi olamaz, ve hiçbir zaman "kesin" sayılmaz.
+
+| | basamak | zorunlu | maliyet |
+|---|---|---|---|
+| V1 | **Korunum.** Rezonans dışında tüm portların toplamı `1.0`'a `1e-3` içinde. Ayrıklaştırmadan bağımsızdır. | evet, her koşuda | 0 FC |
+| V2 | **Kontrol grubu / analitik limit.** Cevabı bilinen bir kurgu doğru çıkmalı (ör. substrate kaldırılınca sızıntı gürültü tabanında). | evet, gözlenebilir sınıfı başına bir kez | 0 FC |
+| V3 | **Çapraz yol.** Aynı büyüklük en az iki bağımsız yoldan ölçülmeli ve `%5` içinde uyuşmalı. Uyum kanıt değildir; **uyumsuzluk kesin alarmdır**. | evet | 0 FC |
+| V4 | **Yakınsama.** Son rafinman adımında değişim `%5`'ten küçük olmalı. | evet, aşağıdaki kapsamda | ücretli |
+| V5 | **Dış çapa.** Yakın geometrideki yayınlanmış ölçümle aynı mertebe. | hayır, raporlanır | 0 FC |
+
+**V4'ün kapsamı — çalışma düzeyinde, değer başına değil.** Yakınsama her veri
+noktasının değil, sayısal kurgunun özelliğidir. Geometri ailesi + gözlenebilir
+sınıfı başına **bir** yakınsama merdiveni kurulur; taramadaki tüm noktalar aynı
+ayrıklaştırmayı miras alır. Yalnız tarama aralığının **iki ucunda** nokta
+kontrolü yapılır. Naif uygulama (her nokta için ayrı merdiven) yasaktır.
+
+**V4 kaçış valfi.** Yakınsatılamayan bir büyüklük **reddedilmez**; belirtilmiş
+belirsizlikle raporlanır ve TCMT'ye o belirsizlikle girer. Belirsizliği ölçüp
+yazmak meşrudur, gizlemek değildir. Bu, merdivenin bütçe çıkmazına dönüşmesini
+yapısal olarak engeller.
+
+**V3'ün ikinci yolları yereldir ve bedavadır:** `Q_e` için iki kuplajlı
+waveguide'ın even/odd supermode yarılması; `Q_i` için `ModeSpec(bend_radius=...)`
+ile bend radyasyon kaybı; `n_eff` için `group_index_step` ile `n_g` ve ölçülen
+FSR çaprazlaması. Bunlar aynı zamanda WP4 surrogate'inin makinesidir.
+
+### Bütçe ve bakiye
+
+- **Her ücretli solve öncesi FlexCredit bakiyesi ve tahsis durumu kontrol
+  edilir ve rapora yazılır.** Bakiyeyi bilmeden tavan önerilmez.
+- Tek bir koşu **25 FC**'yi aşamaz; aşıyorsa ayrı karar kaydı gerekir.
+- **WP6 nihai kilit koşusu için 20 FC rezerve edilir ve ona dokunmak ayrı karar
+  gerektirir.**
+- Kalan bakiye **60 FC**'nin altına inerse, yeni ücretli koşu için ayrı karar
+  gerekir.
+- Doğrulama amaçlı FDTD harcaması proje toplamının `%25`'ini aşarsa devam için
+  ayrı karar gerekir.
+- Güncel bakiye, harcama ve tahsis: `reports/FLEXCREDIT-LEDGER.md` (tek doğru
+  kaynak; metin kayıtlarından toplanmaz, cloud'dan okunur).
 - Ücretli solve öncesi maliyet raporu ve açık görev kaydı gerekir.
 
 ## Değişiklik protokolü

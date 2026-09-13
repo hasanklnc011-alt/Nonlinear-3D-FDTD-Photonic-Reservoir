@@ -25,6 +25,22 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- **V1–V5 doğrulama merdiveni sözleşmeye yazıldı** (`AGENTS.md` §Kanıt kuralları,
+  `const.md` §Süreç sözleşmesi). ADR FDTD'yi yetkili ilan etmişti ama "bir FDTD
+  değeri ne zaman kabul edilmiş sayılır" tanımlı değildi — o boşluk kapandı.
+  Fail-closed: değer, geçtiği basamaklar yazılmadan TCMT'ye giremez. V1 korunum,
+  V2 kontrol grubu, V3 çapraz yol, V4 yakınsama, V5 dış çapa. Dördü `0 FC`;
+  V4 **çalışma düzeyinde** tanımlandı (geometri ailesi başına bir merdiven +
+  tarama uçlarında iki nokta kontrolü), naif nokta-başına uygulama yasaklandı.
+  Kaçış valfi: yakınsatılamayan büyüklük reddedilmez, belirsizlikle raporlanır.
+- **Bütçe ve bakiye kuralları eklendi.** Bakiye ilk kez okundu: `133.8438 FC`
+  (son kullanma 2027-04-29); başlangıç bütçesi `~195 FC`, `%31` kullanılmış.
+  Her ücretli solve öncesi bakiye kontrolü zorunlu; tek koşu `25 FC` üstü ayrı
+  karar; WP6 için `20 FC` rezerve. Kural, `freq-rung-3`'e `23 FC` tavanı
+  önerilirken bakiyenin hiç kontrol edilmemiş olması üzerine yazıldı.
+- `reports/OPTICAL-PARAMETER-STATUS.md` eklendi: her optik parametrenin V1–V5
+  durumu. Dürüst özet — **şu anda hiçbir parametre merdivenin tamamını geçmiş
+  değil**; `Q_e` ve `Q_i` çapraz yolu yok, `n_eff` hiç yakınsatılmadı.
 - **ADR: TCMT birincil çözücü, FDTD optik parametrelerin yetkili kaynağı.**
   Hasan'ın açık onayıyla `const.md` §Bilimsel sözleşme değiştirildi: "uçtan uca
   3D FDTD zorunlu" ve "TCMT yardımcı kanıt" hükümleri kaldırıldı. Gerekçe: CFL
