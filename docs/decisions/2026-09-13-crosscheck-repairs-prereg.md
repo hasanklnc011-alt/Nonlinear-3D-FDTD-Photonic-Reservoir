@@ -66,6 +66,26 @@ A, B, C ve kontrol uygulandıktan sonra fark sürerse, `Q_e` iki yolu da
 kapsayan bir **aralıkla** raporlanacaktır. Belirsizliği yazmak meşru,
 yok etmek için uydurmak değildir.
 
+## EK ÖN KAYIT — Onarım 4 (Onarım 1 çürüdükten sonra yazıldı)
+
+Onarım 1'in tahmini **tutmadı**: düzeltilmiş seçici (polarizasyon + süreklilik)
+her dört çözünürlükte de aynı modu buluyor (`mode#7`, `TE %97-98`, çekirdek
+`%58-62`) ama `n_eff` yine `26 step/λ`'da `2.2987`'ye sıçrıyor. Yani kusur
+seçicide değil, çözümün kendisinde.
+
+**Yeni hipotez:** kesit düzlemindeki `2 µm` Si substrate, `n_eff` ekseninde
+sıkışık bir mod ailesi taşıyor; bu modların konumu ayrıklaştırmayla kayıyor ve
+biri waveguide moduna yaklaştığında **hibritleşme (anti-crossing)** oluyor.
+Destekleyen gözlem: doğru mod BOX taramasında `mode#5`, burada `mode#7` —
+substrate modları indeks sırasını sürekli değiştiriyor.
+
+**Tahmin (Onarım 4):** substrate tamamen kaldırılıp aynı tarama
+(`16/20/26/32 step/λ`) tekrarlandığında `n_eff` **tek düze** ve toplam yayılım
+**`%0.5`'ten küçük** olacak; `26 step/λ` sıçraması kaybolacak.
+
+Çıkmazsa bu hipotez de düşer ve sorun mode solver kurgusunun daha temel bir
+yerindedir.
+
 ---
 
 ## Sonuçlar
