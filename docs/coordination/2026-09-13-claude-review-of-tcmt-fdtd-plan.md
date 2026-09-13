@@ -2,7 +2,7 @@
 
 - İnceleyen: Claude Opus 5
 - İncelenen: `docs/coordination/2026-09-13-astra-tcmt-fdtd-research-plan-review.md`
-- Hüküm: **REVİZYONLA KABUL** — bir tanesi bloke edici altı revizyon şartıyla
+- Hüküm: **REVİZYONLA KABUL** — altı revizyon şartıyla; bloke edici olan R4 aynı gün çözüldü
 - Maliyet: 0 FlexCredit (inceleme tamamen yerel)
 
 Taslak altı maddelik bir inceleme istiyordu. Aşağıda sırayla cevaplanıyor.
@@ -180,7 +180,7 @@ Altı revizyon:
 | R1 | İki modlu (CW/CCW) geri saçılmalı TCMT port sözleşmesi | `T_add = 0.097` ölçümü |
 | R2 | C3 dayanıklılık metriğini önceden sabitle | post-hoc seçim riski |
 | R3 | WP başına FlexCredit bütçesi; WP1/2/3/5 = `0 FC` | harcama şeffaflığı |
-| R4 | **`const.md` çelişkisini ADR ile çöz — BLOKE EDİCİ** | aşağıda |
+| R4 | ~~`const.md` çelişkisi — BLOKE EDİCİ~~ **ÇÖZÜLDÜ 2026-09-13** | aşağıda |
 | R5 | Gecikmeli tap sayısını önceden sabitle + readout-only baseline | benchmark sızıntısı |
 | R6 | Her FDTD rung'una enerji dengesi kapısı (`1e-3`) | bu oturumun üç kusuru |
 
@@ -229,3 +229,24 @@ Taslak kabul edilebilir ve iyi düşünülmüş. R1–R3, R5, R6 taslağın içi
 çözülebilir. **R4 Hasan'ın kararını bekliyor ve çözülmeden WP1 başlatılmamalıdır**,
 çünkü WP1'in ürettiği model sözleşmesi doğrudan `const.md`'nin yasakladığı
 mimariyi kuruyor.
+
+---
+
+## GÜNCELLEME (2026-09-13) — R4 çözüldü, blokaj kalktı
+
+Hasan `const.md` değişikliğini açıkça onayladı. Yeni sözleşme:
+
+- optik parametrelerin **tek yetkili kaynağı** full-wave çözümdür (FDTD/eigenmode);
+- zaman-serisi görev çözücüsü **TCMT/rate-equation** modelidir;
+- iddia kapsamı "FDTD-kalibre edilmiş TCMT reservoir" olarak daraltıldı.
+
+Bu, rollerin basit takası değildir: FDTD "yardımcı kanıt"a indirgenmedi, aksine
+TCMT'nin girdilerini kilitleyen merci hâline getirildi — TCMT artık hiçbir optik
+parametreyi kendi seçemez.
+
+ADR: `docs/decisions/2026-09-13-adr-tcmt-primary-fdtd-calibrator.md`.
+`AGENTS.md` §Amaç, §Aşamalar ve §Kanıt kuralları birlikte güncellendi; R6 (enerji
+dengesi kapısı) doğrudan `AGENTS.md` kanıt kuralına yazıldı, yani taslağa
+bırakılmadı.
+
+**WP1 artık başlatılabilir.** Açık kalan revizyonlar: R1, R2, R3, R5.

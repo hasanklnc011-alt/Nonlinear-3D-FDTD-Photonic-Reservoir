@@ -25,6 +25,18 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- **ADR: TCMT birincil çözücü, FDTD optik parametrelerin yetkili kaynağı.**
+  Hasan'ın açık onayıyla `const.md` §Bilimsel sözleşme değiştirildi: "uçtan uca
+  3D FDTD zorunlu" ve "TCMT yardımcı kanıt" hükümleri kaldırıldı. Gerekçe: CFL
+  duvarı ve FCD/FCA'nın Tidy3D'de native olmaması o hükmü ulaşılamaz kılıyordu.
+  Yeni sözleşme rolleri takas etmiyor — FDTD, TCMT'nin girdilerini kilitleyen
+  merci oluyor: `Q_i`, `Q_e`, coupling, `n_eff`, mode overlap yalnız full-wave'den
+  gelebilir, fit edilemez. İddia kapsamı "FDTD-kalibre edilmiş TCMT reservoir"
+  olarak daraltıldı. Benchmark, kör-seed protokolü ve `NMSE < 0.05` değişmedi.
+  `AGENTS.md` §Amaç/§Aşamalar/§Kanıt kuralları birlikte güncellendi; plan
+  incelemesinin R6'sı (enerji dengesi kapısı, `1e-3`) doğrudan kanıt kuralına
+  yazıldı. Plan incelemesindeki bloke edici R4 böylece çözüldü, WP1 açılabilir.
+  (`docs/decisions/2026-09-13-adr-tcmt-primary-fdtd-calibrator.md`)
 - DENETİM DÜZELTMELERİ: (a) FlexCredit rakamı yanlış raporlanmıştı — gerçek
   harcama cloud'dan doğrulandı, `60.9646 FC` (iddia edilen `~44.4` değil) ve
   `freq-rung-3` ile toplam `~78 FC` olacak (`~61` değil). Tek doğru kaynak artık

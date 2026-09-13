@@ -2,7 +2,7 @@
 
 ## Amaç
 
-Bu depo, Tidy3D ile gerçek malzeme modelleri ve nonlinear elektromanyetik çözüm kullanarak uçtan uca 3D FDTD photonic reservoir geliştirmek içindir. Nihai benchmark NARMA-10'dur; kabul hedefi önceden kilitlenmiş 10 kör seed üzerinde medyan test NMSE < 0.05'tir.
+Bu depo, geometriyle sınırlandırılmış bir silicon MRR photonic reservoir geliştirmek içindir. Optik parametreler (`Q_i`, `Q_e`, coupling, `n_eff`, mode overlap) Tidy3D ile 3B FDTD/eigenmode ölçülür ve kaynak-hash'lenir; zaman-serisi görevi bu ölçümlerle sınırlandırılmış TCMT/rate-equation modeliyle çözülür. Nihai benchmark NARMA-10'dur; kabul hedefi önceden kilitlenmiş 10 kör seed üzerinde medyan test NMSE < 0.05'tir. Rol dağılımının gerekçesi: `docs/decisions/2026-09-13-adr-tcmt-primary-fdtd-calibrator.md`.
 
 ## Kanonik konum ve Git
 
@@ -25,15 +25,17 @@ Bu depo, Tidy3D ile gerçek malzeme modelleri ve nonlinear elektromanyetik çöz
 1. Yapı ve proje sözleşmesi
 2. NARMA-10 veri/baseline kilidi
 3. FDTD fizibilite ve maliyet raporu
-4. Doğrusal rezonans, mesh ve zaman yakınsaması
-5. Kerr/nonlinear doğrulama ve fiziksel çıkış özellikleri
-6. Geliştirme seed'leriyle mimari arama
+4. Doğrusal rezonans, mesh ve zaman yakınsaması; optik parametre ölçümü
+   (`Q_i`, `Q_e`, coupling, `n_eff`)
+5. FDTD-kalibre TCMT/rate-equation modeli ve mekanizma ablation'ları
+6. Geliştirme seed'leriyle mimari arama; belirsizlik ve tolerans analizi
 7. Aday kilidi ve 10 seed kör değerlendirme
 
 ## Kanıt kuralları
 
 - Tidy3D task kimliği, sürüm, geometri/malzeme hash'i, mesh, run time ve tahmini/gerçek FlexCredit maliyeti kaydedilir.
-- Reduced-order/TCMT sonuçları yardımcı kanıttır; uçtan uca 3D FDTD sonucunun yerine geçmez.
+- TCMT modelinin her optik parametresi, kendisini üreten FDTD/eigenmode koşusunun task id'si ve digest'i ile birlikte kaydedilir. Kaynağı gösterilemeyen optik parametre kabul edilmez.
+- Her FDTD rung'u, sonucu kabul edilmeden önce enerji dengesi kapısından geçer: rezonans dışında tüm portların toplamı `1.0`'a `1e-3` içinde olmalıdır.
 - Sonlu olmayan veri, yakınsamayan çözüm veya doğrulanmamış malzeme parametresi kabul edilmez.
 - Ücretli solve öncesi maliyet raporu ve açık görev kaydı gerekir.
 

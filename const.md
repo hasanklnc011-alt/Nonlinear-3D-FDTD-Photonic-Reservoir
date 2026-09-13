@@ -11,12 +11,26 @@ Bu dosya, proje boyunca değişmez kabul edilen gerçekleri ve sözleşmeleri i�
 
 ## Bilimsel sözleşme
 
-- Nihai elektromanyetik çözüm Tidy3D ile uçtan uca 3D FDTD olmalıdır.
+- **Optik parametrelerin tek yetkili kaynağı full-wave çözümdür.** `Q_i`,
+  `Q_e`, bus-ring coupling, rezonans, `n_eff`, mode volume ve nonlinear overlap
+  integralleri yalnızca 3B FDTD / eigenmode ölçümünden gelir. Bu büyüklükler
+  serbest parametre olarak seçilemez, deneye fit edilemez, literatürden
+  kopyalanamaz.
+- **Zaman-serisi görev çözücüsü TCMT/rate-equation modelidir.** Girdileri
+  yukarıdaki FDTD ölçümleriyle ve kaynak-hash'li malzeme / carrier / termal
+  parametreleriyle sınırlıdır.
 - Optik çekirdek gerçek malzeme ve doğrulanmış nonlinear model içermelidir.
 - Nihai görev NARMA-10'dur.
 - Kabul hedefi: 10 kör seed üzerinde medyan test NMSE `< 0.05`.
 - Kör test sonucu tuning için geri beslenemez.
-- TCMT/reduced-order sonuçları yardımcı kanıttır; full 3D FDTD yerine geçmez.
+- **İddia kapsamı:** sonuç "full-wave photonic reservoir" değil, "geometriyle
+  sınırlandırılmış, FDTD-kalibre edilmiş TCMT reservoir" olarak sunulur.
+  Uçtan uca Maxwell kanıtı bu projede üretilmemektedir.
+
+> Bu maddeler 2026-09-13'te değiştirildi. Önceki hâli uçtan uca 3D FDTD'yi
+> zorunlu kılıyor ve TCMT'yi yardımcı kanıt sayıyordu; CFL duvarı ve FCD/FCA'nın
+> Tidy3D'de native olmaması nedeniyle o hüküm ulaşılamazdı. Gerekçe ve kabul
+> edilen bedel: `docs/decisions/2026-09-13-adr-tcmt-primary-fdtd-calibrator.md`.
 
 ## Süreç sözleşmesi
 
