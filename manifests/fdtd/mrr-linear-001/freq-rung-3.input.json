@@ -1,0 +1,90 @@
+{
+  "background_medium_label": "SiO2",
+  "config": {
+    "boundary_types": {
+      "x": "pml",
+      "y": "pml",
+      "z": "pml"
+    },
+    "monitors": [
+      "flux:bus_through:out",
+      "flux:bus_drop:out",
+      "flux:bus_drop:in",
+      "flux:bus_through:in"
+    ],
+    "sources": [
+      "mode:bus_through:in"
+    ],
+    "symmetry": [
+      0,
+      0,
+      0
+    ],
+    "wavelength_range_um": [
+      1.5,
+      1.6
+    ]
+  },
+  "discretization": {
+    "boundary_num_layers": 12,
+    "field_decay_shutoff": 1e-05,
+    "grid_min_steps_per_wavelength": 10.0,
+    "grid_wavelength_um": 1.55,
+    "run_time_seconds": 3e-11
+  },
+  "excitation": {
+    "bandwidth_wavelength_um": 0.1,
+    "center_wavelength_um": 1.55,
+    "num_freqs": 201
+  },
+  "geometry": {
+    "add_drop": true,
+    "box_medium": "SiO2",
+    "box_thickness_um": 1.0,
+    "bus_length_um": 16.0,
+    "bus_overhang_um": 2.0,
+    "bus_waveguide_width_um": 0.45,
+    "cladding_medium": "SiO2",
+    "cladding_thickness_um": 1.5,
+    "core_medium": "Si",
+    "coupling_gap_um": 0.2,
+    "domain_padding_um": 1.0,
+    "ring_outer_radius_um": 5.0,
+    "substrate_medium": "Si",
+    "substrate_thickness_um": 1.5,
+    "waveguide_thickness_um": 0.22,
+    "waveguide_width_um": 0.45
+  },
+  "identity": {
+    "created_utc": "2026-09-13T11:30:15Z",
+    "notes": "Mesh convergence rung at 14 steps/wavelength. Geometry, ports, run_time and monitor combs are identical to freq-rung-2; the grid is the only variable, so lambda_0, Q_L and Q_e can be compared directly. Supersedes the 10->12 comparison, which was made on facet-contaminated two-port 0.5 nm data.",
+    "study_id": "mrr-linear-001-freq-rung-3"
+  },
+  "materials": [
+    {
+      "conductivity": 0.0,
+      "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+      "evidence_reference": "Tidy3D material_library cSi/Li1993_293K; snapshot materials.tidy3d-2.12.0.json",
+      "medium_label": "Si",
+      "model": "non_dispersive",
+      "relative_permittivity": 12.075663669334666,
+      "wavelength_range_um": [
+        1.5,
+        1.6
+      ]
+    },
+    {
+      "conductivity": 0.0,
+      "evidence_digest": "895de5028883be32ac3475508c66388c3900dc9f05330aaa8502513f54380ac7",
+      "evidence_reference": "Tidy3D material_library SiO2/Palik_LowLoss; snapshot materials.tidy3d-2.12.0.json",
+      "medium_label": "SiO2",
+      "model": "non_dispersive",
+      "relative_permittivity": 2.0867588783784097,
+      "wavelength_range_um": [
+        1.5,
+        1.6
+      ]
+    }
+  ],
+  "schema": "fdtd-mrr-linear-input/1"
+}

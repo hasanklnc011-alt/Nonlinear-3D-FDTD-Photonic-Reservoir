@@ -25,6 +25,13 @@
   çıkarılıp şema `/1` beyan ediliyor, böylece kilitli merdivenin geometry hash'i
   `6844d49c...` birebir korunuyor. `tests/fdtd/test_bus_overhang.py` (19 test,
   kilitli hash literal pinlendi). Depo `286/286 OK`.
+- `freq-rung-3` planı hazır (14 step/λ mesh yakınsaması): `freq-rung-2` ile tek
+  farkı grid; geometri, dört port, tarak ve `run_time` aynı, böylece `lambda_0`,
+  `Q_L`, `Q_e` doğrudan karşılaştırılabiliyor. Hücre `1.51x`, zaman adımı `1.17x`.
+  `estimate_cost = 22.8463 FC`, beklenen gerçek `~16.6`, **önerilen tavan `23` —
+  önceki `15 FC` tavanının üstünde, ayrı karar gerektirir.** Kabul ölçütleri
+  koşudan önce yazıldı. ONAY BEKLİYOR, submit edilmedi.
+  (`docs/decisions/2026-09-13-freq-rung-3-plan.md`)
 - **`freq-rung-2` tamamlandı — üç kabul ölçütü de GEÇTİ**, gerçek `10.7316 FC`
   (tahmin 14.7500). (1) FP fringe `%39 -> %0.1`, facet teşhisi doğrulandı.
   (2) Rezonans dışı dört-port toplamı `1.0000` (önceki `0.77-0.88`).
