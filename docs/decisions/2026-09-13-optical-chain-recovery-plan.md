@@ -5,6 +5,8 @@
 - Tek uygulama sahibi Claude; devir BACKLOG üzerinden, aynı dosyada eşzamanlı yazma yok.
 - Hasan’ın son talimatı: Codex kod yazmaz; yalnız hedef, sözleşme, karar ve görev dokümanlarını tamamlar. K1–K5 aşağıdaki kabul kapılarıyla Claude için açık uygulama işleridir.
 
+Güncel sıra, hedef dosyalar, K2s/K2a ve B25: [uygulama sözleşmesi](2026-09-14-recovery-implementation-contract.md).
+
 ## Hedef ve kapsam
 
 450×220 nm silicon kesit, merkez yarıçapı 4.775 µm, simetrik iki bus,
@@ -104,7 +106,7 @@ bakiye 60 FC altına inemez; kullanılmayan pay otomatik aktarılmaz.
 Geçmiş 79.0726 FC'nin yaklaşık 195 FC toplam içindeki %40.6 payı, tüm bu
 harcama doğrulama sayılırsa %25 eşiğini aşmıştır. Bu plan geçmişi onaylanmış
 saymaz: yeni ücretli adım öncesi bu eşik için de açık karar kaydı gerekir.
-K0 push → K1 tanı → K2 çekirdek görülmeden ücretli coupler solve yok.
+K0 push → K2s güvenliği → K1 tanı → K2 çekirdek; bunlar ve B25 kapanmadan ücretli coupler solve yok.
 Her teslimat küçük commit, test/preflight, kaynak/geometri/solver hash'leri,
 parametre birim-köken-belirsizlik-kabul durumu, komut ve güncel backlog içerir.
 HDF5, anahtarlar ve gptpro/ Git'e eklenmez. Başarı iddiası yalnız geçen kapıya aittir.

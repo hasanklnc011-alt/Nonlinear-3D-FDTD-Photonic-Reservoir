@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-14 — Claude incelemesi K0.1
+
+- Dosya/CLI/şema hedefleri ve örtüşme metriği tanımlandı; K2s önceye alındı.
+- K2a kaynaklı fizik ve B25 açık bütçe kararı eklendi; README/charter güncellendi.
+- Kod değişmedi; guard tüketiminin skor sonrasında olduğu inceleme kaydında düzeltildi.
+
 ## 2026-09-14 — Uygulama sahipliği
 
 - Hasan’ın kapsam düzeltmesi kaydedildi: Codex hedef/sözleşme dokümantasyonu, Claude kod ve test uygulaması.

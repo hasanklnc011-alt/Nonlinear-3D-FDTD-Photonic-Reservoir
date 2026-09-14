@@ -1,14 +1,21 @@
 # Nonlinear 3D FDTD Photonic Reservoir
 
-Tidy3D tabanlı, gerçek malzeme nonlinear modeli kullanan uçtan uca 3D FDTD photonic reservoir projesi.
+FDTD ile optik parametreleri doğrulanan, görev çözümünü CW/CCW TCMT ile yürüten photonic reservoir araştırması.
 
-Durum: Yapısal başlangıç aşaması. Kod ve ücretli simülasyon henüz başlamadı.
+Durum: K0 kurtarma sözleşmesi yayımlandı; uygulama/fizik kapıları açık. Defterde tarihsel harcama 79.0726 FC ve kayıtlı bakiye 115.7358 FC; bu canlı bakiye sorgusu değildir.
 
 ## Hedef
 
 NARMA-10 üzerinde, önceden kilitlenmiş 10 kör seed için medyan test NMSE `< 0.05`.
 
-## Başlangıç belgeleri
+## Güncel belgeler
+
+- [Kurtarma planı](docs/decisions/2026-09-13-optical-chain-recovery-plan.md)
+- [Claude uygulama sözleşmesi](docs/decisions/2026-09-14-recovery-implementation-contract.md)
+- [Açık görevler](BACKLOG.md)
+
+Kod/test sahibi Claude. K2s kapanana kadar gerçek kör değerlendirme çalıştırılmaz.
+Nihai medyan şartına ek olarak en az 8/10 seed başarısı gerekir.
 
 - [`AGENTS.md`](AGENTS.md) — ortak ajan sözleşmesi
 - [`CLAUDE.md`](CLAUDE.md) — Claude eşgüdüm talimatı

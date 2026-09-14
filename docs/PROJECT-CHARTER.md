@@ -1,6 +1,6 @@
 # Proje sözleşmesi
 
-
+## Fiziksel kapsam
 
 450×220 nm silicon kesit, merkez yarıçapı 4.775 µm, simetrik iki bus,
 150–250 nm gap. Global surrogate, kesit/yarıçap/topoloji optimizasyonu ertelendi.
@@ -10,6 +10,7 @@ kaynaklandırılmış veriden gelir. Bilinmeyenler NMSE'ye uydurulmaz.
 Kayıpsız model kontrol modelidir. Intrinsic kayıp = radyasyon + absorpsiyon +
 proses saçılması; ısı kaynağı yalnız absorbe edilen güçtür.
 
+## Başarı ve durma kapıları
 
 Başarı: kilitli 10 kör seed medyan NMSE <0.05 ve >=8/10 başarı.
 Geliştirme: 5 seed; hash ve 200/3000/2000 split korunur.
@@ -22,3 +23,5 @@ Durma: geçmeyen fizik/provenance kapısı, kaynaksız arama sınırı, bütçe 
 
 - [[🏰 300-Projects/Photonic-Reservoir/spiral-delay-reservoir/MayOS/Photonic-Reservoir|Önceki Photonic Reservoir hattı]]
 - [[🧠 500-Knowledge/concepts/Photonic-Research-Lines-Synthesis|Fotonik araştırma hatları sentezi]]
+
+Uygulama arayüzleri, K2s/K2a ve B25: [ek sözleşme](decisions/2026-09-14-recovery-implementation-contract.md).

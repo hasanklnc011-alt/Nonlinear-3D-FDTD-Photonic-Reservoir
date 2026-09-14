@@ -49,3 +49,7 @@ K0/K1/K2 teslimatları görülmeden ücretli coupler yok. Tamamlanmış cloud so
 
 - [[docs/PROJECT-CHARTER|Proje sözleşmesi]]
 - [[docs/decisions/2026-09-13-optical-chain-recovery-plan|Kurtarma hattı]]
+
+## Güncel uygulama devri
+
+[2026-09-14 ek sözleşme](docs/decisions/2026-09-14-recovery-implementation-contract.md) önceliklidir: K2s kör-test güvenliği ilk iş; K2a kaynak girdileri ve B25 bütçe kararı ayrı kapılardır. Gerçek kör suite K2s kapanmadan çalıştırılmaz.
