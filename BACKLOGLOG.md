@@ -127,3 +127,10 @@ K0: kullanıcı onaylı ADR, sözleşme ve durum tutarlılığı uygulandı; Git
 - K1–K5 OPEN; yeni uygulama kodu yazılmadı, ücretli solve başlatılmadı.
 - Ön hazırlık: depo dışında C:/Users/hasan/.codex/envs/mrr-recovery-212 ortamına tidy3d[extras]==2.12.0 ve numpy==2.4.6 kuruldu. Ana ortam değiştirilmedi. Subpixel etkinliği ve fizik kapıları henüz doğrulanmadı; kurulum K1 kabul kanıtı değildir.
 - Claude için sıra: K1 tekrar üretilebilir tanı; ardından K2 çekirdeği ve benchmark güvenliği. K3 öncesi ilgili kabul kanıtları ve yazılı maliyet/onay zorunlu.
+
+## 2026-09-14 — Plan 2 dokümantasyon devri
+
+- Sahip: Codex (doküman); uygulama sahibi Claude.
+- Tamamlandı: ADR, çalışma alanı README, P0–P6 backlog, kapsam/bütçe/sahiplik hizalaması.
+- Teknik P0 ve P1–P6 açık; kaynak tablosu, sürüm kilidi, analitik çekirdek bu committe üretilmedi.
+- Sonraki adım: Claude ortak K2s ve P0; ardından P1 kaynakları/P2 analitik çekirdek.

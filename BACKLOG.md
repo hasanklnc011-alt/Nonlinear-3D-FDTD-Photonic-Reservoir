@@ -74,3 +74,57 @@ Güncel sıra: K2s → K1 → K2; K2a fiziksel kabul/arama öncesi. Hedef dosyal
 - Bağımlılık: Her yeni ücretli solve öncesi; ücretsiz işler serbest.
 - Teslimat ve kabul: uygulama sözleşmesi B25 bölümü.
 - Sıradaki adım: Claude task bazlı döküm/istisna önerisi hazırlar; Hasan açık kararı olmadan kapanmaz.
+
+## Plan 2 — ayrı Kerr araştırma hattı
+
+Kanonik karar: [Plan 2](docs/decisions/2026-09-14-plan2-kerr-reservoir.md).
+Ortak K2s ve B25 geçerlidir; önceki K işleri korunur.
+
+### [PLAN2-P0] Araştırma ve benchmark sınırı
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: doküman kaydı hazır; teknik kabul OPEN.
+- Bağımlılık: Ortak K2s, ortam ve kayıt doğrulaması.
+- Teslimat/kabul: Plan 2 ADR P0 bölümü.
+- Sıradaki adım: Sürüm/hash ve benchmark protokolünü somutlaştır.
+
+### [PLAN2-P1] Platform ve güç fizibilitesi
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P0 kayıt biçimi.
+- Teslimat/kabul: Plan 2 ADR P1 bölümü.
+- Sıradaki adım: Si3N4/SiO2 ve AlGaAsOI kaynak tablosu; nihai seçim P3 sonrası.
+
+### [PLAN2-P2] Dinamik çekirdek
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P0; sentetik test için P1 kabulü gerekmez.
+- Teslimat/kabul: Plan 2 ADR P2 bölümü.
+- Sıradaki adım: 20 slot / iki fiziksel güç / 40 özellik; analitik testler.
+
+### [PLAN2-P3] Nonlinearlik-bellek bölgesi
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P1 kaynak kapısı ve P2 testleri.
+- Teslimat/kabul: Plan 2 ADR P3 bölümü.
+- Sıradaki adım: Her platform/mimaride 256 ön kayıtlı Sobol noktası.
+
+### [PLAN2-P4] Angler geometri tasarımı
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P0/P1/P2 ilk teslimatlar ve P3 hedef bölgesi.
+- Teslimat/kabul: Plan 2 ADR P4 bölümü.
+- Sıradaki adım: FEMwell kesitinden 2B–3B normalizasyonu kur.
+
+### [PLAN2-P5] Geometrik dayanıklılık
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P4 geometri-model paketi.
+- Teslimat/kabul: Plan 2 ADR P5 bölümü.
+- Sıradaki adım: 64 ön kayıtlı senaryo; en az 58 medyan geçmeli.
+
+### [PLAN2-P6] 3B ve kör nihai test
+- Sahip: Claude (uygulama/test/kanıt); Codex yalnız dokümantasyon.
+- Durum: OPEN.
+- Bağımlılık: P5, K2s, B25, maliyet/solve onayı.
+- Teslimat/kabul: Plan 2 ADR P6 bölümü.
+- Sıradaki adım: Önce maliyet/kanıt planı; final EM sonrası dev/dayanıklılık tekrar.

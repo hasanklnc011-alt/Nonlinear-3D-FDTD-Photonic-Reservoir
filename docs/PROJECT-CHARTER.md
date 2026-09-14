@@ -25,3 +25,14 @@ Durma: geçmeyen fizik/provenance kapısı, kaynaksız arama sınırı, bütçe 
 - [[🧠 500-Knowledge/concepts/Photonic-Research-Lines-Synthesis|Fotonik araştırma hatları sentezi]]
 
 Uygulama arayüzleri, K2s/K2a ve B25: [ek sözleşme](decisions/2026-09-14-recovery-implementation-contract.md).
+
+## Plan 2 kapsamı (2026-09-14)
+
+[Plan 2 Kerr ADR](decisions/2026-09-14-plan2-kerr-reservoir.md) ayrı araştırma hattını tanımlar.
+Eski silikon geometri kısıtları bu hatta uygulanmaz; eski sonuçlar korunur.
+Plan 2: Si3N4/SiO2 ve AlGaAsOI adayları, 1550 nm, tek/iki halka,
+10 mW ortalama / 100 mW tepe araştırma tavanı, 20 slot × 2 port = 40 özellik.
+Kaynaklı keşif EM öncesi yapılabilir; fiziksel kabul/kör kilit için P6 kanıtı gerekir.
+Ortak benchmark ve kör suite kopyalanmaz; hatlar arasında yalnız tek nihai kör aday.
+Plan 2 için ek 47 FC tahsis edilmedi; bütçe, 20 FC rezerv ve B25 ortaktır.
+Kod/test Claude; P0 teknik kabulü ve P1–P6 tamamlanmış değildir.

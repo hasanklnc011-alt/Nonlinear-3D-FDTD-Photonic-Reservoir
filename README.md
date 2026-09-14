@@ -26,3 +26,14 @@ Nihai medyan şartına ek olarak en az 8/10 seed başarısı gerekir.
 
 Yerel: `C:\Users\hasan\OneDrive\Desktop\Nonlinear-3D-FDTD-Photonic-Reservoir`  
 GitHub: `https://github.com/hasanklnc011-alt/Nonlinear-3D-FDTD-Photonic-Reservoir`
+
+## Plan 2 kapsamı (2026-09-14)
+
+[Plan 2 Kerr ADR](docs/decisions/2026-09-14-plan2-kerr-reservoir.md) ayrı araştırma hattını tanımlar.
+Eski silikon geometri kısıtları bu hatta uygulanmaz; eski sonuçlar korunur.
+Plan 2: Si3N4/SiO2 ve AlGaAsOI adayları, 1550 nm, tek/iki halka,
+10 mW ortalama / 100 mW tepe araştırma tavanı, 20 slot × 2 port = 40 özellik.
+Kaynaklı keşif EM öncesi yapılabilir; fiziksel kabul/kör kilit için P6 kanıtı gerekir.
+Ortak benchmark ve kör suite kopyalanmaz; hatlar arasında yalnız tek nihai kör aday.
+Plan 2 için ek 47 FC tahsis edilmedi; bütçe, 20 FC rezerv ve B25 ortaktır.
+Kod/test Claude; P0 teknik kabulü ve P1–P6 tamamlanmış değildir.

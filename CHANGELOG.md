@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-14 — Plan 2 ayrı Kerr araştırması
+
+- Kullanıcı planı P0–P6 sözleşmesi ve ayrı çalışma alanı olarak kaydedildi.
+- 40 özellikli readout, kaynaklı platform seçimi, ortak bütçe/kör suite sınırı tanımlandı.
+- const.md içindeki eski Codex kod sahipliği düzeltildi. Kod, solve veya fiziksel kabul üretilmedi.
+
+
 ## 2026-09-14 — Claude incelemesi K0.1
 
 - Dosya/CLI/şema hedefleri ve örtüşme metriği tanımlandı; K2s önceye alındı.
