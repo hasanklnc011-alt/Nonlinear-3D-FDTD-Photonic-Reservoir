@@ -21,6 +21,7 @@ from . import config
 from . import manifest as manifest_mod
 from . import preflight as preflight_mod
 from .candidate_lock import (
+    BlindEvaluationBlocked,
     CandidateLockError,
     create_lock,
     guard_blind_evaluation,
@@ -103,7 +104,20 @@ def cmd_lock_candidate(args: argparse.Namespace) -> int:
     return 0
 
 
+BLIND_MOVED_MARKER = REPO_ROOT / "BLIND-SUITE-MOVED.md"
+
+
 def cmd_blind_eval(args: argparse.Namespace) -> int:
+    # The blind suite was MOVED (not copied) to the Kerr-Ring-Reservoir repo on
+    # 2026-09-14; see BLIND-SUITE-MOVED.md and
+    # docs/decisions/2026-09-14-blind-suite-moved.md. There is exactly one
+    # legitimate blind evaluation path and it is no longer here.
+    if BLIND_MOVED_MARKER.exists():
+        raise BlindEvaluationBlocked(
+            "blind evaluation moved out of this repository on 2026-09-14; "
+            f"see {BLIND_MOVED_MARKER.name} for the single remaining path"
+        )
+
     lock_path = LOCK_DIR / f"{args.id}.lock.json"
     ticket = guard_blind_evaluation(lock_path, _blind_manifest_path(), LEDGER_PATH)
 
