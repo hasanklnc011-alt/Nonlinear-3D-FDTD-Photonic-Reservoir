@@ -1,9 +1,9 @@
 # MRR kurtarma planı: doğrulanmış geometri → optik model → TCMT
 
 - Durum: KABUL EDİLDİ; Hasan bu planın uygulanmasını açıkça istedi.
-- Tarih: 2026-09-13. Karar/ilk uygulama: Codex; devam sahibi: Claude.
-- Tek yazıcı: bu oturumda Codex; devir BACKLOG üzerinden, aynı dosyada eşzamanlı yazma yok.
-- Eski rol sınırlaması bu kullanıcı yetkilendirmesiyle bu kurtarma uygulaması için değiştirildi.
+- Tarih: 2026-09-13; rol kapsamı 2026-09-14 tarihinde netleştirildi. Dokümantasyon: Codex; kod uygulaması: Claude.
+- Tek uygulama sahibi Claude; devir BACKLOG üzerinden, aynı dosyada eşzamanlı yazma yok.
+- Hasan’ın son talimatı: Codex kod yazmaz; yalnız hedef, sözleşme, karar ve görev dokümanlarını tamamlar. K1–K5 aşağıdaki kabul kapılarıyla Claude için açık uygulama işleridir.
 
 ## Hedef ve kapsam
 

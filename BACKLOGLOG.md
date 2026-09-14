@@ -119,3 +119,11 @@ Tamamlanan maddeler bu dosyada tutulmaz; kapanış izi `BACKLOGLOG.md` dosyasın
 </details>
 
 K0: kullanıcı onaylı ADR, sözleşme ve durum tutarlılığı uygulandı; Git yayını doğrulanacak.
+
+## 2026-09-14 — K0 rol kapsamı ve Claude devri
+
+- Kullanıcı düzeltmesi: Codex yalnız dokümantasyon; kod ve test uygulaması Claude.
+- K0 ana doküman teslimatı: 316803907a2485e8dec9cd27f9ec70bc0810e49d, origin/main üzerinde yayımlandı.
+- K1–K5 OPEN; yeni uygulama kodu yazılmadı, ücretli solve başlatılmadı.
+- Ön hazırlık: depo dışında C:/Users/hasan/.codex/envs/mrr-recovery-212 ortamına tidy3d[extras]==2.12.0 ve numpy==2.4.6 kuruldu. Ana ortam değiştirilmedi. Subpixel etkinliği ve fizik kapıları henüz doğrulanmadı; kurulum K1 kabul kanıtı değildir.
+- Claude için sıra: K1 tekrar üretilebilir tanı; ardından K2 çekirdeği ve benchmark güvenliği. K3 öncesi ilgili kabul kanıtları ve yazılı maliyet/onay zorunlu.

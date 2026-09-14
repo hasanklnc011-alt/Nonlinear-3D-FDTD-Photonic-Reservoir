@@ -3,7 +3,7 @@
 Kanonik sıra: [Kurtarma ADR](docs/decisions/2026-09-13-optical-chain-recovery-plan.md). Geçmiş: BACKLOGLOG.md.
 
 ## [K1] Mode tanısı
-- Sahip: Codex (bu uygulama); devam/devir: Claude.
+- Sahip: Claude (kod, test ve uygulama kanıtı); Codex yalnız hedef/sözleşme dokümantasyonu.
 - Tarih: 2026-09-13
 - Durum: OPEN
 - Bağımlılık: K0
@@ -13,7 +13,7 @@ Kanonik sıra: [Kurtarma ADR](docs/decisions/2026-09-13-optical-chain-recovery-p
 - Sıradaki adım: Tanıyı tekrar üret; izole subpixel ortamını doğrula.
 
 ## [K2] TCMT ve güvenli scorer
-- Sahip: Codex (bu uygulama); devam/devir: Claude.
+- Sahip: Claude (kod, test ve uygulama kanıtı); Codex yalnız hedef/sözleşme dokümantasyonu.
 - Tarih: 2026-09-13
 - Durum: OPEN
 - Bağımlılık: K0
@@ -23,7 +23,7 @@ Kanonik sıra: [Kurtarma ADR](docs/decisions/2026-09-13-optical-chain-recovery-p
 - Sıradaki adım: Enerji-normalize çekirdek ve aday paketini uygula.
 
 ## [K3] Açık coupler
-- Sahip: Codex (bu uygulama); devam/devir: Claude.
+- Sahip: Claude (kod, test ve uygulama kanıtı); Codex yalnız hedef/sözleşme dokümantasyonu.
 - Tarih: 2026-09-13
 - Durum: OPEN
 - Bağımlılık: K1 + K2 fizik testleri
@@ -33,7 +33,7 @@ Kanonik sıra: [Kurtarma ADR](docs/decisions/2026-09-13-optical-chain-recovery-p
 - Sıradaki adım: Kapılar geçince nominal hücre ve maliyet raporu hazırla.
 
 ## [K4] Tam halka bridge
-- Sahip: Codex (bu uygulama); devam/devir: Claude.
+- Sahip: Claude (kod, test ve uygulama kanıtı); Codex yalnız hedef/sözleşme dokümantasyonu.
 - Tarih: 2026-09-13
 - Durum: OPEN
 - Bağımlılık: K3
@@ -43,7 +43,7 @@ Kanonik sıra: [Kurtarma ADR](docs/decisions/2026-09-13-optical-chain-recovery-p
 - Sıradaki adım: Bileşen spektrumu ön kaydı ve ortak monitor kurgusu hazırla.
 
 ## [K5] Dev arama ve kör test
-- Sahip: Codex (bu uygulama); devam/devir: Claude.
+- Sahip: Claude (kod, test ve uygulama kanıtı); Codex yalnız hedef/sözleşme dokümantasyonu.
 - Tarih: 2026-09-13
 - Durum: OPEN
 - Bağımlılık: K2; fiziksel kabul için K4

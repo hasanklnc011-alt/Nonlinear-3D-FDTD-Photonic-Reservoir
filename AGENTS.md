@@ -26,7 +26,8 @@ NARMA-10: 5 development, 10 blind; medyan blind NMSE <0.05 ve >=8/10 başarı.
 
 ## Sahiplik ve çalışma
 
-- Tek yazıcı. Hasan'ın bu planı uygulama isteğiyle bu oturumun sahibi Codex; devam sahibi Claude.
+- Rol sınırı (Hasan, 2026-09-14): Codex yalnız proje hedefleri, sözleşmeler, kararlar ve backlog dokümanlarını düzenler. Uygulama kodunu ve testlerini Claude yazar.
+- Tek uygulama sahibi Claude; aynı dosyalarda eşzamanlı yazma yok. K0 dokümantasyon teslimatı, K1–K5 uygulamasının tamamlandığı anlamına gelmez.
 - İlgili işi BACKLOG'da sahiplen; aynı dosyada eşzamanlı yazma yapma. İnceleme salt okunur olabilir.
 - AGENTS.md ve CLAUDE.md byte-identical tutulur. Değiştirmeden önce dosyayı oku.
 - Her teslimatı aynı oturumda diff/test/provenance ile doğrula; küçük commit ve normal origin/main push yap.

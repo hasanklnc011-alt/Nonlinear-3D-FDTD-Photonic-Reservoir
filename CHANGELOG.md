@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-09-14 — Uygulama sahipliği
+
+- Hasan’ın kapsam düzeltmesi kaydedildi: Codex hedef/sözleşme dokümantasyonu, Claude kod ve test uygulaması.
+- K1–K5 açık bırakıldı; kurulum hazırlığı fiziksel doğrulama olarak kabul edilmedi.
+
 ## 2026-09-13 — K0 kurtarma sözleşmesi
 
 - Kullanıcı onaylı K0–K5 sıra/bütçe/kapıları kaydedildi; AGENTS/CLAUDE eşitlendi.
